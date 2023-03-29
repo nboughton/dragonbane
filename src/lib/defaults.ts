@@ -6,6 +6,9 @@ import {
   ISkill,
   IAttribute,
   IWeapon,
+  IAbility,
+  ISpell,
+  EDuration,
 } from 'src/components/models';
 
 export const NewCharacter = (): ICharacter => {
@@ -18,7 +21,16 @@ export const NewCharacter = (): ICharacter => {
     weakness: '',
     appearance: '',
     movement: 10,
-    abilities: '',
+    hp: {
+      max: 0,
+      current: 0,
+    },
+    wp: {
+      max: 0,
+      current: 0,
+    },
+    abilities: [],
+    spells: [],
     inventory: [],
     memento: '',
     tinyItems: '',
@@ -118,6 +130,27 @@ export const NewWeapon = (): IWeapon => {
     damage: '',
     durability: 0,
     features: '',
+  };
+};
+
+export const NewAbility = (): IAbility => {
+  return {
+    name: '',
+    wp: 0,
+    text: '',
+  };
+};
+
+export const NewSpell = (): ISpell => {
+  return {
+    name: '',
+    rank: 0,
+    req: [],
+    time: '',
+    range: '',
+    duration: EDuration.Instant,
+    text: '',
+    prepared: false,
   };
 };
 

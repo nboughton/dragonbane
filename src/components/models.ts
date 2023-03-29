@@ -11,7 +11,10 @@ export interface ICharacter {
   weakness: string;
   appearance: string;
   movement: number;
-  abilities: string;
+  wp: IPoints;
+  hp: IPoints;
+  abilities: IAbility[];
+  spells: ISpell[];
   inventory: IItem[];
   memento: string;
   tinyItems: string;
@@ -27,6 +30,11 @@ export interface ICharacter {
   armour: IArmour;
   helmet: IArmour;
   weapons: IWeapon[];
+}
+
+export interface IPoints {
+  max: number;
+  current: number;
 }
 
 export interface IAttribute {
@@ -66,7 +74,6 @@ export interface IArmour {
 
 export interface IAbility {
   name: string;
-  req: string;
   wp: number;
   text: string;
 }
@@ -74,12 +81,12 @@ export interface IAbility {
 export interface ISpell {
   name: string;
   rank: number;
-  prereq: string;
-  req: string;
+  req: ESpellReq[];
   time: string;
   range: string;
-  duration: string;
+  duration: EDuration;
   text: string;
+  prepared: boolean;
 }
 
 export enum EAttr {
@@ -98,4 +105,19 @@ export enum ECond {
   Angry = 'Angry',
   Scared = 'Scared',
   Disheartened = 'Disheartened',
+}
+
+export enum EDuration {
+  Instant = 'Instant',
+  Round = 'Round',
+  Stretch = 'Stretch',
+  Shift = 'Shift',
+  Concentration = 'Concentration',
+}
+
+export enum ESpellReq {
+  Word = 'Word',
+  Gesture = 'Gesture',
+  Focus = 'Focus',
+  Ingredient = 'Ingredient',
 }

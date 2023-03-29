@@ -2,16 +2,9 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated class="bg-black">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Dragonbane </q-toolbar-title>
+        <q-toolbar-title>Dragonbane</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -19,7 +12,7 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item-label header> Characters </q-item-label>
+        <q-item-label header>Characters</q-item-label>
       </q-list>
     </q-drawer>
 

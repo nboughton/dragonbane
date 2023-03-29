@@ -6,17 +6,14 @@
       input-class="text-center text-bold text-h5"
       standout
       rounded
+      dense
     >
       <template v-slot:prepend>
         <span class="text-h5 text-bold">{{ label }}</span>
       </template>
     </q-input>
 
-    <q-checkbox
-      :label="attr.condition.name"
-      v-model="attr.condition.check"
-      left-label
-    />
+    <q-checkbox :label="attr.condition.name" v-model="attr.condition.check" left-label />
   </div>
 </template>
 

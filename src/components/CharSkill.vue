@@ -1,30 +1,14 @@
 <template>
-  <div
-    class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs"
-    :style="{ backgroundColor: baned }"
-  >
+  <div class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs" :style="{ backgroundColor: baned }">
     <q-checkbox class="col-shrink" v-model="skill.checked" dense>
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
-    <q-input
-      class="col-xs-1 col-sm-2"
-      type="number"
-      v-model.number="val"
-      dense
-    />
+    <q-input class="col-xs-1 col-sm-2" type="number" v-model.number="val" dense />
     <q-checkbox class="col-shrink" v-model="skill.trained" dense>
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>
     <div class="col">{{ label }} ({{ skill.attr }})</div>
-    <q-btn
-      class="col-shrink"
-      icon="delete"
-      v-if="showDelete"
-      @click="$emit('delete', label)"
-      flat
-      dense
-      rounded
-    />
+    <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
 </template>
 
@@ -33,8 +17,9 @@ import { defineComponent, PropType, ref, watch, computed } from 'vue';
 
 import { EAttr, ISkill } from './models';
 
-import { BaseChance } from 'src/lib/defaults';
 import { useCharacterStore } from 'src/stores/character';
+
+import { BaseChance } from 'src/lib/defaults';
 
 export default defineComponent({
   name: 'CharSkill',
@@ -67,9 +52,7 @@ export default defineComponent({
 
     const c = useCharacterStore();
     const base = computed((): number => {
-      const b = BaseChance(
-        c.chars[c.conf.char].attributes[skill.value.attr as EAttr].score
-      );
+      const b = BaseChance(c.chars[c.conf.char].attributes[skill.value.attr as EAttr].score);
       return skill.value.trained ? b * 2 : b;
     });
 
@@ -83,9 +66,7 @@ export default defineComponent({
     });
 
     const baned = computed((): string =>
-      c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check
-        ? '#ff7676'
-        : 'lightgrey'
+      c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check ? '#ff7676' : 'lightgrey'
     );
 
     return {
