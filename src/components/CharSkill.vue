@@ -3,7 +3,7 @@
     <q-checkbox class="col-shrink" v-model="skill.checked" dense>
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
-    <q-input class="col-xs-1 col-sm-2" type="number" v-model.number="val" dense />
+    <q-input class="col-xs-2 col-sm-2" type="number" v-model.number="val" dense />
     <q-checkbox class="col-shrink" v-model="skill.trained" dense>
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>

@@ -46,10 +46,10 @@
     </div>
 
     <div class="row q-gutter-md justify-between">
-      <div class="col-xs-5 col-sm-3">
+      <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].hp" label="HP" show-max />
       </div>
-      <div class="col-xs-5 col-sm-3">
+      <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].wp" label="WP" show-max />
       </div>
     </div>
@@ -67,7 +67,7 @@
         <div class="row">
           <div class="col-12 text-h5 text-bold">Primary Skills</div>
           <div
-            class="col-xs-12 col-sm-4 col-md-4"
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].priSkills"
             :key="`priSkill-${k}`"
           >
@@ -81,7 +81,7 @@
             <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
           </div>
           <div
-            class="col-xs-12 col-sm-4 col-md-4"
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].secSkills"
             :key="`secSkill-${k}`"
           >
@@ -135,7 +135,7 @@
         <div class="row q-mt-md">
           <div class="col-12 text-h5 text-bold">Weapon Skills</div>
           <div
-            class="col-xs-12 col-sm-4 col-md-4"
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].wepSkills"
             :key="`skill-${k}`"
           >
@@ -194,6 +194,7 @@
           @delete="removeInvItem(i)"
         />
 
+        <q-input class="row" label="Memento" v-model="st.chars[st.conf.char].memento" dense autogrow />
         <q-input class="row" label="Tiny Items" v-model="st.chars[st.conf.char].tinyItems" dense autogrow />
       </q-tab-panel>
     </q-tab-panels>

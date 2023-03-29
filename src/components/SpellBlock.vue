@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div class="column q-mt-md">
     <div class="row">
       <q-input class="col-grow" label="Name" v-model="spell.name" dense />
       <q-input class="col-xs-2 col-sm-1" label="Rank" v-model.number="spell.rank" type="number" dense />

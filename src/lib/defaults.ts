@@ -14,7 +14,7 @@ import {
 export const NewCharacter = (): ICharacter => {
   return {
     id: uid(),
-    name: '',
+    name: 'New character',
     kin: '',
     age: 0,
     profession: '',
