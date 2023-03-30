@@ -9,6 +9,7 @@ import {
   IAbility,
   ISpell,
   EDuration,
+  EAge,
 } from 'src/components/models';
 
 export const NewCharacter = (): ICharacter => {
@@ -16,7 +17,7 @@ export const NewCharacter = (): ICharacter => {
     id: uid(),
     name: 'New character',
     kin: '',
-    age: 0,
+    age: EAge.Young,
     profession: '',
     weakness: '',
     appearance: '',

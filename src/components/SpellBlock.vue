@@ -1,5 +1,5 @@
 <template>
-  <div class="column q-mt-md">
+  <div class="column q-mt-md rounded-borders q-pa-sm" style="background-color: #232323">
     <div class="row">
       <q-input class="col-grow" label="Name" v-model="spell.name" dense />
       <q-input class="col-xs-2 col-sm-1" label="Rank" v-model.number="spell.rank" type="number" dense />

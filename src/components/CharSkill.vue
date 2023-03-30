@@ -1,10 +1,24 @@
 <template>
   <div class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs" :style="{ backgroundColor: baned }">
-    <q-checkbox class="col-shrink" v-model="skill.checked" dense>
+    <q-checkbox
+      class="col-shrink"
+      v-model="skill.checked"
+      checked-icon="mdi-alpha-a-box"
+      unchecked-icon="mdi-alpha-a-box-outline"
+      color="white"
+      dense
+    >
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
-    <q-input class="col-xs-2 col-sm-2" type="number" v-model.number="val" dense />
-    <q-checkbox class="col-shrink" v-model="skill.trained" dense>
+    <q-input class="col-xs-2 col-sm-2" type="number" v-model.number="val" dense borderless />
+    <q-checkbox
+      class="col-shrink"
+      v-model="skill.trained"
+      checked-icon="mdi-alpha-t-box"
+      unchecked-icon="mdi-alpha-t-box-outline"
+      color="white"
+      dense
+    >
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>
     <div class="col">{{ label }} ({{ skill.attr }})</div>
@@ -66,7 +80,7 @@ export default defineComponent({
     });
 
     const baned = computed((): string =>
-      c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check ? '#ff7676' : 'lightgrey'
+      c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check ? '#783232' : '#232323'
     );
 
     return {

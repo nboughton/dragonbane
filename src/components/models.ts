@@ -6,7 +6,7 @@ export interface ICharacter {
   id: string;
   name: string;
   kin: string;
-  age: number;
+  age: EAge;
   profession: string;
   weakness: string;
   appearance: string;
@@ -120,4 +120,10 @@ export enum ESpellReq {
   Gesture = 'Gesture',
   Focus = 'Focus',
   Ingredient = 'Ingredient',
+}
+
+export enum EAge {
+  Young = 'Young',
+  Adult = 'Adult',
+  Old = 'Old',
 }

@@ -6,7 +6,7 @@
 
         <div class="row">
           <q-input class="col" label="Kin" v-model="st.chars[st.conf.char].kin" dense />
-          <q-input class="col" label="Age" v-model.number="st.chars[st.conf.char].age" type="number" dense />
+          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
           <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
         </div>
       </div>
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="row q-gutter-md justify-between">
+    <div class="row q-gutter-md justify-between q-mt-sm">
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].hp" label="HP" show-max />
       </div>
@@ -54,14 +54,14 @@
       </div>
     </div>
 
-    <q-tabs v-model="tab">
+    <q-tabs v-model="tab" align="justify" class="q-mt-md">
       <q-tab name="skills" label="Skills" />
       <q-tab name="combat" label="Combat" />
       <q-tab name="abilities" label="Abilities & Spells" />
       <q-tab name="gear" label="Gear" />
     </q-tabs>
 
-    <q-tab-panels v-model="tab">
+    <q-tab-panels v-model="tab" class="rounded-borders">
       <!--SKILLS-->
       <q-tab-panel name="skills">
         <div class="row">
@@ -236,7 +236,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 
-import { EAttr } from 'src/components/models';
+import { EAge, EAttr } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -330,6 +330,7 @@ export default defineComponent({
       st,
       tab,
       EAttr,
+      EAge,
       DmgBonus,
 
       showAddSkill,
