@@ -10,7 +10,14 @@
     >
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
-    <q-input class="col-xs-2 col-sm-2" type="number" v-model.number="val" dense borderless />
+    <q-input
+      class="col-xs-2 col-sm-2"
+      input-class="text-center text-bold"
+      type="number"
+      v-model.number="val"
+      dense
+      borderless
+    />
     <q-checkbox
       class="col-shrink"
       v-model="skill.trained"

@@ -1,10 +1,10 @@
 <template>
-  <div class="row">
-    <q-input class="col" label="Weapon/Shield" v-model="weapon.name" dense />
-    <q-input class="col-xs-2 col-sm-1" label="Grip" v-model="weapon.grip" dense />
-    <q-input class="col-xs-2 col-sm-1" label="Range" v-model="weapon.range" dense />
-    <q-input class="col-xs-2 col-sm-1" label="Damage" v-model="weapon.damage" dense />
-    <q-input class="col-xs-2 col-sm-1" type="number" label="Durability" v-model.number="weapon.durability" dense />
+  <div class="row items-center">
+    <q-input class="col q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
+    <q-input class="col-1 q-pr-xs" label="Grip" v-model="weapon.grip" dense />
+    <q-input class="col-1 q-pr-xs" label="Range" v-model="weapon.range" dense />
+    <q-input class="col-1 q-pr-xs" label="Damage" v-model="weapon.damage" dense />
+    <q-input class="col-1 q-pr-xs" type="number" label="Durability" v-model.number="weapon.durability" dense />
     <q-input class="col" label="Features" v-model="weapon.features" dense />
     <q-btn class="col-shrink" icon="delete" @click="$emit('delete')" flat dense rounded />
   </div>

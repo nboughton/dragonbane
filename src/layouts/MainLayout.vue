@@ -10,8 +10,8 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item header clickable v-ripple class="text-bold" @click="st.chars.push(NewCharacter())">
-          ADD CHARACTER +
+        <q-item header clickable v-ripple class="text-bold">
+          <q-item-section class="text-center" @click="st.chars.push(NewCharacter())">ADD CHARACTER</q-item-section>
         </q-item>
 
         <q-item v-for="(c, i) in st.chars" :key="`char-${i}`" clickable v-ripple>

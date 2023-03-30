@@ -20,32 +20,32 @@
     <q-input class="row" label="Appearance" v-model="st.chars[st.conf.char].appearance" dense autogrow />
 
     <div class="row justify-evenly q-mt-md">
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.STR" v-model="st.chars[st.conf.char].attributes.STR" />
       </div>
 
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.CON" v-model="st.chars[st.conf.char].attributes.CON" />
       </div>
 
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.AGL" v-model="st.chars[st.conf.char].attributes.AGL" />
       </div>
 
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.INT" v-model="st.chars[st.conf.char].attributes.INT" />
       </div>
 
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.WIL" v-model="st.chars[st.conf.char].attributes.WIL" />
       </div>
 
-      <div class="col-xs-4 col-sm-3 col-md-2">
+      <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.CHA" v-model="st.chars[st.conf.char].attributes.CHA" />
       </div>
     </div>
 
-    <div class="row q-gutter-md justify-between q-mt-sm">
+    <div class="row justify-between q-mt-sm">
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].hp" label="HP" show-max />
       </div>
@@ -147,7 +147,7 @@
       <!--ABILITIES & SPELLS-->
       <q-tab-panel name="abilities">
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="col-xs-12 col-sm-12 col-md-6 q-pr-xs">
             <div class="row q-mt-md text-h5 text-bold items-center">
               Heroic Abilities
               <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
@@ -160,7 +160,7 @@
             />
           </div>
 
-          <div class="col-xs-12 col-sm-12 col-md-6">
+          <div class="col-xs-12 col-sm-12 col-md-6 q-pl-xs">
             <div class="row q-mt-md text-h5 text-bold items-center">
               Spells
               <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
