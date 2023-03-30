@@ -49,6 +49,18 @@
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].hp" label="HP" show-max />
       </div>
+      <q-btn
+        v-if="statsRolled"
+        class="col-shrink"
+        icon="mdi-dice-d20"
+        flat
+        dense
+        rounded
+        @click="rollStats"
+        label="Roll stats"
+      >
+        <q-tooltip>Roll stats</q-tooltip>
+      </q-btn>
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].wp" label="WP" show-max />
       </div>
@@ -99,12 +111,8 @@
       <q-tab-panel name="combat">
         <div class="row justify-between items-center text-center">
           <div class="col text-h5 text-bold">
-            Damage Bon. STR:
-            {{ DmgBonus(st.chars[st.conf.char].attributes.STR.score) }}
-          </div>
-
-          <div class="col text-h5 text-bold">
-            Damage Bon. AGL:
+            Damage Bonus: STR:
+            {{ DmgBonus(st.chars[st.conf.char].attributes.STR.score) }}, AGL:
             {{ DmgBonus(st.chars[st.conf.char].attributes.AGL.score) }}
           </div>
         </div>
@@ -161,9 +169,30 @@
           </div>
 
           <div class="col-xs-12 col-sm-12 col-md-6 q-pl-xs">
-            <div class="row q-mt-md text-h5 text-bold items-center">
-              Spells
-              <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
+            <div class="row q-mt-md text-h5 text-bold items-center justify-between">
+              <div class="col-shrink items-center">
+                Spells
+                <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
+              </div>
+              <div class="col-shrink">
+                <q-btn icon="sort" flat dense rounded @click="sortSpells">
+                  <q-tooltip>Sort spells by rank</q-tooltip>
+                </q-btn>
+              </div>
+            </div>
+            <div class="row items-center justify-evenly">
+              <div class="col text-bold">Known by rank:</div>
+              <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
+                <span class="q-ml-sm q-pa-xs bg-grey-9 rounded-borders" v-if="r > 0">
+                  &nbsp;{{ i }} : {{ r }}&nbsp;
+                </span>
+              </div>
+            </div>
+            <div class="row items-center justify-evenly q-mt-xs">
+              <div class="col text-bold">Prepared:</div>
+              <div class="col-shrink">
+                {{ spellsPrepared }}/{{ BaseChance(st.chars[st.conf.char].attributes.INT.score) }}
+              </div>
             </div>
             <spell-block
               v-for="(sp, i) in st.chars[st.conf.char].spells"
@@ -241,7 +270,7 @@ import { EAge, EAttr } from 'src/components/models';
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
 
-import { DmgBonus, NewAbility, NewSpell, NewWeapon, skill } from 'src/lib/defaults';
+import { BaseChance, DmgBonus, NewAbility, NewSpell, NewWeapon, skill } from 'src/lib/defaults';
 
 import CharAttr from 'src/components/CharAttr.vue';
 import CharSkill from 'src/components/CharSkill.vue';
@@ -299,6 +328,26 @@ export default defineComponent({
           cancel: true,
         })
         .onOk(() => st.chars[st.conf.char].spells.splice(index, 1));
+    const sortSpells = () =>
+      st.chars[st.conf.char].spells.sort((a, b) => {
+        if (a.rank < b.rank) return -1;
+        if (a.rank > b.rank) return 1;
+        else return 0;
+      });
+    const spellsByRank = computed((): number[] => {
+      const spells = [0, 0, 0, 0, 0, 0];
+      st.chars[st.conf.char].spells.forEach((sp) => {
+        spells[sp.rank]++;
+      });
+      return spells;
+    });
+    const spellsPrepared = computed((): number => {
+      let t = 0;
+      st.chars[st.conf.char].spells.forEach((sp) => {
+        if (sp.rank > 0 && sp.prepared) t++;
+      });
+      return t;
+    });
 
     const addAbl = () => st.chars[st.conf.char].abilities.push(NewAbility());
     const removeAbl = (index: number) =>
@@ -326,12 +375,43 @@ export default defineComponent({
     });
     const encumberMax = computed((): number => Math.ceil(st.chars[st.conf.char].attributes.STR.score / 2));
 
+    const rollStats = () =>
+      $q
+        .dialog({
+          message: 'Roll and apply Character Stats?',
+          cancel: true,
+        })
+        .onOk(() => {
+          const r = (): number => {
+            let sum = 0;
+            let rolls: number[] = [];
+            for (let i = 0; i < 4; i++) {
+              rolls.push(Math.floor(Math.random() * 6) + 1);
+            }
+            rolls = rolls.sort();
+            console.log(rolls);
+            rolls.shift();
+            rolls.forEach((roll) => (sum += roll));
+            return sum;
+          };
+
+          Object.keys(EAttr).forEach((attr) => (st.chars[st.conf.char].attributes[attr as EAttr].score = r()));
+        });
+    const statsRolled = computed((): boolean => {
+      let total = 0;
+      Object.keys(EAttr).forEach((attr) => (total += st.chars[st.conf.char].attributes[attr as EAttr].score));
+      return total == 0;
+    });
+
     return {
       st,
       tab,
       EAttr,
       EAge,
       DmgBonus,
+      BaseChance,
+      rollStats,
+      statsRolled,
 
       showAddSkill,
       removeSecSkill,
@@ -344,6 +424,9 @@ export default defineComponent({
 
       addSpell,
       removeSpell,
+      sortSpells,
+      spellsByRank,
+      spellsPrepared,
 
       addAbl,
       removeAbl,

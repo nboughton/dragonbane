@@ -3,16 +3,16 @@
     <div class="row">
       <q-input class="col-grow" label="Name" v-model="spell.name" dense />
       <q-input class="col-xs-2 col-sm-1" label="Rank" v-model.number="spell.rank" type="number" dense />
-      <q-checkbox class="col-shrink" label="Prepared" v-model="spell.prepared" dense />
+      <q-checkbox v-if="spell.rank > 0" class="col-shrink" label="Prepared" v-model="spell.prepared" dense />
       <q-btn class="col-shrink" icon="delete" flat dense rounded @click="$emit('delete')" />
     </div>
 
-    <div class="row">
+    <div v-if="spell.rank > 0" class="row">
       <q-input class="col" label="Casting Time" v-model="spell.time" dense />
       <q-select class="col" label="Duration" v-model="spell.duration" :options="Object.values(EDuration)" dense />
     </div>
 
-    <div class="row">
+    <div v-if="spell.rank > 0" class="row">
       <q-select
         class="col"
         label="Requirements"
