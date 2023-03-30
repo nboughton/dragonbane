@@ -1,3 +1,8 @@
+export interface IDBStore {
+  chars: ICharacter[];
+  conf: IConfig;
+}
+
 export interface IConfig {
   char: number;
 }
