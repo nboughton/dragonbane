@@ -15,7 +15,7 @@ export const useCharacterStore = defineStore('character', {
     exportData() {
       const now = new Date();
       exportFile(
-        `DragonbaneCharacters-${now.getFullYear()}-${now.getMonth()}-${now.getDay()}.json`,
+        `DragonbaneCharacters-${now.getFullYear()}-${now.getMonth()}-${now.getDate()}.json`,
         JSON.stringify({
           chars: this.chars,
           conf: this.conf,
@@ -24,18 +24,19 @@ export const useCharacterStore = defineStore('character', {
     },
 
     loadData(d: IDBStore) {
-      (this.conf = d.conf),
-        d.chars.forEach((lChar) => {
-          let overwrite = false;
-          this.chars.forEach((sChar, idx) => {
-            if (sChar.id == lChar.id) {
-              this.chars[idx] = lChar;
-              overwrite = true;
-              return;
-            }
-          });
-          if (!overwrite) this.chars.push(lChar);
+      this.conf = d.conf;
+
+      d.chars.forEach((lChar) => {
+        let overwrite = false;
+        this.chars.forEach((sChar, idx) => {
+          if (sChar.id == lChar.id) {
+            this.chars[idx] = lChar;
+            overwrite = true;
+            return;
+          }
         });
+        if (!overwrite) this.chars.push(lChar);
+      });
     },
   },
   persist: {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <style bx:fonts="Alegreya">@import url(https://fonts.googleapis.com/css2?family=Alegreya%3Aital%2Cwght%400%2C400%3B0%2C500%3B0%2C600%3B0%2C700%3B0%2C800%3B0%2C900%3B1%2C400%3B1%2C500%3B1%2C600%3B1%2C700%3B1%2C800%3B1%2C900&amp;display=swap);</style>
+  </defs>
+  <rect x="18.65" y="20.426" width="462.7" height="455.595" style="stroke: rgb(0, 0, 0); fill: rgb(240, 233, 223);" rx="70.16" ry="70.16"/>
+  <text style="fill: rgb(239, 44, 56); font-family: Alegreya; font-size: 24.6903px; font-weight: 800; line-height: 39.5044px; text-transform: capitalize; white-space: pre;" transform="matrix(5.088958, 0, 0, 5.616006, -509.7164, -621.770935)" x="109.236" y="150.977">Dragon</text>
+  <text style="fill: rgb(239, 44, 56); font-family: Alegreya; font-size: 90px; font-weight: 800; white-space: pre;" transform="matrix(1.310282, 0, 0, 1.540674, -46.747902, -0.490089)" x="158.97" y="221.137">Bane</text>
+</svg>
