@@ -60,7 +60,6 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      //publicPath: process.env.DEV || process.env.MODE === 'electron' ? '/' : '/apps/dragonbane/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -69,8 +68,10 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
+      // Comment out these paths when building for electron
+      publicPath: '/apps/dragonbane/',
       extendViteConf(viteConf) {
-        //viteConf.base = process.env.MODE === 'electron' ? '/' : '/apps/dragonbane/';
+        viteConf.base = '/apps/dragonbane/';
       },
       // viteVuePluginOptions: {},
 

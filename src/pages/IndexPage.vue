@@ -195,7 +195,7 @@
 
       <!--GEAR-->
       <q-tab-panel name="gear">
-        <div class="row">
+        <div class="row justify-between">
           <money-field label="GOLD" v-model="st.chars[st.conf.char].money.gold" />
           <money-field label="SILVER" v-model="st.chars[st.conf.char].money.silver" />
           <money-field label="COPPER" v-model="st.chars[st.conf.char].money.copper" />

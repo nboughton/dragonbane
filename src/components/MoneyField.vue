@@ -1,10 +1,9 @@
 <template>
   <q-input
-    class="col q-mx-sm"
+    class="col-xs-12 col-sm-3 q-ma-xs"
     type="number"
     v-model.number="dollaBills"
-    input-class="text-center text-h6"
-    standout
+    input-class="text-right text-h6"
     rounded
     dense
   >
