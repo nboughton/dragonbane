@@ -20,6 +20,9 @@
     <q-input class="row" label="Appearance" v-model="st.chars[st.conf.char].appearance" dense autogrow />
 
     <div class="row justify-evenly q-mt-md">
+      <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" label="Roll stats">
+        <q-tooltip>Roll stats</q-tooltip>
+      </q-btn>
       <div class="col-xs-4 col-md-2">
         <char-attr :label="EAttr.STR" v-model="st.chars[st.conf.char].attributes.STR" />
       </div>
@@ -49,18 +52,6 @@
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].hp" label="HP" show-max />
       </div>
-      <q-btn
-        v-if="statsRolled"
-        class="col-shrink"
-        icon="mdi-dice-d20"
-        flat
-        dense
-        rounded
-        @click="rollStats"
-        label="Roll stats"
-      >
-        <q-tooltip>Roll stats</q-tooltip>
-      </q-btn>
       <div class="col-xs-12 col-sm-5 col-md-4">
         <points-block v-model="st.chars[st.conf.char].wp" label="WP" show-max />
       </div>
@@ -119,13 +110,11 @@
 
         <div class="row justify-between items-center text-center q-mt-md">
           <div class="col-xs-12 col-sm-5">
-            <div class="text-h6">Armour</div>
-            <armour-block v-model="st.chars[st.conf.char].armour" />
+            <armour-block label="Armour" v-model="st.chars[st.conf.char].armour" />
           </div>
 
           <div class="col-xs-12 col-sm-5">
-            <div class="text-h6">Helmet</div>
-            <armour-block v-model="st.chars[st.conf.char].helmet" />
+            <armour-block label="Helmet" v-model="st.chars[st.conf.char].helmet" />
           </div>
         </div>
 

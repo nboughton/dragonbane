@@ -64,7 +64,7 @@ export interface IItem {
 
 export interface IWeapon {
   name: string;
-  grip: string;
+  grip: EGrip;
   range: string;
   damage: string;
   durability: number;
@@ -87,6 +87,7 @@ export interface ISpell {
   name: string;
   rank: number;
   req: ESpellReq[];
+  ingredient?: string;
   time: string;
   range: string;
   duration: EDuration;
@@ -131,4 +132,10 @@ export enum EAge {
   Young = 'Young',
   Adult = 'Adult',
   Old = 'Old',
+}
+
+export enum EGrip {
+  None = '-',
+  One = '1H',
+  Two = '2H',
 }
