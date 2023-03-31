@@ -57,6 +57,9 @@ export default defineComponent({
     showDelete: {
       type: Boolean,
     },
+    secondary: {
+      type: Boolean,
+    },
   },
   emits: ['update:modelValue', 'delete'],
   setup(props, { emit }) {
@@ -75,7 +78,7 @@ export default defineComponent({
     const c = useCharacterStore();
     const base = computed((): number => {
       const b = BaseChance(c.chars[c.conf.char].attributes[skill.value.attr as EAttr].score);
-      return skill.value.trained ? b * 2 : b;
+      return skill.value.trained ? b * 2 : props.secondary ? 0 : b;
     });
 
     const val = computed({

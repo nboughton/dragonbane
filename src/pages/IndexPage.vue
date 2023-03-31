@@ -94,6 +94,7 @@
               v-model="st.chars[st.conf.char].secSkills[k]"
               :label="`${k}`"
               show-delete
+              secondary
               @delete="removeSecSkill"
             />
           </div>
