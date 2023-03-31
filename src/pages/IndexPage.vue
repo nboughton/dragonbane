@@ -5,15 +5,15 @@
         <q-input class="row" label="Name" v-model="st.chars[st.conf.char].name" dense />
 
         <div class="row">
-          <q-input class="col" label="Kin" v-model="st.chars[st.conf.char].kin" dense />
-          <q-input class="col" label="Profession" v-model="st.chars[st.conf.char].profession" dense />
+          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
+          <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
         </div>
       </div>
 
       <div class="col">
         <div class="row">
-          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
-          <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
+          <q-input class="col" label="Kin" v-model="st.chars[st.conf.char].kin" dense />
+          <q-input class="col" label="Profession" v-model="st.chars[st.conf.char].profession" dense />
         </div>
         <q-input class="row" label="Weakness" v-model="st.chars[st.conf.char].weakness" dense />
       </div>
