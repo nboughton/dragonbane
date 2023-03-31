@@ -5,10 +5,11 @@
       <q-input class="col-xs-2 col-sm-1" label="Rating" v-model.number="amr.rating" type="number" dense />
     </div>
 
-    <div class="row items-center justify-evenly">
-      <div class="col-xs-6 col-sm-4 col-md-3">Bane on</div>
+    <div class="row items-center justify-center q-mt-sm">Bane on</div>
+
+    <div class="row items-center justify-center">
       <q-checkbox
-        class="col-xs-6 col-sm-4 col-md-3"
+        class="col-shrink"
         v-for="(a, i) in amr.bane"
         :key="`amr-${i}`"
         :label="`${i}`"

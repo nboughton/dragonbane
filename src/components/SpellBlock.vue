@@ -12,7 +12,7 @@
       <q-select class="col" label="Duration" v-model="spell.duration" :options="Object.values(EDuration)" dense />
     </div>
 
-    <div v-if="spell.rank > 0" class="row">
+    <div v-if="spell.rank > 0" class="row items-end">
       <q-select
         class="col"
         label="Requirements"
@@ -23,6 +23,14 @@
       />
       <q-input class="col" label="Range" v-model="spell.range" dense />
     </div>
+
+    <q-input
+      class="row"
+      v-if="spell.req.includes(ESpellReq.Ingredient)"
+      label="Ingredient"
+      v-model="spell.ingredient"
+      dense
+    />
 
     <q-input class="row" label="Text" v-model="spell.text" dense autogrow />
   </div>

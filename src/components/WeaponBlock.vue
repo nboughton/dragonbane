@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center bg-grey-10 rounded-borders q-pa-xs q-mt-xs">
-    <q-input class="col q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
+    <q-input class="col-xs-4 col-sm-4 q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
     <q-select
       class="col-xs-2 col-sm-1 q-pr-xs"
       label="Grip"
@@ -8,11 +8,17 @@
       :options="Object.values(EGrip)"
       dense
     />
-    <q-input class="col-1 q-pr-xs" label="Range" v-model="weapon.range" dense />
-    <q-input class="col-1 q-pr-xs" label="Damage" v-model="weapon.damage" dense />
-    <q-input class="col-1 q-pr-xs" type="number" label="Durability" v-model.number="weapon.durability" dense />
-    <q-input class="col-xs-11 col-sm-4" label="Features" v-model="weapon.features" dense />
-    <q-btn class="col-shrink" icon="delete" @click="$emit('delete')" flat dense rounded />
+    <q-input class="col-xs-2 col-sm-1 q-pr-xs" label="Range" v-model="weapon.range" dense />
+    <q-input class="col-xs-2 col-sm-1 q-pr-xs" label="Damage" v-model="weapon.damage" dense />
+    <q-input
+      class="col-xs-2 col-sm-1 q-pr-xs"
+      type="number"
+      label="Durability"
+      v-model.number="weapon.durability"
+      dense
+    />
+    <q-input class="col-xs-10 col-sm-grow" label="Features" v-model="weapon.features" dense />
+    <q-btn class="col-xs col-sm-shrink" icon="delete" @click="$emit('delete')" flat dense rounded />
   </div>
 </template>
 

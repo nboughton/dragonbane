@@ -6,14 +6,16 @@
 
         <div class="row">
           <q-input class="col" label="Kin" v-model="st.chars[st.conf.char].kin" dense />
-          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
-          <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
+          <q-input class="col" label="Profession" v-model="st.chars[st.conf.char].profession" dense />
         </div>
       </div>
 
       <div class="col">
-        <q-input label="Profession" v-model="st.chars[st.conf.char].profession" dense />
-        <q-input label="Weakness" v-model="st.chars[st.conf.char].weakness" dense />
+        <div class="row">
+          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
+          <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
+        </div>
+        <q-input class="row" label="Weakness" v-model="st.chars[st.conf.char].weakness" dense />
       </div>
     </div>
 
@@ -70,7 +72,7 @@
         <div class="row">
           <div class="col-12 text-h5 text-bold">Primary Skills</div>
           <div
-            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
+            class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].priSkills"
             :key="`priSkill-${k}`"
           >
@@ -84,7 +86,7 @@
             <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
           </div>
           <div
-            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
+            class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].secSkills"
             :key="`secSkill-${k}`"
           >
@@ -132,7 +134,7 @@
         <div class="row q-mt-md">
           <div class="col-12 text-h5 text-bold">Weapon Skills</div>
           <div
-            class="col-xs-6 col-sm-4 col-md-4 col-lg-3"
+            class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
             v-for="(sk, k) in st.chars[st.conf.char].wepSkills"
             :key="`skill-${k}`"
           >
@@ -143,8 +145,8 @@
 
       <!--ABILITIES & SPELLS-->
       <q-tab-panel name="abilities">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 q-pr-xs">
+        <div class="row justify-between">
+          <div class="col-xs-12 col-sm-12 col-md-6 q-px-xs">
             <div class="row q-mt-md text-h5 text-bold items-center">
               Heroic Abilities
               <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
@@ -157,9 +159,9 @@
             />
           </div>
 
-          <div class="col-xs-12 col-sm-12 col-md-6 q-pl-xs">
+          <div class="col-xs-12 col-sm-12 col-md-6 q-px-xs">
             <div class="row q-mt-md text-h5 text-bold items-center justify-between">
-              <div class="col-shrink items-center">
+              <div class="col-shrink">
                 Spells
                 <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
               </div>
