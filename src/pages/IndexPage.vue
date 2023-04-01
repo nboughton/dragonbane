@@ -202,7 +202,7 @@
         </div>
 
         <div class="row text-h6 text-bold q-mt-md">
-          <div class="col">Inventory ({{ encumberance }} / {{ encumberMax }})</div>
+          <div class="col-shrink">Inventory ({{ encumberance }} / {{ encumberMax }})</div>
           <q-btn class="col-shrink" icon="add_circle" flat dense rounded @click="addInvItem" />
         </div>
         <item-row
