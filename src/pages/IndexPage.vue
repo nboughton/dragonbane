@@ -103,14 +103,6 @@
 
       <!--COMBAT-->
       <q-tab-panel name="combat">
-        <div class="row justify-between items-center text-center">
-          <div class="col text-h5 text-bold">
-            Damage Bonus: STR:
-            {{ DmgBonus(st.chars[st.conf.char].attributes.STR.score) }}, AGL:
-            {{ DmgBonus(st.chars[st.conf.char].attributes.AGL.score) }}
-          </div>
-        </div>
-
         <div class="row justify-between items-center text-center q-mt-md">
           <div class="col-xs-12 col-sm-5">
             <armour-block label="Armour" v-model="st.chars[st.conf.char].armour" />
@@ -124,6 +116,11 @@
         <div class="row q-mt-md text-h5 text-bold items-center">
           Weapons
           <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
+        </div>
+        <div class="row text-bold q-mt-xs">
+          Dmg Bonus: STR:
+          {{ DmgBonus(st.chars[st.conf.char].attributes.STR.score) }}, AGL:
+          {{ DmgBonus(st.chars[st.conf.char].attributes.AGL.score) }}
         </div>
         <weapon-block
           v-for="(w, i) in st.chars[st.conf.char].weapons"
