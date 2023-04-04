@@ -6,6 +6,7 @@
       checked-icon="mdi-alpha-a-box"
       unchecked-icon="mdi-alpha-a-box-outline"
       color="white"
+      size="lg"
       dense
     >
       <q-tooltip>Advance</q-tooltip>
@@ -24,12 +25,15 @@
       checked-icon="mdi-alpha-t-box"
       unchecked-icon="mdi-alpha-t-box-outline"
       color="white"
+      size="lg"
       dense
     >
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>
     <div class="col">{{ label }} ({{ skill.attr }})</div>
-    <div class="col-shrink q-mr-sm" v-if="baned"><q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" /></div>
+    <div class="col-shrink q-mr-sm" v-if="baned">
+      <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
+    </div>
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
 </template>

@@ -1,9 +1,21 @@
 <template>
   <div class="column q-mt-md rounded-borders q-pa-sm" style="background-color: #232323">
-    <div class="row">
+    <div class="row items-center">
+      <q-checkbox
+        v-if="spell.rank > 0"
+        class="col-shrink q-pr-xs"
+        checked-icon="mdi-alpha-p-box"
+        unchecked-icon="mdi-alpha-p-box-outline"
+        color="white"
+        v-model="spell.prepared"
+        size="lg"
+        dense
+      >
+        <q-tooltip>Prepared</q-tooltip>
+      </q-checkbox>
       <q-input class="col-grow" label="Name" v-model="spell.name" dense />
       <q-input class="col-xs-2 col-sm-1" label="Rank" v-model.number="spell.rank" type="number" dense />
-      <q-checkbox v-if="spell.rank > 0" class="col-shrink" label="Prepared" v-model="spell.prepared" dense />
+
       <q-btn class="col-shrink" icon="delete" flat dense rounded @click="$emit('delete')" />
     </div>
 

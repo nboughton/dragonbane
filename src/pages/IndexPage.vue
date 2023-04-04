@@ -103,16 +103,6 @@
 
       <!--COMBAT-->
       <q-tab-panel name="combat">
-        <div class="row justify-between items-center text-center q-mt-md">
-          <div class="col-xs-12 col-sm-5">
-            <armour-block label="Armour" v-model="st.chars[st.conf.char].armour" />
-          </div>
-
-          <div class="col-xs-12 col-sm-5">
-            <armour-block label="Helmet" v-model="st.chars[st.conf.char].helmet" />
-          </div>
-        </div>
-
         <div class="row q-mt-md text-h5 text-bold items-center">
           Weapons
           <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
@@ -137,6 +127,15 @@
             :key="`skill-${k}`"
           >
             <char-skill v-model="st.chars[st.conf.char].wepSkills[k]" :label="`${k}`" />
+          </div>
+        </div>
+        <div class="row justify-between items-center text-center q-mt-md">
+          <div class="col-xs-12 col-sm-5">
+            <armour-block label="Armour" v-model="st.chars[st.conf.char].armour" />
+          </div>
+
+          <div class="col-xs-12 col-sm-5">
+            <armour-block label="Helmet" v-model="st.chars[st.conf.char].helmet" />
           </div>
         </div>
       </q-tab-panel>
