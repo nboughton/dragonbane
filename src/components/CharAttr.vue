@@ -1,25 +1,31 @@
 <template>
-  <div class="column items-center justify-center q-px-xs">
-    <q-input
-      type="number"
-      v-model.number="attr.score"
-      input-class="text-center text-bold text-h5"
-      standout
+  <div class="column items-center justify-center">
+    <q-btn
+      :label="`${label} ${attr.score}`"
       rounded
+      class="q-pa-md text-bold"
+      color="grey-10"
+      size="lg"
+      @click="editAttr"
+    />
+    <q-checkbox
+      :label="attr.condition.name"
+      v-model="attr.condition.check"
+      class="q-mt-xs"
+      size="sm"
+      left-label
       dense
-    >
-      <template v-slot:prepend>
-        <span class="text-h5 text-bold">{{ label }}</span>
-      </template>
-    </q-input>
-
-    <q-checkbox :label="attr.condition.name" v-model="attr.condition.check" left-label />
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
+
 import { IAttribute } from './models';
+
+import { useQuasar } from 'quasar';
+
 export default defineComponent({
   name: 'CharStat',
   props: {
@@ -46,8 +52,24 @@ export default defineComponent({
       { deep: true }
     );
 
+    const $q = useQuasar();
+    const editAttr = () =>
+      $q
+        .dialog({
+          title: `Edit ${props.label}`,
+          cancel: true,
+          prompt: {
+            type: 'number',
+            model: `${attr.value.score}`,
+            min: 3,
+            max: 18,
+          },
+        })
+        .onOk((n) => (attr.value.score = n));
+
     return {
       attr,
+      editAttr,
     };
   },
 });
