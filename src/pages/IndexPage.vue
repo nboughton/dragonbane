@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="column">
+  <q-page class="column" :padding="$q.screen.gt.sm">
     <div class="row justify-between q-gutter-sm">
       <div class="col">
         <q-input class="row" label="Name" v-model="st.chars[st.conf.char].name" dense />
@@ -21,7 +21,7 @@
 
     <q-input class="row" label="Appearance" v-model="st.chars[st.conf.char].appearance" dense autogrow />
 
-    <div class="row justify-evenly q-mt-lg">
+    <div class="row justify-evenly q-mt-md">
       <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" label="Roll stats">
         <q-tooltip>Roll stats</q-tooltip>
       </q-btn>

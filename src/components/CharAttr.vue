@@ -1,9 +1,9 @@
 <template>
-  <div class="column items-center justify-center">
+  <div class="column items-center justify-center q-mt-sm">
     <q-btn
       :label="`${label} ${attr.score}`"
       rounded
-      class="q-pa-md text-bold"
+      class="q-px-md text-bold"
       color="grey-10"
       size="lg"
       @click="editAttr"
