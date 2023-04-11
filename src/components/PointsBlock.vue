@@ -1,30 +1,22 @@
 <template>
-  <div class="row">
-    <q-input
-      class="col text-h6 text-bold"
-      input-class="text-center text-bold"
-      label="CURRENT"
-      type="number"
-      v-model.number="points.current"
-      :min="0"
-      :max="points.max"
-      dense
-    >
-      <template v-slot:prepend>{{ label }}</template>
-      <template v-slot:append v-if="showMax">/&nbsp;</template>
-    </q-input>
-    <q-input
-      v-if="showMax"
-      class="col text-h6 text-bold"
-      input-class="text-center text-bold"
-      label="MAX"
-      type="number"
-      v-model.number="points.max"
-      :min="0"
-      dense
-    />
+  <div class="column">
+    <q-btn size="xl" :label="`${label} ${points.current}`" @click="showEditDialog = !showEditDialog" flat />
+    <q-linear-progress :value="points.current / points.max" color="green" track-color="red" />
   </div>
-  <q-linear-progress :value="points.current / points.max" color="green" track-color="red" />
+
+  <q-dialog v-model="showEditDialog">
+    <q-card>
+      <q-card-section class="row text-h6 items-center justify-between">
+        <div class="col">Adjust {{ label }}</div>
+        <q-btn class="col-shrink" icon="close" flat dense rounded @click="showEditDialog = false" />
+      </q-card-section>
+
+      <q-card-section class="column">
+        <q-input label="Current" type="number" v-model.number="points.current" :max="points.max" :min="0" />
+        <q-input label="Max" type="number" v-model.number="points.max" :min="0" />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script lang="ts">
@@ -57,8 +49,12 @@ export default defineComponent({
       () => emit('update:modelValue', points.value)
     );
 
+    const showEditDialog = ref(false);
+
     return {
       points,
+
+      showEditDialog,
     };
   },
 });

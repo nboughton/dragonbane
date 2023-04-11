@@ -1,21 +1,7 @@
 <template>
-  <div class="column items-center justify-center q-mt-sm">
-    <q-btn
-      :label="`${label} ${attr.score}`"
-      rounded
-      class="q-px-md text-bold"
-      color="grey-10"
-      size="lg"
-      @click="editAttr"
-    />
-    <q-checkbox
-      :label="attr.condition.name"
-      v-model="attr.condition.check"
-      class="q-mt-xs"
-      size="sm"
-      left-label
-      dense
-    />
+  <div class="column items-center justify-center">
+    <q-btn :label="`${label} ${attr.score}`" class="text-bold" size="lg" @click="editAttr" flat rounded />
+    <q-checkbox :label="attr.condition.name" v-model="attr.condition.check" size="sm" left-label dense />
   </div>
 </template>
 
