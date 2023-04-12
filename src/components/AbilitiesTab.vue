@@ -19,22 +19,24 @@
           Spells
           <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
         </div>
-        <div class="col-shrink">
-          <q-btn icon="sort" flat dense rounded @click="sortSpells">
-            <q-tooltip>Sort spells by rank</q-tooltip>
-          </q-btn>
-        </div>
+
+        <q-btn class="col-shrink" icon="sort" flat dense rounded @click="sortSpells">
+          <q-tooltip>Sort spells by rank</q-tooltip>
+        </q-btn>
       </div>
-      <div class="row items-center justify-evenly">
-        <div class="col text-bold">Known by rank:</div>
+
+      <div class="row items-center">
+        <div class="col-shrink text-bold">Known by rank:</div>
         <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
           <span class="q-ml-sm q-pa-xs bg-grey-9 rounded-borders" v-if="r > 0">&nbsp;{{ i }} : {{ r }}&nbsp;</span>
         </div>
       </div>
-      <div class="row items-center justify-evenly q-mt-xs">
-        <div class="col text-bold">Prepared:</div>
-        <div class="col-shrink">{{ spellsPrepared }}/{{ BaseChance(char.attributes.INT.score) }}</div>
+
+      <div class="row items-center q-mt-xs">
+        <div class="col-shrink text-bold">Prepared:</div>
+        <div class="col-shrink q-ml-sm q-px-xs">{{ spellsPrepared }}/{{ BaseChance(char.attributes.INT.score) }}</div>
       </div>
+
       <spell-block
         v-for="(sp, i) in char.spells"
         :key="`spell-${i}`"

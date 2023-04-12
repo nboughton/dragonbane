@@ -7,6 +7,7 @@
     Dmg Bonus: STR:
     {{ DmgBonus(char.attributes.STR.score) }}, AGL:
     {{ DmgBonus(char.attributes.AGL.score) }}
+    <span v-if="armourRating > 0">, Armour: {{ armourRating }}</span>
   </div>
   <weapon-block v-for="(w, i) in char.weapons" :key="`wpn-${i}`" v-model="char.weapons[i]" @delete="removeWeapon(i)" />
 
@@ -28,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, ref, watch } from 'vue';
+import { PropType, defineComponent, ref, watch, computed } from 'vue';
 
 import { ICharacter } from './models';
 
@@ -73,12 +74,15 @@ export default defineComponent({
         })
         .onOk(() => char.value.weapons.splice(index, 1));
 
+    const armourRating = computed((): number => char.value.armour.rating + char.value.helmet.rating);
+
     return {
       char,
 
       addWeapon,
       removeWeapon,
       DmgBonus,
+      armourRating,
     };
   },
 });
