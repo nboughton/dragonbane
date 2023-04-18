@@ -5,9 +5,12 @@
     <money-field label="COPPER" v-model="char.money.copper" />
   </div>
 
-  <div class="row text-h6 text-bold q-mt-md">
+  <div class="row text-h6 text-bold q-mt-md items-center">
     <div class="col-shrink">Inventory ({{ encumberance }} / {{ encumberMax }})</div>
-    <q-btn class="col-shrink" icon="add_circle" flat dense rounded @click="addInvItem" />
+    <q-checkbox class="col-shrink" v-model="char.backpack" label="Backpack" />
+    <q-btn class="col-shrink" icon="add_circle" flat dense rounded @click="addInvItem">
+      <q-tooltip>Add item</q-tooltip>
+    </q-btn>
   </div>
   <item-row
     v-for="(it, i) in char.inventory"
@@ -70,7 +73,9 @@ export default defineComponent({
       });
       return total;
     });
-    const encumberMax = computed((): number => Math.ceil(char.value.attributes.STR.score / 2));
+    const encumberMax = computed(
+      (): number => Math.ceil(char.value.attributes.STR.score / 2) + (char.value.backpack ? 2 : 0)
+    );
 
     return {
       char,

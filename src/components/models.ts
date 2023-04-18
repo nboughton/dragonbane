@@ -21,6 +21,7 @@ export interface ICharacter {
   abilities: IAbility[];
   spells: ISpell[];
   inventory: IItem[];
+  backpack?: boolean;
   memento: string;
   tinyItems: string;
   money: {

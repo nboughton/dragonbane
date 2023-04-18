@@ -10,6 +10,7 @@ import {
   ISpell,
   EDuration,
   EAge,
+  EGrip,
 } from 'src/components/models';
 
 export const NewCharacter = (): ICharacter => {
@@ -33,6 +34,7 @@ export const NewCharacter = (): ICharacter => {
     abilities: [],
     spells: [],
     inventory: [],
+    backpack: false,
     memento: '',
     tinyItems: '',
     money: {
@@ -126,7 +128,7 @@ export const stat = (cond: ECond): IAttribute => {
 export const NewWeapon = (): IWeapon => {
   return {
     name: '',
-    grip: '',
+    grip: EGrip.None,
     range: '',
     damage: '',
     durability: 0,
