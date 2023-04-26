@@ -5,6 +5,7 @@ export interface IDBStore {
 
 export interface IConfig {
   char: number;
+  showTrainedSkills?: boolean;
 }
 
 export interface ICharacter {

@@ -9,25 +9,25 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered>
-      <q-btn class="full-width" label="New Character" flat @click="st.chars.push(NewCharacter())" icon-right="add" />
+      <q-btn class="full-width" label="New Character" flat @click="app.chars.push(NewCharacter())" icon-right="add" />
       <q-list>
         <q-item
           class="items-center"
-          v-for="(c, i) in st.chars"
+          v-for="(c, i) in app.chars"
           :key="`char-${i}`"
-          :active="st.conf.char == i"
+          :active="app.conf.char == i"
           clickable
           v-ripple
         >
-          <q-item-section @click="st.conf.char = i">{{ c.name }}</q-item-section>
-          <q-item-section v-if="st.chars.length > 1" side>
+          <q-item-section @click="app.conf.char = i">{{ c.name }}</q-item-section>
+          <q-item-section v-if="app.chars.length > 1" side>
             <q-btn icon="delete" flat dense rounded @click="removeChar(i)" />
           </q-item-section>
         </q-item>
 
         <q-separator />
 
-        <q-item clickable v-ripple @click="st.exportData">
+        <q-item clickable v-ripple @click="app.exportData">
           <q-item-section avatar>
             <q-icon name="download" />
           </q-item-section>
@@ -44,6 +44,14 @@
           <q-item-section>
             Load Character Data
             <q-tooltip>Load previously exported character data</q-tooltip>
+          </q-item-section>
+        </q-item>
+
+        <q-separator />
+
+        <q-item>
+          <q-item-section>
+            <q-toggle label="Toggle Trained Skill Buttons" v-model="app.conf.showTrainedSkills" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -92,7 +100,7 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
 
-    const st = useCharacterStore();
+    const app = useCharacterStore();
     const $q = useQuasar();
 
     const showDataLoad = ref(false);
@@ -102,7 +110,7 @@ export default defineComponent({
       const reader = new FileReader();
       reader.onload = (ev) => {
         const data = JSON.parse(ev.target?.result as string) as IDBStore;
-        st.loadData(data);
+        app.loadData(data);
         showDataLoad.value = false;
       };
       reader.readAsText(f);
@@ -111,12 +119,12 @@ export default defineComponent({
     const removeChar = (index: number) =>
       $q
         .dialog({
-          message: `Delete ${st.chars[index].name}?`,
+          message: `Delete ${app.chars[index].name}?`,
           cancel: true,
         })
         .onOk(() => {
-          st.conf.char = 0;
-          st.chars.splice(index, 1);
+          app.conf.char = 0;
+          app.chars.splice(index, 1);
         });
 
     return {
@@ -124,7 +132,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      st,
+      app,
       NewCharacter,
       removeChar,
 

@@ -18,7 +18,7 @@ export const NewCharacter = (): ICharacter => {
     id: uid(),
     name: 'New character',
     kin: '',
-    age: EAge.Young,
+    age: EAge.Adult,
     profession: '',
     weakness: '',
     appearance: '',

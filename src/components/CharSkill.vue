@@ -20,6 +20,7 @@
       borderless
     />
     <q-checkbox
+      v-if="app.conf.showTrainedSkills == true || app.conf.showTrainedSkills == undefined"
       class="col-shrink"
       v-model="skill.trained"
       checked-icon="mdi-alpha-t-box"
@@ -117,7 +118,11 @@ export default defineComponent({
       return b;
     });
 
+    const app = useCharacterStore();
+    if (app.conf.showTrainedSkills == undefined) app.conf.showTrainedSkills = true;
+
     return {
+      app,
       skill,
       val,
       baned,

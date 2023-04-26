@@ -8,6 +8,7 @@ export const useCharacterStore = defineStore('character', {
     chars: <ICharacter[]>[NewCharacter()],
     conf: <IConfig>{
       char: 0,
+      showTrainedSkills: true,
     },
   }),
   getters: {},

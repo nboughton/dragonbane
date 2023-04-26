@@ -6,11 +6,15 @@
   </div>
 
   <div class="row text-h6 text-bold q-mt-md items-center">
-    <div class="col-shrink">Inventory ({{ encumberance }} / {{ encumberMax }})</div>
-    <q-checkbox class="col-shrink" v-model="char.backpack" label="Backpack" />
-    <q-btn class="col-shrink" icon="add_circle" flat dense rounded @click="addInvItem">
-      <q-tooltip>Add item</q-tooltip>
-    </q-btn>
+    <div class="col">
+      <div class="row items-center">
+        <div>Inventory ({{ encumberance }} / {{ encumberMax }})</div>
+        <q-btn icon="add_circle" flat dense rounded @click="addInvItem">
+          <q-tooltip>Add item</q-tooltip>
+        </q-btn>
+      </div>
+    </div>
+    <q-checkbox class="col-shrink self-end" v-model="char.backpack" label="Backpack" />
   </div>
   <item-row
     v-for="(it, i) in char.inventory"
