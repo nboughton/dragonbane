@@ -11,6 +11,7 @@
     >
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
+
     <q-input
       class="col-xs-2 col-sm-2"
       input-class="text-center text-bold"
@@ -19,6 +20,7 @@
       dense
       borderless
     />
+
     <q-checkbox
       v-if="app.conf.showTrainedSkills == true || app.conf.showTrainedSkills == undefined"
       class="col-shrink"
@@ -31,10 +33,13 @@
     >
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>
+
     <div class="col">{{ label }} ({{ skill.attr }})</div>
+
     <div class="col-shrink q-mr-sm" v-if="baned">
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
     </div>
+
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
 </template>
@@ -98,23 +103,44 @@ export default defineComponent({
     const baned = computed((): string => {
       let colour = '#232323';
       if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) colour = '#783232';
+
       Object.keys(c.chars[c.conf.char].armour.bane).forEach((k) => {
         if (c.chars[c.conf.char].armour.bane[k] && k == props.label) colour = '#783232';
       });
+
       Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
-        if (c.chars[c.conf.char].helmet.bane[k] && k == props.label) colour = '#783232';
+        const checked = c.chars[c.conf.char].helmet.bane[k];
+        if (checked && k == props.label) colour = '#783232';
+        else if (
+          checked &&
+          k == 'Ranged Attacks' &&
+          (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings')
+        )
+          colour = '#783232';
       });
+
       return colour;
     });
+
     const banes = computed((): number[] => {
       let b = [];
       if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) b.push(0);
+
       Object.keys(c.chars[c.conf.char].armour.bane).forEach((k) => {
         if (c.chars[c.conf.char].armour.bane[k] && k == props.label) b.push(0);
       });
+
       Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
-        if (c.chars[c.conf.char].helmet.bane[k] && k == props.label) b.push(0);
+        const checked = c.chars[c.conf.char].helmet.bane[k];
+        if (checked && k == props.label) b.push(0);
+        else if (
+          checked &&
+          k == 'Ranged Attacks' &&
+          (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings')
+        )
+          b.push(0);
       });
+
       return b;
     });
 
