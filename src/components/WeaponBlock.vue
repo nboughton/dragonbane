@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center bg-grey-10 rounded-borders q-pa-xs q-mt-xs">
+  <div class="row items-center rounded-borders q-pa-xs q-mt-xs">
     <q-input class="col-xs-4 col-sm-4 q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
     <q-select
       class="col-xs-2 col-sm-1 q-pr-xs"

@@ -1,13 +1,15 @@
 <template>
-  <div class="column q-mt-md rounded-borders q-pa-sm">
-    <div class="row">
-      <q-input class="col" label="Name" v-model="abl.name" dense />
-      <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />
-      <q-btn class="col-shrink" icon="delete" flat dense rounded @click="$emit('delete')" />
-    </div>
+  <q-expansion-item :label="`${abl.name} (${abl.wp})`" header-class="text-bold q-pl-none">
+    <div class="column q-my-sm">
+      <div class="row">
+        <q-input class="col" label="Name" v-model="abl.name" dense />
+        <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />
+        <q-btn class="col-shrink" icon="delete" flat dense rounded @click="$emit('delete')" />
+      </div>
 
-    <q-input class="row" label="Text" v-model="abl.text" dense autogrow />
-  </div>
+      <q-input class="row" label="Text" v-model="abl.text" dense autogrow />
+    </div>
+  </q-expansion-item>
 </template>
 
 <script lang="ts">

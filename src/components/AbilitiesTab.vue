@@ -26,9 +26,9 @@
       </div>
 
       <div class="row items-center">
-        <div class="col-shrink text-bold">Known by rank:</div>
+        <div class="col-shrink text-bold">Known (by rank):</div>
         <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
-          <span class="q-ml-sm q-pa-xs bg-grey-9 rounded-borders" v-if="r > 0">&nbsp;{{ i }} : {{ r }}&nbsp;</span>
+          <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">{{ i < 1 ? 'Magic Tricks' : i }} : {{ r }}</span>
         </div>
       </div>
 
