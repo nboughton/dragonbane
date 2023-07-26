@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between">
+  <div class="row justify-between" v-if="c.conf.showSpells">
     <div class="col-xs-12 col-sm-12 col-md-6 q-px-xs">
       <div class="row q-mt-md text-h5 text-bold items-center">
         Heroic Abilities
@@ -45,6 +45,18 @@
       />
     </div>
   </div>
+  <div v-else>
+    <div class="row q-mt-md text-h5 text-bold items-center">
+      Heroic Abilities
+      <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
+    </div>
+    <ability-block
+      v-for="(ab, i) in char.abilities"
+      :key="`abl-${i}`"
+      v-model="char.abilities[i]"
+      @delete="removeAbl(i)"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -58,6 +70,7 @@ import { NewAbility, NewSpell, BaseChance } from 'src/lib/defaults';
 
 import AbilityBlock from './AbilityBlock.vue';
 import SpellBlock from './SpellBlock.vue';
+import { useCharacterStore } from 'src/stores/character';
 
 export default defineComponent({
   name: 'AbilitiesTab',
@@ -121,7 +134,10 @@ export default defineComponent({
         })
         .onOk(() => char.value.abilities.splice(index, 1));
 
+    const c = useCharacterStore(); // Need this for conf
+
     return {
+      c,
       char,
       BaseChance,
 

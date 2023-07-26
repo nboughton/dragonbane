@@ -6,6 +6,13 @@ export interface IDBStore {
 export interface IConfig {
   char: number;
   showTrainedSkills?: boolean;
+  showSpells?: boolean;
+  darkMode?: boolean;
+}
+
+export interface IColours {
+  bgk: string;
+  fg: string;
 }
 
 export interface ICharacter {

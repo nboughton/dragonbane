@@ -1,11 +1,14 @@
 <template>
-  <div class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs" :style="{ backgroundColor: baned }">
+  <div
+    class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs"
+    :style="{ backgroundColor: baned.bgk, color: baned.fg }"
+  >
     <q-checkbox
       class="col-shrink"
       v-model="skill.checked"
       checked-icon="mdi-alpha-a-box"
       unchecked-icon="mdi-alpha-a-box-outline"
-      color="white"
+      :color="app.conf.darkMode == true ? 'white' : 'black'"
       size="lg"
       dense
     >
@@ -27,7 +30,7 @@
       v-model="skill.trained"
       checked-icon="mdi-alpha-t-box"
       unchecked-icon="mdi-alpha-t-box-outline"
-      color="white"
+      :color="app.conf.darkMode == true ? 'white' : 'black'"
       size="lg"
       dense
     >
@@ -47,11 +50,11 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch, computed } from 'vue';
 
-import { EAttr, ISkill } from './models';
+import { EAttr, IColours, ISkill } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
-import { BaseChance } from 'src/lib/defaults';
+import { BaseChance, colours } from 'src/lib/defaults';
 
 export default defineComponent({
   name: 'CharSkill',
@@ -100,23 +103,24 @@ export default defineComponent({
       },
     });
 
-    const baned = computed((): string => {
-      let colour = '#232323';
-      if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) colour = '#783232';
+    const baned = computed((): IColours => {
+      let colour = colours(c.conf.darkMode as boolean);
+      const bgk = (): string => (c.conf.darkMode == true ? '#783232' : '#ff7878');
+      if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) colour.bgk = bgk();
 
       Object.keys(c.chars[c.conf.char].armour.bane).forEach((k) => {
-        if (c.chars[c.conf.char].armour.bane[k] && k == props.label) colour = '#783232';
+        if (c.chars[c.conf.char].armour.bane[k] && k == props.label) colour.bgk = bgk();
       });
 
       Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
         const checked = c.chars[c.conf.char].helmet.bane[k];
-        if (checked && k == props.label) colour = '#783232';
+        if (checked && k == props.label) colour.bgk = bgk();
         else if (
           checked &&
           k == 'Ranged Attacks' &&
           (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings')
         )
-          colour = '#783232';
+          colour.bgk = bgk();
       });
 
       return colour;
@@ -145,7 +149,6 @@ export default defineComponent({
     });
 
     const app = useCharacterStore();
-    if (app.conf.showTrainedSkills == undefined) app.conf.showTrainedSkills = true;
 
     return {
       app,

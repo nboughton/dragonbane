@@ -9,6 +9,8 @@ export const useCharacterStore = defineStore('character', {
     conf: <IConfig>{
       char: 0,
       showTrainedSkills: true,
+      showSpells: true,
+      darkMode: true,
     },
   }),
   getters: {},
