@@ -1,5 +1,10 @@
 <template>
-  <q-expansion-item :label="`${abl.name} (${abl.wp})`" header-class="text-bold q-pl-none">
+  <q-expansion-item
+    :label="`${abl.name} [WP: ${abl.wp}]`"
+    :caption="abl.text"
+    header-class="text-bold q-pl-none"
+    :default-opened="!abl.name"
+  >
     <div class="column q-my-sm">
       <div class="row">
         <q-input class="col" label="Name" v-model="abl.name" dense />

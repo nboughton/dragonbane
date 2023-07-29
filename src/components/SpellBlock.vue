@@ -1,7 +1,11 @@
 <template>
   <q-expansion-item
-    :label="`${spell.rank}: ${spell.name} ${spell.prepared ? '[P]' : ''}`"
+    :label="`${spell.name} [${spell.rank > 0 ? 'Rank ' + spell.rank : 'Magic Trick'}${
+      spell.prepared ? ', Prepared' : ''
+    }]`"
+    :caption="spell.text"
     header-class="text-bold q-pl-none"
+    :default-opened="!spell.name"
   >
     <div class="column q-mt-sm rounded-borders">
       <div class="row items-center">

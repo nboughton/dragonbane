@@ -69,10 +69,10 @@ module.exports = configure(function (/* ctx */) {
       // distDir
 
       // Comment out these paths when building for electron
-      publicPath: '/apps/dragonbane/',
-      extendViteConf(viteConf) {
-        viteConf.base = '/apps/dragonbane/';
-      },
+      //publicPath: '/apps/dragonbane/',
+      //extendViteConf(viteConf) {
+      //  viteConf.base = '/apps/dragonbane/';
+      //},
       // viteVuePluginOptions: {},
 
       // vitePlugins: [

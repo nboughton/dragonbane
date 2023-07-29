@@ -75,6 +75,8 @@ export default defineComponent({
       char.value.inventory.forEach((item) => {
         total += item.wt;
       });
+
+      total += Math.floor((char.value.money.copper + char.value.money.silver + char.value.money.gold) / 100);
       return total;
     });
     const encumberMax = computed(
