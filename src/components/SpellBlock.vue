@@ -4,7 +4,7 @@
       spell.prepared ? ', Prepared' : ''
     }]`"
     :caption="spell.text"
-    header-class="text-bold q-pl-none"
+    header-class="text-bold q-pl-xs rounded-borders"
     :default-opened="!spell.name"
   >
     <div class="column q-mt-sm rounded-borders">

@@ -2,7 +2,7 @@
   <q-expansion-item
     :label="`${abl.name} [WP: ${abl.wp}]`"
     :caption="abl.text"
-    header-class="text-bold q-pl-none"
+    header-class="text-bold q-pl-xs rounded-borders"
     :default-opened="!abl.name"
   >
     <div class="column q-my-sm">
