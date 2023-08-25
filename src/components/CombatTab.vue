@@ -1,14 +1,16 @@
 <template>
+  <div class="row text-bold q-mt-xs">
+    Evade: {{ evade }};
+    <span v-if="armourRating > 0">&nbsp;Armour: {{ armourRating }};&nbsp;</span>
+    Dmg Bonus: STR: {{ DmgBonus(char.attributes.STR.score) }}, AGL:
+    {{ DmgBonus(char.attributes.AGL.score) }}
+  </div>
+
   <div class="row q-mt-md text-h5 text-bold items-center">
     Weapons
     <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
   </div>
-  <div class="row text-bold q-mt-xs">
-    Dmg Bonus: STR:
-    {{ DmgBonus(char.attributes.STR.score) }}, AGL:
-    {{ DmgBonus(char.attributes.AGL.score) }}
-    <span v-if="armourRating > 0">, Armour: {{ armourRating }}</span>
-  </div>
+
   <weapon-block v-for="(w, i) in char.weapons" :key="`wpn-${i}`" v-model="char.weapons[i]" @delete="removeWeapon(i)" />
 
   <div class="row q-mt-md">
@@ -35,7 +37,7 @@ import { ICharacter } from './models';
 
 import { useQuasar } from 'quasar';
 
-import { NewWeapon, DmgBonus } from 'src/lib/defaults';
+import { NewWeapon, DmgBonus, BaseChance } from 'src/lib/defaults';
 
 import CharSkill from 'src/components/CharSkill.vue';
 import WeaponBlock from 'src/components/WeaponBlock.vue';
@@ -75,6 +77,10 @@ export default defineComponent({
         .onOk(() => char.value.weapons.splice(index, 1));
 
     const armourRating = computed((): number => char.value.armour.rating + char.value.helmet.rating);
+    const evade = computed((): number => {
+      const b = BaseChance(char.value.attributes.AGL.score);
+      return (char.value.priSkills.Evade.trained ? b * 2 : b) + char.value.priSkills.Evade.advances;
+    });
 
     return {
       char,
@@ -82,6 +88,7 @@ export default defineComponent({
       addWeapon,
       removeWeapon,
       DmgBonus,
+      evade,
       armourRating,
     };
   },
