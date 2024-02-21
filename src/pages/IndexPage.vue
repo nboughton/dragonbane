@@ -70,22 +70,22 @@
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>
       <!--SKILLS-->
       <q-tab-panel name="skills">
-        <skills-tab v-model="app.char" />
+        <skills-tab />
       </q-tab-panel>
 
       <!--COMBAT-->
       <q-tab-panel name="combat">
-        <combat-tab v-model="app.char" />
+        <combat-tab />
       </q-tab-panel>
 
       <!--ABILITIES & SPELLS-->
       <q-tab-panel name="abilities">
-        <abilities-tab v-model="app.char" />
+        <abilities-tab />
       </q-tab-panel>
 
       <!--GEAR-->
       <q-tab-panel name="gear">
-        <gear-tab v-model="app.char" />
+        <gear-tab />
       </q-tab-panel>
     </q-tab-panels>
   </q-page>

@@ -148,3 +148,10 @@ export enum EGrip {
   One = '1H',
   Two = '2H',
 }
+
+export enum ERollType {
+  Attr = 'attribute',
+  Skill = 'skill',
+  Ranged = 'ranged',
+  Melee = 'melee',
+}

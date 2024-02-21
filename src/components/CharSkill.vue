@@ -43,21 +43,37 @@
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
     </div>
 
+    <div class="col-shrink">
+      <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat round dense />
+    </div>
+
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
+  <q-dialog v-model="showRoller">
+    <dice-roller
+      :name="label"
+      :target="val"
+      :banes="banes.length"
+      :roll-type="ERollType.Skill"
+      @close="showRoller = false"
+    />
+  </q-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch, computed } from 'vue';
 
-import { EAttr, IColours, ISkill } from './models';
+import { EAttr, ERollType, IColours, ISkill } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
 import { BaseChance, colours } from 'src/lib/defaults';
 
+import DiceRoller from './DiceRoller.vue';
+
 export default defineComponent({
   name: 'CharSkill',
+  components: { DiceRoller },
   props: {
     modelValue: {
       type: Object as PropType<ISkill>,
@@ -148,12 +164,16 @@ export default defineComponent({
       return b;
     });
 
+    const showRoller = ref(false);
+
     return {
       app,
       skill,
       val,
       baned,
       banes,
+      showRoller,
+      ERollType,
     };
   },
 });

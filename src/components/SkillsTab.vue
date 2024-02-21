@@ -2,8 +2,8 @@
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
   <div class="row">
     <div class="col-12 text-h5 text-bold">Primary Skills</div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in char.priSkills" :key="`priSkill-${k}`">
-      <char-skill v-model="char.priSkills[k]" :label="`${k}`" />
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
+      <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" />
     </div>
   </div>
 
@@ -12,8 +12,8 @@
       Secondary Skills
       <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in char.secSkills" :key="`secSkill-${k}`">
-      <char-skill v-model="char.secSkills[k]" :label="`${k}`" show-delete secondary @delete="removeSecSkill" />
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.secSkills" :key="`secSkill-${k}`">
+      <char-skill v-model="app.char.secSkills[k]" :label="`${k}`" show-delete secondary @delete="removeSecSkill" />
     </div>
   </div>
 
@@ -39,7 +39,7 @@
           color="green"
           label="Add"
           @click="
-            char.secSkills[newSkillName] = skill(newSkillAttr);
+            app.char.secSkills[newSkillName] = skill(newSkillAttr);
             newSkillName = '';
             showAddSkill = false;
           "
@@ -51,36 +51,20 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-import { ICharacter, EAttr } from './models';
+import { EAttr } from './models';
 
 import CharSkill from './CharSkill.vue';
 import { useQuasar } from 'quasar';
 import { skill } from 'src/lib/defaults';
+import { useCharacterStore } from 'src/stores/character';
 
 export default defineComponent({
   name: 'SkillsTab',
   components: { CharSkill },
-  props: {
-    modelValue: {
-      type: Object as PropType<ICharacter>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const char = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (char.value = props.modelValue),
-      { deep: true }
-    );
-    watch(
-      () => char.value,
-      () => emit('update:modelValue', char.value),
-      { deep: true }
-    );
+  setup() {
+    const app = useCharacterStore();
 
     const $q = useQuasar();
     const showAddSkill = ref(false);
@@ -92,10 +76,10 @@ export default defineComponent({
           message: 'Delete this skill?',
           cancel: true,
         })
-        .onOk(() => delete char.value.secSkills[val]);
+        .onOk(() => delete app.char.secSkills[val]);
 
     return {
-      char,
+      app,
       skill,
       showAddSkill,
       newSkillName,

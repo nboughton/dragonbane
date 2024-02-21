@@ -6,9 +6,9 @@
         <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
       </div>
       <ability-block
-        v-for="(ab, i) in char.abilities"
+        v-for="(ab, i) in app.char.abilities"
         :key="`abl-${i}`"
-        v-model="char.abilities[i]"
+        v-model="app.char.abilities[i]"
         @delete="removeAbl(i)"
       />
     </div>
@@ -36,13 +36,15 @@
 
       <div class="row items-center q-mt-xs">
         <div class="col-shrink text-bold">Prepared:</div>
-        <div class="col-shrink q-ml-sm q-px-xs">{{ spellsPrepared }}/{{ BaseChance(char.attributes.INT.score) }}</div>
+        <div class="col-shrink q-ml-sm q-px-xs">
+          {{ spellsPrepared }}/{{ BaseChance(app.char.attributes.INT.score) }}
+        </div>
       </div>
 
       <spell-block
-        v-for="(sp, i) in char.spells"
+        v-for="(sp, i) in app.char.spells"
         :key="`spell-${i}`"
-        v-model="char.spells[i]"
+        v-model="app.char.spells[i]"
         @delete="removeSpell(i)"
       />
     </div>
@@ -53,18 +55,16 @@
       <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
     </div>
     <ability-block
-      v-for="(ab, i) in char.abilities"
+      v-for="(ab, i) in app.char.abilities"
       :key="`abl-${i}`"
-      v-model="char.abilities[i]"
+      v-model="app.char.abilities[i]"
       @delete="removeAbl(i)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, ref, watch, computed } from 'vue';
-
-import { ICharacter } from './models';
+import { defineComponent, computed } from 'vue';
 
 import { useQuasar } from 'quasar';
 
@@ -77,70 +77,50 @@ import { useCharacterStore } from 'src/stores/character';
 export default defineComponent({
   name: 'AbilitiesTab',
   components: { AbilityBlock, SpellBlock },
-  props: {
-    modelValue: {
-      type: Object as PropType<ICharacter>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const char = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (char.value = props.modelValue),
-      { deep: true }
-    );
-    watch(
-      () => char.value,
-      () => emit('update:modelValue', char.value),
-      { deep: true }
-    );
+  setup() {
+    const app = useCharacterStore();
 
     const $q = useQuasar();
-    const addSpell = () => char.value.spells.push(NewSpell());
+    const addSpell = () => app.char.spells.push(NewSpell());
     const removeSpell = (index: number) =>
       $q
         .dialog({
           message: 'Delete this spell?',
           cancel: true,
         })
-        .onOk(() => char.value.spells.splice(index, 1));
+        .onOk(() => app.char.spells.splice(index, 1));
     const sortSpells = () =>
-      char.value.spells.sort((a, b) => {
+      app.char.spells.sort((a, b) => {
         if (a.rank < b.rank) return -1;
         if (a.rank > b.rank) return 1;
         else return 0;
       });
     const spellsByRank = computed((): number[] => {
       const spells = [0, 0, 0, 0, 0, 0];
-      char.value.spells.forEach((sp) => {
+      app.char.spells.forEach((sp) => {
         spells[sp.rank]++;
       });
       return spells;
     });
     const spellsPrepared = computed((): number => {
       let t = 0;
-      char.value.spells.forEach((sp) => {
+      app.char.spells.forEach((sp) => {
         if (sp.rank > 0 && sp.prepared) t++;
       });
       return t;
     });
 
-    const addAbl = () => char.value.abilities.push(NewAbility());
+    const addAbl = () => app.char.abilities.push(NewAbility());
     const removeAbl = (index: number) =>
       $q
         .dialog({
           message: 'Delete this ability?',
           cancel: true,
         })
-        .onOk(() => char.value.abilities.splice(index, 1));
-
-    const app = useCharacterStore(); // Need this for conf
+        .onOk(() => app.char.abilities.splice(index, 1));
 
     return {
       app,
-      char,
       BaseChance,
 
       addSpell,

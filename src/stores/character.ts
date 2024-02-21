@@ -14,7 +14,7 @@ export const useCharacterStore = defineStore('character', {
     },
   }),
   getters: {
-    char: (state) => state.chars[state.conf.char],
+    char: (state): ICharacter => state.chars[state.conf.char],
   },
   actions: {
     exportData() {
