@@ -3,31 +3,31 @@
   <q-page class="column" :padding="$q.screen.gt.sm">
     <div class="row justify-between q-gutter-sm q-px-sm">
       <div class="col">
-        <q-input class="row" label="Name" v-model="st.chars[st.conf.char].name" dense />
+        <q-input class="row" label="Name" v-model="app.char.name" dense />
 
         <div class="row">
-          <q-select class="col" label="Age" v-model="st.chars[st.conf.char].age" :options="Object.values(EAge)" dense />
-          <q-input class="col" label="Movement" type="number" v-model.number="st.chars[st.conf.char].movement" dense />
+          <q-select class="col" label="Age" v-model="app.char.age" :options="Object.values(EAge)" dense />
+          <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
         </div>
       </div>
 
       <div class="col">
         <div class="row">
-          <q-input class="col" label="Kin" v-model="st.chars[st.conf.char].kin" dense />
-          <q-input class="col" label="Profession" v-model="st.chars[st.conf.char].profession" dense />
+          <q-input class="col" label="Kin" v-model="app.char.kin" dense />
+          <q-input class="col" label="Profession" v-model="app.char.profession" dense />
         </div>
-        <q-input class="row" label="Weakness" v-model="st.chars[st.conf.char].weakness" dense />
+        <q-input class="row" label="Weakness" v-model="app.char.weakness" dense />
       </div>
     </div>
 
-    <q-input class="row q-px-sm" label="Appearance" v-model="st.chars[st.conf.char].appearance" dense autogrow />
+    <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow />
 
     <div class="row justify-between q-mt-sm q-px-sm">
       <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">
-        <points-block v-model="st.chars[st.conf.char].hp" label="HP" />
+        <points-block v-model="app.char.hp" label="HP" />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-4 q-pl-xs">
-        <points-block v-model="st.chars[st.conf.char].wp" label="WP" />
+        <points-block v-model="app.char.wp" label="WP" />
       </div>
     </div>
 
@@ -36,27 +36,27 @@
         <q-tooltip>Roll stats</q-tooltip>
       </q-btn>
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.STR" v-model="st.chars[st.conf.char].attributes.STR" />
+        <char-attr :label="EAttr.STR" v-model="app.char.attributes.STR" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.CON" v-model="st.chars[st.conf.char].attributes.CON" />
+        <char-attr :label="EAttr.CON" v-model="app.char.attributes.CON" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.AGL" v-model="st.chars[st.conf.char].attributes.AGL" />
+        <char-attr :label="EAttr.AGL" v-model="app.char.attributes.AGL" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.INT" v-model="st.chars[st.conf.char].attributes.INT" />
+        <char-attr :label="EAttr.INT" v-model="app.char.attributes.INT" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.WIL" v-model="st.chars[st.conf.char].attributes.WIL" />
+        <char-attr :label="EAttr.WIL" v-model="app.char.attributes.WIL" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.CHA" v-model="st.chars[st.conf.char].attributes.CHA" />
+        <char-attr :label="EAttr.CHA" v-model="app.char.attributes.CHA" />
       </div>
     </div>
 
@@ -70,22 +70,22 @@
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>
       <!--SKILLS-->
       <q-tab-panel name="skills">
-        <skills-tab v-model="st.chars[st.conf.char]" />
+        <skills-tab v-model="app.char" />
       </q-tab-panel>
 
       <!--COMBAT-->
       <q-tab-panel name="combat">
-        <combat-tab v-model="st.chars[st.conf.char]" />
+        <combat-tab v-model="app.char" />
       </q-tab-panel>
 
       <!--ABILITIES & SPELLS-->
       <q-tab-panel name="abilities">
-        <abilities-tab v-model="st.chars[st.conf.char]" />
+        <abilities-tab v-model="app.char" />
       </q-tab-panel>
 
       <!--GEAR-->
       <q-tab-panel name="gear">
-        <gear-tab v-model="st.chars[st.conf.char]" />
+        <gear-tab v-model="app.char" />
       </q-tab-panel>
     </q-tab-panels>
   </q-page>
@@ -119,7 +119,7 @@ export default defineComponent({
     GearTab,
   },
   setup() {
-    const st = useCharacterStore();
+    const app = useCharacterStore();
     const tab = ref('skills');
 
     const $q = useQuasar();
@@ -142,24 +142,24 @@ export default defineComponent({
             return sum;
           };
 
-          Object.keys(EAttr).forEach((attr) => (st.chars[st.conf.char].attributes[attr as EAttr].score = r()));
+          Object.keys(EAttr).forEach((attr) => (app.char.attributes[attr as EAttr].score = r()));
 
-          const hp = st.chars[st.conf.char].attributes[EAttr.CON].score;
-          st.chars[st.conf.char].hp.max = hp;
-          st.chars[st.conf.char].hp.current = hp;
+          const hp = app.char.attributes[EAttr.CON].score;
+          app.char.hp.max = hp;
+          app.char.hp.current = hp;
 
-          const wp = st.chars[st.conf.char].attributes[EAttr.WIL].score;
-          st.chars[st.conf.char].wp.max = wp;
-          st.chars[st.conf.char].wp.current = wp;
+          const wp = app.char.attributes[EAttr.WIL].score;
+          app.char.wp.max = wp;
+          app.char.wp.current = wp;
         });
     const statsRolled = computed((): boolean => {
       let total = 0;
-      Object.keys(EAttr).forEach((attr) => (total += st.chars[st.conf.char].attributes[attr as EAttr].score));
+      Object.keys(EAttr).forEach((attr) => (total += app.char.attributes[attr as EAttr].score));
       return total == 0;
     });
 
     return {
-      st,
+      app,
       tab,
       EAttr,
       EAge,

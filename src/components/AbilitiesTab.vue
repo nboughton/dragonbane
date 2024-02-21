@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between" v-if="c.conf.showSpells">
+  <div class="row justify-between" v-if="app.conf.showSpells">
     <div class="col-xs-12 col-sm-12 col-md-6 q-px-xs">
       <div class="row q-mt-md text-h5 text-bold items-center">
         Heroic Abilities
@@ -136,10 +136,10 @@ export default defineComponent({
         })
         .onOk(() => char.value.abilities.splice(index, 1));
 
-    const c = useCharacterStore(); // Need this for conf
+    const app = useCharacterStore(); // Need this for conf
 
     return {
-      c,
+      app,
       char,
       BaseChance,
 

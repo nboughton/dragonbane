@@ -88,9 +88,9 @@ export default defineComponent({
       { deep: true }
     );
 
-    const c = useCharacterStore();
+    const app = useCharacterStore();
     const base = computed((): number => {
-      const b = BaseChance(c.chars[c.conf.char].attributes[skill.value.attr as EAttr].score);
+      const b = BaseChance(app.char.attributes[skill.value.attr as EAttr].score);
       return skill.value.trained ? b * 2 : props.secondary ? 0 : b;
     });
 
@@ -104,16 +104,16 @@ export default defineComponent({
     });
 
     const baned = computed((): IColours => {
-      let colour = colours(c.conf.darkMode as boolean);
-      const bgk = (): string => (c.conf.darkMode == true ? '#783232' : '#ff7878');
-      if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) colour.bgk = bgk();
+      let colour = colours(app.conf.darkMode as boolean);
+      const bgk = (): string => (app.conf.darkMode == true ? '#783232' : '#ff7878');
+      if (app.char.attributes[skill.value.attr as EAttr].condition.check) colour.bgk = bgk();
 
-      Object.keys(c.chars[c.conf.char].armour.bane).forEach((k) => {
-        if (c.chars[c.conf.char].armour.bane[k] && k == props.label) colour.bgk = bgk();
+      Object.keys(app.char.armour.bane).forEach((k) => {
+        if (app.char.armour.bane[k] && k == props.label) colour.bgk = bgk();
       });
 
-      Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
-        const checked = c.chars[c.conf.char].helmet.bane[k];
+      Object.keys(app.char.helmet.bane).forEach((k) => {
+        const checked = app.char.helmet.bane[k];
         if (
           (checked && k == props.label) ||
           (checked &&
@@ -128,14 +128,14 @@ export default defineComponent({
 
     const banes = computed((): number[] => {
       let b = [];
-      if (c.chars[c.conf.char].attributes[skill.value.attr as EAttr].condition.check) b.push(0);
+      if (app.char.attributes[skill.value.attr as EAttr].condition.check) b.push(0);
 
-      Object.keys(c.chars[c.conf.char].armour.bane).forEach((k) => {
-        if (c.chars[c.conf.char].armour.bane[k] && k == props.label) b.push(0);
+      Object.keys(app.char.armour.bane).forEach((k) => {
+        if (app.char.armour.bane[k] && k == props.label) b.push(0);
       });
 
-      Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
-        const checked = c.chars[c.conf.char].helmet.bane[k];
+      Object.keys(app.char.helmet.bane).forEach((k) => {
+        const checked = app.char.helmet.bane[k];
         if (
           (checked && k == props.label) ||
           (checked &&
@@ -147,8 +147,6 @@ export default defineComponent({
 
       return b;
     });
-
-    const app = useCharacterStore();
 
     return {
       app,

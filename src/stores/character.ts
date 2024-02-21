@@ -13,7 +13,9 @@ export const useCharacterStore = defineStore('character', {
       darkMode: true,
     },
   }),
-  getters: {},
+  getters: {
+    char: (state) => state.chars[state.conf.char],
+  },
   actions: {
     exportData() {
       const now = new Date();
