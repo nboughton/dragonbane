@@ -34,6 +34,7 @@ export default defineComponent({
       get(): number {
         return props.modelValue;
       },
+      // deepcode ignore VueGetterDoesntReturn: An emit doesn't require a return value
       set(n: number) {
         emit('update:modelValue', n);
       },

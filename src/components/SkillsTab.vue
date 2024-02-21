@@ -1,4 +1,5 @@
 <template>
+  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
   <div class="row">
     <div class="col-12 text-h5 text-bold">Primary Skills</div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in char.priSkills" :key="`priSkill-${k}`">

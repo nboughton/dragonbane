@@ -1,4 +1,5 @@
 <template>
+  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
   <q-page class="column" :padding="$q.screen.gt.sm">
     <div class="row justify-between q-gutter-sm q-px-sm">
       <div class="col">

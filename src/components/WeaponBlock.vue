@@ -1,4 +1,5 @@
 <template>
+  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
   <div class="row items-center rounded-borders q-pa-xs q-mt-xs">
     <q-input class="col-xs-4 col-sm-4 q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
     <q-select

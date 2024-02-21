@@ -1,4 +1,5 @@
 <template>
+  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
   <q-expansion-item
     :label="`${spell.name} [${spell.rank > 0 ? 'Rank ' + spell.rank : 'Magic Trick'}${
       spell.prepared ? ', Prepared' : ''

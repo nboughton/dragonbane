@@ -99,7 +99,7 @@ export default defineComponent({
         return skill.value.advances + base.value;
       },
       set(v: number) {
-        if (v <= 18) skill.value.advances = v - base.value;
+        if (v <= 18) return (skill.value.advances = v - base.value);
       },
     });
 
@@ -114,11 +114,11 @@ export default defineComponent({
 
       Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
         const checked = c.chars[c.conf.char].helmet.bane[k];
-        if (checked && k == props.label) colour.bgk = bgk();
-        else if (
-          checked &&
-          k == 'Ranged Attacks' &&
-          (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings')
+        if (
+          (checked && k == props.label) ||
+          (checked &&
+            k == 'Ranged Attacks' &&
+            (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
         )
           colour.bgk = bgk();
       });
@@ -136,11 +136,11 @@ export default defineComponent({
 
       Object.keys(c.chars[c.conf.char].helmet.bane).forEach((k) => {
         const checked = c.chars[c.conf.char].helmet.bane[k];
-        if (checked && k == props.label) b.push(0);
-        else if (
-          checked &&
-          k == 'Ranged Attacks' &&
-          (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings')
+        if (
+          (checked && k == props.label) ||
+          (checked &&
+            k == 'Ranged Attacks' &&
+            (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
         )
           b.push(0);
       });
