@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-12 text-h5 text-bold">Primary Skills</div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
-      <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" />
+      <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" :skill-type="ERollType.Primary" />
     </div>
   </div>
 
@@ -13,7 +13,13 @@
       <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.secSkills" :key="`secSkill-${k}`">
-      <char-skill v-model="app.char.secSkills[k]" :label="`${k}`" show-delete secondary @delete="removeSecSkill" />
+      <char-skill
+        v-model="app.char.secSkills[k]"
+        :label="`${k}`"
+        show-delete
+        @delete="removeSecSkill"
+        :skill-type="ERollType.Secondary"
+      />
     </div>
   </div>
 
@@ -53,7 +59,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import { EAttr } from './models';
+import { EAttr, ERollType } from './models';
 
 import CharSkill from './CharSkill.vue';
 import { useQuasar } from 'quasar';
@@ -86,6 +92,7 @@ export default defineComponent({
       newSkillAttr,
       removeSecSkill,
       EAttr,
+      ERollType,
     };
   },
 });

@@ -21,7 +21,7 @@
   <div class="row q-mt-md">
     <div class="col-12 text-h5 text-bold">Weapon Skills</div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.wepSkills" :key="`skill-${k}`">
-      <char-skill v-model="app.char.wepSkills[k]" :label="`${k}`" />
+      <char-skill v-model="app.char.wepSkills[k]" :label="`${k}`" :skill-type="ERollType.Weapon" />
     </div>
   </div>
   <div class="row justify-between items-center text-center q-mt-md">
@@ -46,6 +46,7 @@ import { NewWeapon, DmgBonus, BaseChance } from 'src/lib/defaults';
 import CharSkill from 'src/components/CharSkill.vue';
 import WeaponBlock from 'src/components/WeaponBlock.vue';
 import ArmourBlock from 'src/components/ArmourBlock.vue';
+import { ERollType } from './models';
 
 export default defineComponent({
   name: 'CombatTab',
@@ -77,6 +78,7 @@ export default defineComponent({
       DmgBonus,
       evade,
       armourRating,
+      ERollType,
     };
   },
 });

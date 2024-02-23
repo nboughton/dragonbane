@@ -1,39 +1,60 @@
 <template>
   <q-card>
-    <q-card-section class="text-center text-h4 bg-grey-9">
-      {{ name }}
+    <q-card-section class="row text-center text-h4 bg-grey-9">
+      <div class="col-grow">{{ name }}</div>
+      <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" />
     </q-card-section>
 
     <q-card-section class="row justify-evenly items-center q-gutter-lg">
-      <q-input class="col" type="number" label="Boons" v-model.number="b.boons" standout>
-        <template v-slot:before>
+      <q-input
+        class="col"
+        type="number"
+        label="Boons"
+        v-model.number="b.boons"
+        :min="0"
+        filled
+        dense
+        input-class="text-center text-h5"
+      >
+        <template v-slot:prepend>
           <q-icon name="mdi-emoticon-happy" />
         </template>
       </q-input>
-      <q-input class="col" type="number" label="Banes" v-model.number="b.banes" standout>
-        <template v-slot:after>
+      <q-input
+        class="col"
+        type="number"
+        label="Banes"
+        v-model.number="b.banes"
+        :min="0"
+        filled
+        dense
+        input-class="text-center text-h5"
+      >
+        <template v-slot:prepend>
           <q-icon name="mdi-emoticon-sad" />
         </template>
       </q-input>
+
+      <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
     </q-card-section>
 
     <q-card-section class="row justify-evenly items-center q-gutter-lg">
-      <q-btn class="col-12" icon="mdi-dice-d20" @click="rollIt" flat rounded size="lg" />
-      <div class="col text-center text-h4">{{ d20Result.join(', ') }} vs {{ target }}</div>
-    </q-card-section>
-
-    <q-card-section v-if="rolled" class="row justify-evenly items-center q-gutter-lg">
       <div class="col text-center text-h4">
-        {{ selectResult() <= target ? 'Success!' : 'Failure.' }}
+        {{ rolled ? `${resultText} : ` : '' }}[{{ d20Result.join(', ') }}] vs {{ target }}
       </div>
     </q-card-section>
+
+    <slot name="append"></slot>
   </q-card>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue';
 
-//import { ERollType } from 'src/components/models';
+import { ERollType, ED20Result } from './models';
+
+import { useCharacterStore } from 'src/stores/character';
+
 import { roll, sleep, deepCopy } from 'src/lib/util';
 
 export default defineComponent({
@@ -42,6 +63,9 @@ export default defineComponent({
     name: {
       type: String,
       required: true,
+    },
+    skill: {
+      type: String,
     },
     target: {
       type: Number,
@@ -56,12 +80,13 @@ export default defineComponent({
       default: 0,
     },
     rollType: {
-      type: String, // Actually ERollType
+      type: String, // ERollType
       required: true,
     },
   },
-  emits: ['close'],
-  setup(props) {
+  emits: ['close', 'result'],
+  setup(props, { emit }) {
+    const app = useCharacterStore();
     const b = ref({ boons: props.boons, banes: props.banes });
     const rolled = ref(false);
 
@@ -75,6 +100,10 @@ export default defineComponent({
       }
     );
 
+    const rollBtnLabel = computed((): string =>
+      mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`
+    );
+
     const rollIt = () => {
       rolled.value = false;
       void (async () => {
@@ -83,6 +112,27 @@ export default defineComponent({
           await sleep(75 + i * 10);
         }
         rolled.value = true;
+
+        // Apply special effects
+        if (selectResult() == 1 || selectResult() == 20) {
+          switch (props.rollType) {
+            case ERollType.Primary:
+              app.char.priSkills[props.name].checked = true;
+              break;
+            case ERollType.Secondary:
+              app.char.secSkills[props.name].checked = true;
+              break;
+            case ERollType.Weapon:
+              app.char.wepSkills[props.name].checked = true;
+              break;
+            case ERollType.Attack:
+              if (props.skill) app.char.wepSkills[props.skill].checked = true;
+              break;
+            default:
+              break;
+          }
+        }
+        emit('result', resultText.value);
       })();
     };
 
@@ -95,9 +145,18 @@ export default defineComponent({
       };
 
       mods.value < 0 ? cmp.sort(sortFn).reverse() : cmp.sort(sortFn);
-      //console.log(`${cmp} : ${cmp[0]}`);
       return cmp[0];
     };
+
+    const resultText = computed((): string => {
+      const r = selectResult();
+      if (r === 1) return ED20Result.Dragon;
+      if (r === 20) return ED20Result.Demon;
+      if (r <= props.target) return ED20Result.Success;
+      if (r > props.target) return ED20Result.Fail;
+
+      return 'Something has gone wrong :(';
+    });
 
     return {
       b,
@@ -106,6 +165,8 @@ export default defineComponent({
       mods,
       rolled,
       selectResult,
+      resultText,
+      rollBtnLabel,
     };
   },
 });

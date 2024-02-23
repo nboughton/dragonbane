@@ -50,13 +50,7 @@
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
   <q-dialog v-model="showRoller">
-    <dice-roller
-      :name="label"
-      :target="val"
-      :banes="banes.length"
-      :roll-type="ERollType.Skill"
-      @close="showRoller = false"
-    />
+    <dice-roller :name="label" :target="val" :banes="banes.length" :roll-type="skillType" @close="showRoller = false" />
   </q-dialog>
 </template>
 
@@ -86,8 +80,9 @@ export default defineComponent({
     showDelete: {
       type: Boolean,
     },
-    secondary: {
-      type: Boolean,
+    skillType: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue', 'delete'],
@@ -107,7 +102,7 @@ export default defineComponent({
     const app = useCharacterStore();
     const base = computed((): number => {
       const b = BaseChance(app.char.attributes[skill.value.attr as EAttr].score);
-      return skill.value.trained ? b * 2 : props.secondary ? 0 : b;
+      return skill.value.trained ? b * 2 : props.skillType == ERollType.Secondary ? 0 : b;
     });
 
     const val = computed({

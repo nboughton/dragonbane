@@ -64,6 +64,8 @@ export interface ISkill {
   trained: boolean;
   checked: boolean;
   advances: number;
+  locked?: boolean;
+  value?: number;
 }
 
 export interface IItem {
@@ -73,6 +75,7 @@ export interface IItem {
 
 export interface IWeapon {
   name: string;
+  skill?: string;
   grip: EGrip;
   range: string;
   damage: string;
@@ -102,6 +105,30 @@ export interface ISpell {
   duration: EDuration;
   text: string;
   prepared: boolean;
+}
+
+export interface IDie {
+  n: number; // n is the number of dice, i.e 2 in 2d4
+  size: number; // Size is the number of sides, i.e 20 for a d20
+}
+
+export interface IDiceRoll {
+  total: number;
+  results: {
+    d: IDie;
+    v: number[];
+  }[];
+}
+
+export interface ITableRow {
+  floor: number;
+  ceil?: number;
+  text: string;
+}
+
+export interface ITable {
+  dice: string;
+  rows: ITableRow[];
 }
 
 export enum EAttr {
@@ -151,7 +178,19 @@ export enum EGrip {
 
 export enum ERollType {
   Attr = 'attribute',
-  Skill = 'skill',
+  Primary = 'primary',
+  Secondary = 'secondary',
+  Weapon = 'weapon',
+  Attack = 'attack',
   Ranged = 'ranged',
   Melee = 'melee',
 }
+
+export enum ED20Result {
+  Dragon = 'Dragon!',
+  Demon = 'Demon!',
+  Success = 'Success!',
+  Fail = 'Failure.',
+}
+
+export type SkillTypes = 'priSkills' | 'secSkills' | 'wepSkills';

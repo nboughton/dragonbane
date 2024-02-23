@@ -51,12 +51,6 @@
 
         <q-item>
           <q-item-section>
-            <q-toggle label="Dark Mode" v-model="app.conf.darkMode" />
-          </q-item-section>
-        </q-item>
-
-        <q-item>
-          <q-item-section>
             <q-toggle label="Show Spells" v-model="app.conf.showSpells" />
           </q-item-section>
         </q-item>
