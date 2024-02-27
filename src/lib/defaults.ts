@@ -11,7 +11,6 @@ import {
   EDuration,
   EAge,
   EGrip,
-  IColours,
 } from 'src/components/models';
 
 export const NewCharacter = (): ICharacter => ({
@@ -160,15 +159,4 @@ export const DmgBonus = (n: number): string => {
   if (n <= 16) return '+D4';
   if (n >= 17) return '+D6';
   else return '-';
-};
-
-export const colours = (dark: boolean): IColours => {
-  const c = { bgk: '#232323', fg: '#fff' };
-
-  if (!dark) {
-    c.bgk = 'lightgrey';
-    c.fg = 'black';
-  }
-
-  return c;
 };

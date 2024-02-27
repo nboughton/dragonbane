@@ -1,46 +1,32 @@
 <template>
   <q-card>
-    <q-card-section class="row text-center text-h4 bg-grey-9">
+    <q-card-section class="row text-center text-h5">
       <div class="col-grow">{{ name }}</div>
-      <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" />
+      <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" dense />
     </q-card-section>
 
-    <q-card-section class="row justify-evenly items-center q-gutter-lg">
-      <q-input
-        class="col"
-        type="number"
-        label="Boons"
-        v-model.number="b.boons"
-        :min="0"
-        filled
-        dense
-        input-class="text-center text-h5"
-      >
-        <template v-slot:prepend>
-          <q-icon name="mdi-emoticon-happy" />
-        </template>
-      </q-input>
-      <q-input
-        class="col"
-        type="number"
-        label="Banes"
-        v-model.number="b.banes"
-        :min="0"
-        filled
-        dense
-        input-class="text-center text-h5"
-      >
-        <template v-slot:prepend>
-          <q-icon name="mdi-emoticon-sad" />
-        </template>
-      </q-input>
+    <q-card-section class="row justify-evenly items-center">
+      <div class="column q-pa-sm bg-grey-10 rounded-borders">
+        <div class="text-h6 text-center">Boons</div>
+        <inc-dec v-model.number="b.boons" />
+      </div>
 
+      <div class="column q-pa-sm bg-grey-10 rounded-borders">
+        <div class="text-h6 text-center">Banes</div>
+        <inc-dec v-model.number="b.banes" />
+      </div>
+    </q-card-section>
+
+    <q-card-section class="column justify-evenly items-center q-gutter-lg">
       <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
-    </q-card-section>
-
-    <q-card-section class="row justify-evenly items-center q-gutter-lg">
-      <div class="col text-center text-h4">
-        {{ rolled ? `${resultText} : ` : '' }}[{{ d20Result.join(', ') }}] vs {{ target }}
+      <div class="text-center text-h6">
+        Target:
+        <q-icon name="mdi-less-than-or-equal" />
+        {{ target }}
+      </div>
+      <div class="text-center text-h5 bg-grey-10 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
+      <div v-if="rolled" class="text-center text-h4">
+        {{ resultText }}
       </div>
     </q-card-section>
 
@@ -57,8 +43,11 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { roll, sleep, deepCopy } from 'src/lib/util';
 
+import IncDec from './IncDec.vue';
+
 export default defineComponent({
   name: 'DiceRoller',
+  components: { IncDec },
   props: {
     name: {
       type: String,
@@ -127,6 +116,9 @@ export default defineComponent({
               break;
             case ERollType.Attack:
               if (props.skill) app.char.wepSkills[props.skill].checked = true;
+              break;
+            case ERollType.Attr:
+              //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
               break;
             default:
               break;

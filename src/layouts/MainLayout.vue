@@ -5,6 +5,30 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>Dragonbane</q-toolbar-title>
+        <q-btn-dropdown icon="mdi-bed">
+          <q-list>
+            <q-item clickable v-ripple @click="rest.round()">
+              <q-item-section>
+                <q-item-label>ROUND</q-item-label>
+                <q-item-label caption class="text-center">D6 WP</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple @click="rest.stretch()">
+              <q-item-section>
+                <q-item-label>STRETCH</q-item-label>
+                <q-item-label caption class="text-center">D6 HP, D6 WP. Clear one condition</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple @click="rest.shift()">
+              <q-item-section>
+                <q-item-label>SHIFT</q-item-label>
+                <q-item-label caption class="text-center">All HP, WP. Clear all conditions</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -60,6 +84,17 @@
             <q-toggle label="Show 'Trained'" v-model="app.conf.showTrainedSkills" />
           </q-item-section>
         </q-item>
+
+        <q-separator />
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="info" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>About</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -91,12 +126,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import { IDBStore } from 'src/components/models';
+import { EAttr, IDBStore } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
 
 import { NewCharacter } from 'src/lib/defaults';
+import { roll } from 'src/lib/util';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -133,12 +169,32 @@ export default defineComponent({
           app.chars.splice(index, 1);
         });
 
+    const rest = {
+      round: () => {
+        app.char.wp.current += roll(6);
+        if (app.char.wp.current > app.char.wp.max) app.char.wp.current = app.char.wp.max;
+      },
+      stretch: () => {
+        rest.round();
+        app.char.hp.current += roll(6);
+        if (app.char.hp.current > app.char.hp.max) app.char.hp.current = app.char.hp.max;
+      },
+      shift: () => {
+        app.char.wp.current = app.char.wp.max;
+        app.char.hp.current = app.char.hp.max;
+        Object.keys(app.char.attributes).forEach(
+          (attr) => (app.char.attributes[attr as EAttr].condition.check = false)
+        );
+      },
+    };
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       app,
+      rest,
       NewCharacter,
       removeChar,
 

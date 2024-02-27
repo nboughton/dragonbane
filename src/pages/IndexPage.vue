@@ -1,26 +1,33 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
   <q-page class="column" :padding="$q.screen.gt.sm">
-    <div class="row justify-between q-gutter-sm q-px-sm">
-      <div class="col">
-        <q-input class="row" label="Name" v-model="app.char.name" dense />
+    <q-expansion-item
+      :default-opened="!app.char.name"
+      :label="`${app.char.name} the ${app.char.kin} ${app.char.profession}`"
+      :caption="`${app.char.age}, Movement: ${app.char.movement}`"
+      header-class="text-h5 bg-grey-10 rounded-borders"
+    >
+      <div class="row justify-between q-gutter-sm q-px-sm">
+        <div class="col">
+          <q-input class="row" label="Name" v-model="app.char.name" dense />
 
-        <div class="row">
-          <q-select class="col" label="Age" v-model="app.char.age" :options="Object.values(EAge)" dense />
-          <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
+          <div class="row">
+            <q-select class="col" label="Age" v-model="app.char.age" :options="Object.values(EAge)" dense />
+            <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="row">
+            <q-input class="col" label="Kin" v-model="app.char.kin" dense />
+            <q-input class="col" label="Profession" v-model="app.char.profession" dense />
+          </div>
+          <q-input class="row" label="Weakness" v-model="app.char.weakness" dense />
         </div>
       </div>
 
-      <div class="col">
-        <div class="row">
-          <q-input class="col" label="Kin" v-model="app.char.kin" dense />
-          <q-input class="col" label="Profession" v-model="app.char.profession" dense />
-        </div>
-        <q-input class="row" label="Weakness" v-model="app.char.weakness" dense />
-      </div>
-    </div>
-
-    <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow />
+      <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow />
+    </q-expansion-item>
 
     <div class="row justify-between q-mt-sm q-px-sm">
       <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">

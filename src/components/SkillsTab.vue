@@ -1,9 +1,20 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
   <div class="row">
-    <div class="col-12 text-h5 text-bold">Primary Skills</div>
+    <div class="col-12 text-h5 text-bold">
+      <div class="row items-baseline q-gutter-lg">
+        <div class="col-shrink">Primary Skills</div>
+        <q-input class="col-grow" label="Search" v-model="filter" clearable dense>
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
-      <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" :skill-type="ERollType.Primary" />
+      <div v-if="show(k as string)">
+        <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" :skill-type="ERollType.Primary" />
+      </div>
     </div>
   </div>
 
@@ -84,6 +95,13 @@ export default defineComponent({
         })
         .onOk(() => delete app.char.secSkills[val]);
 
+    const filter = ref('');
+    const show = (name: string): boolean => {
+      if (filter.value == '' || filter.value == null) return true;
+      if (RegExp(filter.value, 'i').test(name)) return true;
+      return false;
+    };
+
     return {
       app,
       skill,
@@ -91,6 +109,8 @@ export default defineComponent({
       newSkillName,
       newSkillAttr,
       removeSecSkill,
+      filter,
+      show,
       EAttr,
       ERollType,
     };

@@ -1,7 +1,6 @@
 <template>
   <div
-    class="row items-center justify-between rounded-borders q-ma-xs q-pa-xs"
-    :style="{ backgroundColor: baned.bgk, color: baned.fg }"
+    :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${baned ? 'bg-negative' : 'bg-grey-10'}`"
   >
     <q-checkbox
       class="col-shrink"
@@ -49,7 +48,7 @@
 
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
-  <q-dialog v-model="showRoller">
+  <q-dialog v-model="showRoller" :maximized="$q.screen.lt.sm" position="right" full-height>
     <dice-roller :name="label" :target="val" :banes="banes.length" :roll-type="skillType" @close="showRoller = false" />
   </q-dialog>
 </template>
@@ -57,11 +56,11 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch, computed } from 'vue';
 
-import { EAttr, ERollType, IColours, ISkill } from './models';
+import { EAttr, ERollType, ISkill } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
-import { BaseChance, colours } from 'src/lib/defaults';
+import { BaseChance } from 'src/lib/defaults';
 
 import DiceRoller from './DiceRoller.vue';
 
@@ -114,13 +113,12 @@ export default defineComponent({
       },
     });
 
-    const baned = computed((): IColours => {
-      let colour = colours(app.conf.darkMode as boolean);
-      const bgk = (): string => (app.conf.darkMode == true ? '#783232' : '#ff7878');
-      if (app.char.attributes[skill.value.attr as EAttr].condition.check) colour.bgk = bgk();
+    const baned = computed((): boolean => {
+      let b = false;
+      if (app.char.attributes[skill.value.attr as EAttr].condition.check) b = true;
 
       Object.keys(app.char.armour.bane).forEach((k) => {
-        if (app.char.armour.bane[k] && k == props.label) colour.bgk = bgk();
+        if (app.char.armour.bane[k] && k == props.label) b = true;
       });
 
       Object.keys(app.char.helmet.bane).forEach((k) => {
@@ -131,10 +129,10 @@ export default defineComponent({
             k == 'Ranged Attacks' &&
             (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
         )
-          colour.bgk = bgk();
+          b = true;
       });
 
-      return colour;
+      return b;
     });
 
     const banes = computed((): number[] => {

@@ -1,20 +1,12 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
-  <div class="row full-width items-center">
-    <q-btn
-      v-if="weapon.skill"
-      class="col-shrink q-pr-xs"
-      icon="mdi-dice-d20"
-      @click="display.roller = true"
-      dense
-      flat
-      rounded
-    />
+  <div class="row items-center justify-center bg-grey-10 rounded-borders">
+    <q-btn v-if="weapon.skill" class="col-1 q-pr-xs" icon="mdi-dice-d20" @click="showRoller" dense flat rounded />
     <q-expansion-item
-      class="col-grow"
+      class="col-10"
       :label="weapon.name"
       :caption="`DMG: ${weapon.damage}, Dur.: ${weapon.durability}, Features: ${weapon.features}`"
-      header-class="text-bold q-pl-xs rounded-borders"
+      header-class="text-bold rounded-borders"
       :default-opened="!weapon.name"
     >
       <div class="row items-center rounded-borders q-pa-xs q-mt-xs">
@@ -39,12 +31,12 @@
       </div>
       <div class="row q-pa-xs items-center">
         <q-input class="col-grow" label="Features" v-model="weapon.features" dense />
-        <q-btn class="col-shrink" icon="delete" @click="$emit('delete')" flat dense rounded />
       </div>
     </q-expansion-item>
+    <q-btn class="col-1" icon="delete" @click="$emit('delete')" flat dense rounded />
   </div>
 
-  <q-dialog v-model="display.roller">
+  <q-dialog v-model="display.roller" :maximized="$q.screen.lt.sm" position="right" full-height>
     <dice-roller
       :name="weapon.name"
       :roll-type="ERollType.Attack"
@@ -55,23 +47,18 @@
       @result="(r) => setResultDisplay(r)"
     >
       <template v-slot:append>
-        <q-card-section v-if="display.dragon || display.success" class="row text-center text-h5 bg-grey-9">
-          Damage
+        <q-card-section v-if="display.dragon || display.success" class="row text-center text-h5 border-top">
+          Roll Some Damage
         </q-card-section>
 
         <dice-select v-if="display.dragon || display.success" v-model="dmgDice" />
 
-        <q-card-section v-if="display.dragon || display.success" class="row justify-evenly items-center q-gutter-md">
-          <q-btn
-            class="col-shrink"
-            label="Roll Damage"
-            @click="dmgRes = rollDice(dmgDice)"
-            color="white"
-            text-color="black"
-          />
-          <div v-if="dmgRes.total != 0" class="text-h5 col-grow">
-            {{ dmgRes.total }} : {{ parseResult().join(' | ') }}
+        <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center q-gutter-md">
+          <q-btn label="Roll Damage" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
+          <div v-if="dmgRes.total != 0" class="text-h4 bg-grey-10 rounded-borders q-pa-sm">
+            {{ dmgRes.total }}
           </div>
+          <div class="text-caption">{{ parseResult().join(', ') }}</div>
         </q-card-section>
 
         <q-card-section v-if="display.dragon" class="column q-gutter-sm">
@@ -114,7 +101,7 @@
         </q-card-section>
 
         <q-card-section v-if="display.demon" class="column q-gutter-sm">
-          <q-expansion-item label="Melee Mishap " class="rounded-borders bg-grey-9">
+          <q-expansion-item label="Melee Mishap" class="rounded-borders bg-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
                 <q-btn
@@ -125,22 +112,21 @@
                 />
                 <div class="col">{{ mishap.melee }}</div>
               </div>
-              <q-tooltip>
-                <table>
-                  <thead>
-                    <th>D6</th>
-                    <th>Effect</th>
-                  </thead>
-                  <tr v-for="(row, i) in MeleeDemon.rows" :key="`md-${i}`">
-                    <td>{{ row.floor }}</td>
-                    <td>{{ row.text }}</td>
-                  </tr>
-                </table>
-              </q-tooltip>
+
+              <table>
+                <thead>
+                  <th>D6</th>
+                  <th>Effect</th>
+                </thead>
+                <tr v-for="(row, i) in MeleeDemon.rows" :key="`md-${i}`">
+                  <td class="q-pa-xs">{{ row.floor }}</td>
+                  <td class="q-pa-xs">{{ row.text }}</td>
+                </tr>
+              </table>
             </div>
           </q-expansion-item>
 
-          <q-expansion-item label="Ranged Mishap" class="rounded-borders bg-grey-9">
+          <q-expansion-item label="Ranged Mishap" class="rounded-borders bg-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
                 <q-btn
@@ -151,18 +137,17 @@
                 />
                 <div class="col">{{ mishap.ranged }}</div>
               </div>
-              <q-tooltip>
-                <table>
-                  <thead>
-                    <th>D6</th>
-                    <th>Effect</th>
-                  </thead>
-                  <tr v-for="(row, i) in RangedDemon.rows" :key="`rd-${i}`">
-                    <td>{{ row.floor }}</td>
-                    <td>{{ row.text }}</td>
-                  </tr>
-                </table>
-              </q-tooltip>
+
+              <table>
+                <thead>
+                  <th>D6</th>
+                  <th>Effect</th>
+                </thead>
+                <tr v-for="(row, i) in RangedDemon.rows" :key="`rd-${i}`">
+                  <td class="q-pa-xs">{{ row.floor }}</td>
+                  <td class="q-pa-xs">{{ row.text }}</td>
+                </tr>
+              </table>
             </div>
           </q-expansion-item>
         </q-card-section>
@@ -260,6 +245,11 @@ export default defineComponent({
       ranged: '',
     });
 
+    const showRoller = () => {
+      setResultDisplay('-');
+      dmgRes.value = { total: 0, results: [] };
+    };
+
     return {
       app,
       weapon,
@@ -277,7 +267,13 @@ export default defineComponent({
       rollDice,
       rollTable,
       parseResult,
+      showRoller,
     };
   },
 });
 </script>
+
+<style lang="sass">
+.border-top
+  border-top: 1px solid grey
+</style>

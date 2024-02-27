@@ -10,11 +10,6 @@ export interface IConfig {
   darkMode?: boolean;
 }
 
-export interface IColours {
-  bgk: string;
-  fg: string;
-}
-
 export interface ICharacter {
   id: string;
   name: string;
@@ -190,7 +185,7 @@ export enum ED20Result {
   Dragon = 'Dragon!',
   Demon = 'Demon!',
   Success = 'Success!',
-  Fail = 'Failure.',
+  Fail = 'Failure',
 }
 
 export type SkillTypes = 'priSkills' | 'secSkills' | 'wepSkills';

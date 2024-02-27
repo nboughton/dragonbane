@@ -63,7 +63,6 @@ import { defineComponent, PropType, ref, watch } from 'vue';
 
 import { EDuration, ESpellReq, ISpell } from './models';
 
-import { colours } from 'src/lib/defaults';
 import { useCharacterStore } from 'src/stores/character';
 
 export default defineComponent({
@@ -94,7 +93,6 @@ export default defineComponent({
       EDuration,
 
       app,
-      colours,
     };
   },
 });
