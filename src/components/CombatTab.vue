@@ -1,6 +1,5 @@
 <template>
   <div class="row text-bold q-mt-xs">
-    Evade: {{ evade }};
     <span v-if="armourRating > 0">&nbsp;Armour: {{ armourRating }};&nbsp;</span>
     Dmg Bonus: STR: {{ DmgBonus(app.char.attributes.STR.score) }}, AGL:
     {{ DmgBonus(app.char.attributes.AGL.score) }}
@@ -18,10 +17,30 @@
     @delete="removeWeapon(i)"
   />
 
+  <div class="row items-baseline q-mt-md">
+    <div class="col-shrink text-h5 text-bold">Combat Skills</div>
+    <q-input class="col-grow q-ml-sm" label="Search" v-model="filter" clearable dense>
+      <template v-slot:prepend>
+        <q-icon name="search" />
+      </template>
+    </q-input>
+  </div>
   <div class="row q-mt-md">
-    <div class="col-12 text-h5 text-bold">Weapon Skills</div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <char-skill
+        v-if="show('Evade')"
+        v-model="app.char.priSkills['Evade']"
+        label="Evade"
+        :skill-type="ERollType.Primary"
+      />
+    </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.wepSkills" :key="`skill-${k}`">
-      <char-skill v-model="app.char.wepSkills[k]" :label="`${k}`" :skill-type="ERollType.Weapon" />
+      <char-skill
+        v-if="show(k as string)"
+        v-model="app.char.wepSkills[k]"
+        :label="`${k}`"
+        :skill-type="ERollType.Weapon"
+      />
     </div>
   </div>
   <div class="row justify-between items-center text-center q-mt-md">
@@ -36,12 +55,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 
 import { useCharacterStore } from 'src/stores/character';
 import { useQuasar } from 'quasar';
 
-import { NewWeapon, DmgBonus, BaseChance } from 'src/lib/defaults';
+import { NewWeapon, DmgBonus } from 'src/lib/defaults';
 
 import CharSkill from 'src/components/CharSkill.vue';
 import WeaponBlock from 'src/components/WeaponBlock.vue';
@@ -65,10 +84,13 @@ export default defineComponent({
         .onOk(() => app.char.weapons.splice(index, 1));
 
     const armourRating = computed((): number => app.char.armour.rating + app.char.helmet.rating);
-    const evade = computed((): number => {
-      const b = BaseChance(app.char.attributes.AGL.score);
-      return (app.char.priSkills.Evade.trained ? b * 2 : b) + app.char.priSkills.Evade.advances;
-    });
+
+    const filter = ref('');
+    const show = (name: string): boolean => {
+      if (filter.value == '' || filter.value == null) return true;
+      if (RegExp(filter.value, 'i').test(name)) return true;
+      return false;
+    };
 
     return {
       app,
@@ -76,9 +98,10 @@ export default defineComponent({
       addWeapon,
       removeWeapon,
       DmgBonus,
-      evade,
       armourRating,
       ERollType,
+      filter,
+      show,
     };
   },
 });

@@ -92,6 +92,7 @@ export interface IAbility {
 
 export interface ISpell {
   name: string;
+  skill?: string;
   rank: number;
   req: ESpellReq[];
   ingredient?: string;
@@ -177,8 +178,7 @@ export enum ERollType {
   Secondary = 'secondary',
   Weapon = 'weapon',
   Attack = 'attack',
-  Ranged = 'ranged',
-  Melee = 'melee',
+  Spell = 'spell',
 }
 
 export enum ED20Result {

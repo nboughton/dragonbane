@@ -5,6 +5,9 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>Dragonbane</q-toolbar-title>
+        <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance">
+          <q-tooltip>Roll Advancements</q-tooltip>
+        </q-btn>
         <q-btn-dropdown icon="mdi-bed">
           <q-list>
             <q-item clickable v-ripple @click="rest.round()">
@@ -87,7 +90,7 @@
 
         <q-separator />
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple @click="about">
           <q-item-section avatar>
             <q-icon name="info" />
           </q-item-section>
@@ -188,6 +191,24 @@ export default defineComponent({
       },
     };
 
+    const advance = () => {
+      const advanced = app.rollAdvancements();
+      $q.dialog({
+        title: `${advanced.length} skills advanced.`,
+        message: advanced.length > 0 ? `Advanced: ${advanced.join(', ')}` : 'No skills advanced',
+        ok: true,
+      });
+    };
+
+    const about = () =>
+      $q.dialog({
+        title: '<div class="text-h5">About</div>',
+        html: true,
+        message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
+      <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane">Github repository</a> and submit a pull request.</p>
+      <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun">ko-fi</a>.</p>`,
+      });
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -195,6 +216,9 @@ export default defineComponent({
       },
       app,
       rest,
+      advance,
+      about,
+
       NewCharacter,
       removeChar,
 

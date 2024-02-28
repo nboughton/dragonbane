@@ -1,9 +1,11 @@
 <template>
   <q-card>
     <q-card-section class="row text-center text-h5">
-      <div class="col-grow">{{ name }}</div>
+      <div class="col-grow">{{ name }} ({{ target }})</div>
       <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" dense />
     </q-card-section>
+
+    <slot name="prepend"></slot>
 
     <q-card-section class="row justify-evenly items-center">
       <div class="column q-pa-sm bg-grey-10 rounded-borders">
@@ -19,13 +21,8 @@
 
     <q-card-section class="column justify-evenly items-center q-gutter-lg">
       <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
-      <div class="text-center text-h6">
-        Target:
-        <q-icon name="mdi-less-than-or-equal" />
-        {{ target }}
-      </div>
       <div class="text-center text-h5 bg-grey-10 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
-      <div v-if="rolled" class="text-center text-h4">
+      <div v-if="rolled" class="text-center text-h5">
         {{ resultText }}
       </div>
     </q-card-section>
@@ -119,6 +116,9 @@ export default defineComponent({
               break;
             case ERollType.Attr:
               //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
+              break;
+            case ERollType.Spell:
+              if (props.skill) app.char.secSkills[props.skill].checked = true;
               break;
             default:
               break;

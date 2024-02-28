@@ -7,6 +7,7 @@ import { exportFile } from 'quasar';
 import { DmgBonus, NewCharacter } from 'src/lib/defaults';
 
 import { BaseChance } from 'src/lib/defaults';
+import { roll } from 'src/lib/util';
 
 export const useCharacterStore = defineStore('character', {
   state: () => ({
@@ -51,6 +52,28 @@ export const useCharacterStore = defineStore('character', {
       });
     },
 
+    rollAdvancements(): string[] {
+      const sections: SkillTypes[] = ['priSkills', 'secSkills', 'wepSkills'];
+      const advanced: string[] = [];
+
+      sections.forEach((section) => {
+        Object.keys(this.char[section]).forEach((skill) => {
+          if (this.char[section][skill].checked) {
+            const s = this.char[section][skill];
+            const n = roll(20);
+            if (n > this.skill(section, skill)) {
+              advanced.push(skill);
+              if (s.locked && s.value) this.char[section][skill].value = s.value + 1;
+              else this.char[section][skill].advances++;
+            }
+            this.char[section][skill].checked = false;
+          }
+        });
+      });
+
+      return advanced;
+    },
+
     exportData() {
       const now = new Date();
       exportFile(
@@ -63,8 +86,8 @@ export const useCharacterStore = defineStore('character', {
     },
 
     loadData(d: IDBStore) {
+      //if (d satisfies IDBStore) {
       this.conf = d.conf;
-
       d.chars.forEach((lChar) => {
         let overwrite = false;
         this.chars.forEach((sChar, idx) => {
@@ -76,6 +99,7 @@ export const useCharacterStore = defineStore('character', {
         });
         if (!overwrite) this.chars.push(lChar);
       });
+      //} else alert('This does not look like valid data for this app');
     },
   },
   persist: {
