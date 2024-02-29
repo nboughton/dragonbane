@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between" v-if="app.conf.showSpells">
     <div class="col-xs-12 col-sm-12 col-lg-6 q-px-xs">
-      <div class="row q-mt-md text-h5 text-bold items-center">
+      <div class="row q-mt-md q-mb-sm text-h5 text-bold items-center">
         Heroic Abilities
         <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
       </div>
@@ -63,7 +63,7 @@
     </div>
   </div>
   <div v-else>
-    <div class="row q-mt-md text-h5 text-bold items-center">
+    <div class="row q-mt-md q-mb-sm text-h5 text-bold items-center">
       Heroic Abilities
       <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
     </div>

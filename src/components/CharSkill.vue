@@ -1,6 +1,8 @@
 <template>
   <div
-    :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${baned ? 'bg-negative' : 'bg-grey-10'}`"
+    :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${
+      baned ? 'bg-negative' : 'bg-blue-grey-10'
+    }`"
   >
     <q-checkbox
       class="col-shrink"

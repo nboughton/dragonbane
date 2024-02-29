@@ -5,7 +5,7 @@
       :default-opened="!app.char.name"
       :label="`${app.char.name} the ${app.char.kin} ${app.char.profession}`"
       :caption="`${app.char.age}, Movement: ${app.char.movement}`"
-      header-class="text-h5 bg-grey-10 rounded-borders"
+      header-class="text-h5 bg-blue-grey-10 rounded-borders"
     >
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <q-tabs v-model="tab" align="justify" class="q-mt-md">
+    <q-tabs v-model="tab" align="justify">
       <q-tab name="skills" label="Skills" />
       <q-tab name="combat" label="Combat" />
       <q-tab name="abilities" label="Abilities & Spells" />

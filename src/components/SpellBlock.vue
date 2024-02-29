@@ -106,13 +106,13 @@
             />
           </div>
 
-          <p class="q-mt-sm q-pa-md rounded-borders bg-grey-10 text-bold">{{ spell.text }}</p>
+          <p class="q-mt-sm q-pa-md rounded-borders bg-blue-grey-10 text-bold">{{ spell.text }}</p>
         </q-card-section>
       </template>
 
       <template v-slot:append>
         <q-card-section v-if="display.dragon" class="column">
-          <div class="q-pa-md rounded-borders bg-grey-10 text-bold">
+          <div class="q-pa-md rounded-borders bg-blue-grey-10 text-bold">
             <p class="text-bold">Choose one:</p>
             <ul class="q-pl-md">
               <li class="q-pb-sm">The damage or range of the spell is doubled.</li>
@@ -148,7 +148,7 @@
         <dice-select v-if="display.dragon || display.success" v-model="dmgDice" />
         <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center">
           <q-btn label="Roll" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
-          <div v-if="dmgRes.total != 0" class="text-h4 bg-grey-10 rounded-borders q-pa-sm">
+          <div v-if="dmgRes.total != 0" class="text-h4 bg-blue-grey-10 rounded-borders q-pa-sm">
             {{ dmgRes.total }}
           </div>
           <div class="text-caption">{{ parseResult().join(', ') }}</div>

@@ -1,33 +1,33 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header class="bg-black">
+    <q-header class="bg-primary">
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>Dragonbane</q-toolbar-title>
-        <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance">
+        <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance" flat>
           <q-tooltip>Roll Advancements</q-tooltip>
         </q-btn>
-        <q-btn-dropdown icon="mdi-bed">
+        <q-btn-dropdown icon="mdi-bed" flat>
           <q-list>
             <q-item clickable v-ripple @click="rest.round()">
               <q-item-section>
                 <q-item-label>ROUND</q-item-label>
-                <q-item-label caption class="text-center">D6 WP</q-item-label>
+                <q-item-label caption>D6 WP</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple @click="rest.stretch()">
               <q-item-section>
                 <q-item-label>STRETCH</q-item-label>
-                <q-item-label caption class="text-center">D6 HP, D6 WP. Clear one condition</q-item-label>
+                <q-item-label caption>D6 HP, D6 WP. Clear one condition</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple @click="rest.shift()">
               <q-item-section>
                 <q-item-label>SHIFT</q-item-label>
-                <q-item-label caption class="text-center">All HP, WP. Clear all conditions</q-item-label>
+                <q-item-label caption>All HP, WP. Clear all conditions</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -43,6 +43,7 @@
           v-for="(c, i) in app.chars"
           :key="`char-${i}`"
           :active="app.conf.char == i"
+          active-class="text-accent"
           clickable
           v-ripple
         >

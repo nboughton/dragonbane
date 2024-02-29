@@ -1,7 +1,7 @@
 <template>
   <div
     :class="`column items-center justify-center q-ma-sm q-pa-sm ${
-      attr.condition.check ? 'bg-negative' : 'bg-grey-10'
+      attr.condition.check ? 'bg-negative' : 'bg-blue-grey-10'
     } rounded-borders`"
   >
     <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat rounded dense size="md" />

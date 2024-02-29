@@ -1,7 +1,7 @@
 <template>
   <div class="column">
     <q-btn size="xl" :label="`${label} ${points.current}`" @click="showEditDialog = !showEditDialog" flat />
-    <q-linear-progress :value="points.current / points.max" color="green" track-color="red" />
+    <q-linear-progress :value="points.current / points.max" color="positive" track-color="negative" />
   </div>
 
   <q-dialog v-model="showEditDialog">

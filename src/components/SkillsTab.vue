@@ -1,7 +1,7 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
   <div class="row">
-    <div class="col-12 text-h5 text-bold">
+    <div class="col-12 text-h5 text-bold q-mb-sm">
       <div class="row items-baseline q-gutter-lg">
         <div class="col-shrink">Primary Skills</div>
         <q-input class="col-grow" label="Search" v-model="filter" clearable dense>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="row q-mt-md">
-    <div class="col-12 text-h5 text-bold">
+    <div class="col-12 text-h5 text-bold q-mb-sm">
       Secondary Skills
       <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
     </div>

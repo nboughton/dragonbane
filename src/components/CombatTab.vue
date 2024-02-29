@@ -5,7 +5,7 @@
     {{ DmgBonus(app.char.attributes.AGL.score) }}
   </div>
 
-  <div class="row q-mt-md text-h5 text-bold items-center">
+  <div class="row q-mt-md q-mb-sm text-h5 text-bold items-center">
     Weapons
     <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
   </div>
@@ -25,7 +25,7 @@
       </template>
     </q-input>
   </div>
-  <div class="row q-mt-md">
+  <div class="row q-mt-sm">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <char-skill
         v-if="show('Evade')"

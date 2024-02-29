@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="no-shadow dialog-outline">
     <q-card-section class="row text-center text-h5">
       <div class="col-grow">{{ name }} ({{ target }})</div>
       <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" dense />
@@ -8,20 +8,24 @@
     <slot name="prepend"></slot>
 
     <q-card-section class="row justify-evenly items-center">
-      <div class="column q-pa-sm bg-grey-10 rounded-borders">
+      <div class="column q-pa-sm bg-blue-grey-10 rounded-borders">
         <div class="text-h6 text-center">Boons</div>
         <inc-dec v-model.number="b.boons" />
       </div>
 
-      <div class="column q-pa-sm bg-grey-10 rounded-borders">
+      <div class="column q-pa-sm bg-blue-grey-10 rounded-borders">
         <div class="text-h6 text-center">Banes</div>
         <inc-dec v-model.number="b.banes" />
       </div>
     </q-card-section>
 
-    <q-card-section class="column justify-evenly items-center q-gutter-lg">
-      <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
-      <div class="text-center text-h5 bg-grey-10 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
+    <q-card-section class="column justify-evenly items-center">
+      <div class="row full-width items-center justify-center q-mb-md">
+        <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
+      </div>
+      <div class="row full-width items-center justify-center q-mb-md">
+        <div class="col text-center text-h5 bg-blue-grey-10 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
+      </div>
       <div v-if="rolled" class="text-center text-h5">
         {{ resultText }}
       </div>

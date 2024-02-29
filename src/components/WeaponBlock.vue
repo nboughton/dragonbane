@@ -55,7 +55,7 @@
     >
       <template v-slot:append>
         <q-card-section v-if="display.dragon" class="column q-gutter-sm">
-          <q-expansion-item label="Melee Special Effects" class="rounded-borders bg-grey-9" header-class="text-h6">
+          <q-expansion-item label="Melee Special Effects" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <p class="text-bold">Choose one:</p>
               <ul class="q-pl-md">
@@ -76,7 +76,11 @@
             </div>
           </q-expansion-item>
 
-          <q-expansion-item label="Ranged Special Effects" class="rounded-borders bg-grey-9" header-class="text-h6">
+          <q-expansion-item
+            label="Ranged Special Effects"
+            class="rounded-borders bg-blue-grey-9"
+            header-class="text-h6"
+          >
             <div class="q-pa-sm">
               <p class="text-bold">Choose one:</p>
               <ul class="q-pl-md">
@@ -94,7 +98,7 @@
         </q-card-section>
 
         <q-card-section v-if="display.demon" class="column q-gutter-sm">
-          <q-expansion-item label="Melee Mishap" class="rounded-borders bg-grey-9" header-class="text-h6">
+          <q-expansion-item label="Melee Mishap" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
                 <q-btn
@@ -119,7 +123,7 @@
             </div>
           </q-expansion-item>
 
-          <q-expansion-item label="Ranged Mishap" class="rounded-borders bg-grey-9" header-class="text-h6">
+          <q-expansion-item label="Ranged Mishap" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
                 <q-btn
@@ -147,10 +151,14 @@
 
         <dice-select v-if="display.dragon || display.success" v-model="dmgDice" />
 
-        <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center q-gutter-md">
-          <q-btn label="Roll Damage" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
-          <div v-if="dmgRes.total != 0" class="text-h5 bg-grey-10 rounded-borders q-pa-sm">
-            {{ dmgRes.total }}
+        <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center">
+          <div class="row full-width items-center justify-center q-mb-md">
+            <q-btn label="Roll Damage" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
+          </div>
+          <div class="row full-width items-center justify-center q-mb-md">
+            <div v-if="dmgRes.total != 0" class="col-2 text-center text-h5 bg-blue-grey-10 rounded-borders q-pa-sm">
+              {{ dmgRes.total }}
+            </div>
           </div>
           <div class="text-caption">{{ parseResult().join(', ') }}</div>
         </q-card-section>
