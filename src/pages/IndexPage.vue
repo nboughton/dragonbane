@@ -2,8 +2,8 @@
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
   <q-page class="column" :padding="$q.screen.gt.sm">
     <q-expansion-item
-      :default-opened="!app.char.name"
-      :label="`${app.char.name} the ${app.char.kin} ${app.char.profession}`"
+      :default-opened="!app.char.kin"
+      :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
       :caption="`${app.char.age}, Movement: ${app.char.movement}`"
       header-class="text-h5 bg-blue-grey-10 rounded-borders"
     >
