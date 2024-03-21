@@ -50,15 +50,29 @@
 
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
-  <q-dialog v-model="showRoller" :maximized="$q.screen.lt.sm" position="right" full-height>
-    <dice-roller :name="label" :target="val" :banes="banes.length" :roll-type="skillType" @close="showRoller = false" />
+  <q-dialog v-model="showRoller" maximized>
+    <dice-roller
+      :name="label"
+      :target="val"
+      :banes="banes.length"
+      :roll-type="skillType"
+      @close="showRoller = false"
+      @result="
+        (r) =>
+          OBR.notification.show(
+            `${app.char.name} rolled ${label}: ${r}`,
+            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+          )
+      "
+    />
   </q-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch, computed } from 'vue';
+import OBR from '@owlbear-rodeo/sdk';
 
-import { EAttr, ERollType, ISkill } from './models';
+import { ED20Result, EAttr, ERollType, ISkill } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
@@ -163,12 +177,14 @@ export default defineComponent({
 
     return {
       app,
+      OBR,
       skill,
       val,
       baned,
       banes,
       showRoller,
       ERollType,
+      ED20Result,
     };
   },
 });

@@ -107,7 +107,7 @@
     </q-page-container>
   </q-layout>
 
-  <q-dialog v-model="showDataLoad" :maximized="$q.platform.is.mobile">
+  <q-dialog v-model="showDataLoad" maximized>
     <q-card>
       <q-card-section class="text-center text-bold bg-secondary">Load Character Data</q-card-section>
 
@@ -137,6 +137,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { NewCharacter } from 'src/lib/defaults';
 import { roll } from 'src/lib/util';
+import OBR from '@owlbear-rodeo/sdk';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -194,11 +195,12 @@ export default defineComponent({
 
     const advance = () => {
       const advanced = app.rollAdvancements();
-      $q.dialog({
-        title: `${advanced.length} skills advanced.`,
-        message: advanced.length > 0 ? `Advanced: ${advanced.join(', ')}` : 'No skills advanced',
-        ok: true,
-      });
+      OBR.notification.show(
+        advanced.length > 0
+          ? `${app.char.name} advanced: ${advanced.join(', ')}`
+          : `${app.char.name} didn't advance any skills.`,
+        'INFO'
+      );
     };
 
     const about = () =>

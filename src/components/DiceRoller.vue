@@ -1,5 +1,5 @@
 <template>
-  <q-card class="no-shadow dialog-outline">
+  <q-card>
     <q-card-section class="row text-center text-h5">
       <div class="col-grow">{{ name }} ({{ target }})</div>
       <q-btn class="col-shrink" icon="close" flat rounded @click="$emit('close')" dense />

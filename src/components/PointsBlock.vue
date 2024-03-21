@@ -4,7 +4,7 @@
     <q-linear-progress :value="points.current / points.max" color="positive" track-color="negative" />
   </div>
 
-  <q-dialog v-model="showEditDialog">
+  <q-dialog v-model="showEditDialog" maximized>
     <q-card>
       <q-card-section class="row text-h6 items-center justify-between">
         <div class="col">Adjust {{ label }}</div>

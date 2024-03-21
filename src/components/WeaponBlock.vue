@@ -43,7 +43,7 @@
     </template>
   </action-item-row>
 
-  <q-dialog v-model="display.roller" :maximized="$q.screen.lt.sm" position="right" full-height>
+  <q-dialog v-model="display.roller" maximized>
     <dice-roller
       :name="weapon.name"
       :roll-type="ERollType.Attack"
@@ -51,7 +51,15 @@
       :banes="app.banes('wepSkills', weapon.skill!)"
       :skill="weapon.skill"
       @close="display.roller = false"
-      @result="(r) => setResultDisplay(r)"
+      @result="
+        (r) => {
+          setResultDisplay(r);
+          OBR.notification.show(
+            `${app.char.name} rolled ${weapon.skill}: ${r}`,
+            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+          );
+        }
+      "
     >
       <template v-slot:append>
         <q-card-section v-if="display.dragon" class="column q-gutter-sm">
@@ -153,7 +161,7 @@
 
         <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center">
           <div class="row full-width items-center justify-center q-mb-md">
-            <q-btn label="Roll Damage" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
+            <q-btn label="Roll Damage" @click="rollDmg()" color="white" text-color="black" />
           </div>
           <div class="row full-width items-center justify-center q-mb-md">
             <div v-if="dmgRes.total != 0" class="col-2 text-center text-h5 bg-blue-grey-10 rounded-borders q-pa-sm">
@@ -169,6 +177,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue';
+import OBR from '@owlbear-rodeo/sdk';
 
 import { IWeapon, EGrip, ERollType, IDiceRoll, ED20Result } from './models';
 
@@ -262,8 +271,14 @@ export default defineComponent({
       dmgRes.value = { total: 0, results: [] };
     };
 
+    const rollDmg = () => {
+      dmgRes.value = rollDice(dmgDice.value);
+      OBR.notification.show(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+    };
+
     return {
       app,
+      OBR,
       weapon,
       skills,
       EGrip,
@@ -274,8 +289,10 @@ export default defineComponent({
       RangedDemon,
       setResultDisplay,
       ERollType,
+      ED20Result,
       dmgDice,
       dmgRes,
+      rollDmg,
       rollDice,
       rollTable,
       parseResult,

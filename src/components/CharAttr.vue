@@ -17,13 +17,20 @@
       color="white"
     />
   </div>
-  <q-dialog v-model="showRoller" :maximized="$q.screen.lt.sm" position="right" full-height>
+  <q-dialog v-model="showRoller" maximized>
     <dice-roller
       :name="label"
       :banes="attr.condition.check ? 1 : 0"
       :target="attr.score"
       :roll-type="ERollType.Attr"
       @close="showRoller = false"
+      @result="
+        (r) =>
+          OBR.notification.show(
+            `${app.char.name} rolled ${label}: ${r}`,
+            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+          )
+      "
     />
   </q-dialog>
 </template>
@@ -31,11 +38,13 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue';
 
-import { ERollType, IAttribute } from './models';
+import { ED20Result, ERollType, IAttribute } from './models';
 
 import { useQuasar } from 'quasar';
+import OBR from '@owlbear-rodeo/sdk';
 
 import DiceRoller from './DiceRoller.vue';
+import { useCharacterStore } from 'src/stores/character';
 
 export default defineComponent({
   name: 'CharStat',
@@ -80,12 +89,16 @@ export default defineComponent({
         .onOk((n) => (attr.value.score = n));
 
     const showRoller = ref(false);
+    const app = useCharacterStore();
 
     return {
+      app,
       attr,
       editAttr,
       showRoller,
       ERollType,
+      ED20Result,
+      OBR,
     };
   },
 });

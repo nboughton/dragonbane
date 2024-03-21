@@ -76,7 +76,7 @@
     </template>
   </action-item-row>
 
-  <q-dialog v-model="display.roller" :maximized="$q.screen.lt.md" position="right" full-height>
+  <q-dialog v-model="display.roller" maximized>
     <dice-roller
       :name="spell.name"
       :roll-type="ERollType.Spell"
@@ -84,7 +84,15 @@
       :target="app.skill('secSkills', spell.skill!)"
       :banes="app.banes('secSkills', spell.skill!)"
       @close="display.roller = false"
-      @result="(r) => setResultDisplay(r)"
+      @result="
+        (r) => {
+          setResultDisplay(r);
+          OBR.notification.show(
+            `${app.char.name} rolled ${spell.skill}: ${r}`,
+            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+          );
+        }
+      "
     >
       <template v-slot:prepend>
         <q-card-section class="column justify-center items-center">
@@ -145,9 +153,11 @@
             </table>
           </q-expansion-item>
         </q-card-section>
+
         <dice-select v-if="display.dragon || display.success" v-model="dmgDice" />
+
         <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center">
-          <q-btn label="Roll" @click="dmgRes = rollDice(dmgDice)" color="white" text-color="black" />
+          <q-btn label="Roll" @click="rollDmg()" color="white" text-color="black" />
           <div v-if="dmgRes.total != 0" class="text-h4 bg-blue-grey-10 rounded-borders q-pa-sm">
             {{ dmgRes.total }}
           </div>
@@ -160,6 +170,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue';
+import OBR from '@owlbear-rodeo/sdk';
 
 import { ED20Result, EDuration, ERollType, ESpellReq, IDiceRoll, ISpell } from './models';
 
@@ -277,21 +288,29 @@ export default defineComponent({
       return out;
     });
 
+    const rollDmg = () => {
+      dmgRes.value = rollDice(dmgDice.value);
+      OBR.notification.show(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+    };
+
     return {
       spell,
       ESpellReq,
       EDuration,
 
       app,
+      OBR,
       pl,
       display,
       showRoller,
       setResultDisplay,
       ERollType,
+      ED20Result,
       skills,
       rollDice,
       dmgDice,
       dmgRes,
+      rollDmg,
       parseResult,
       MagicalMishap,
       mishap,
