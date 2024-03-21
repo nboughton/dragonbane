@@ -37,6 +37,7 @@ export const setupTheme = async () => {
     setCssVar('negative', theme.secondary.dark);
     setCssVar('info', theme.background.default);
     setCssVar('warning', theme.background.paper);
+
     colours.value = theme;
   };
 

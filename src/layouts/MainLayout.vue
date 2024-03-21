@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header>
-      <q-toolbar>
+      <q-toolbar :style="`color: ${colours.text.primary};`">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>Dragonbane</q-toolbar-title>
@@ -138,6 +138,7 @@ import { useCharacterStore } from 'src/stores/character';
 import { NewCharacter } from 'src/lib/defaults';
 import { roll } from 'src/lib/util';
 import OBR from '@owlbear-rodeo/sdk';
+import { colours } from 'src/lib/theme';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -230,6 +231,8 @@ export default defineComponent({
       showDataLoad,
       fileToLoad,
       loadData,
+
+      colours,
     };
   },
 });
