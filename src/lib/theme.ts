@@ -29,10 +29,10 @@ export const colours = ref<Theme>({
 
 export const setupTheme = async () => {
   const setTheme = (theme: Theme) => {
-    setCssVar('primary', theme.primary.main);
+    setCssVar('primary', theme.primary.dark);
     setCssVar('secondary', theme.secondary.main);
     setCssVar('accent', theme.primary.light);
-    setCssVar('dark', theme.primary.dark);
+    setCssVar('dark', theme.background.default);
     setCssVar('positive', theme.secondary.light);
     setCssVar('negative', theme.secondary.dark);
     setCssVar('info', theme.background.default);
