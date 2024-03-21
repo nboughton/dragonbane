@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [[ $1 == "-b" ]]; then
-  quasar build -m pwa
+  quasar build
+  cp manifest.json dist/spa/
 fi
 
-rsync -aWv --delete dist/pwa/ server:/var/www/nboughton.uk/public/apps/dragonbane/
+rsync -aWv --delete dist/spa/ server:/var/www/nboughton.uk/public/apps/obr-dragonbane-sheet/

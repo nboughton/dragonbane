@@ -68,10 +68,9 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // Comment out these paths when building for electron
-      publicPath: '/apps/dragonbane/',
+      publicPath: '/apps/obr-dragonbane-sheet/',
       extendViteConf(viteConf) {
-        viteConf.base = '/apps/dragonbane/';
+        viteConf.base = '/apps/obr-dragonbane-sheet/';
       },
       // viteVuePluginOptions: {},
 
