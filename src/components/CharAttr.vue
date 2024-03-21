@@ -1,7 +1,7 @@
 <template>
   <div
     :class="`column items-center justify-center q-ma-sm q-pa-sm ${
-      attr.condition.check ? 'bg-negative' : 'bg-blue-grey-10'
+      attr.condition.check ? 'bg-negative' : ''
     } rounded-borders`"
   >
     <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat rounded dense size="md" />
@@ -85,6 +85,7 @@ export default defineComponent({
             min: 3,
             max: 18,
           },
+          maximized: true,
         })
         .onOk((n) => (attr.value.score = n));
 

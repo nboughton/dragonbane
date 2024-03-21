@@ -5,7 +5,7 @@
       :default-opened="!app.char.kin"
       :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
       :caption="`${app.char.age}, Movement: ${app.char.movement}`"
-      header-class="text-h5 bg-blue-grey-10 rounded-borders"
+      header-class="text-h5  rounded-borders"
     >
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
@@ -134,6 +134,7 @@ export default defineComponent({
       $q
         .dialog({
           message: 'Roll and apply Character Stats?',
+          maximized: true,
           cancel: true,
         })
         .onOk(() => {

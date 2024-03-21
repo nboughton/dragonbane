@@ -17,7 +17,7 @@
     @delete="removeWeapon(i)"
   />
 
-  <div class="row items-baseline q-mt-md">
+  <div class="row items-center q-mt-md">
     <div class="col-shrink text-h5 text-bold">Combat Skills</div>
     <q-input class="col-grow q-ml-sm" label="Search" v-model="filter" clearable dense>
       <template v-slot:prepend>
@@ -80,6 +80,7 @@ export default defineComponent({
         .dialog({
           message: 'Remove this weapon?',
           cancel: true,
+          maximized: true,
         })
         .onOk(() => app.char.weapons.splice(index, 1));
 

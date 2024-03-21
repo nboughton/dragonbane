@@ -1,9 +1,5 @@
 <template>
-  <div
-    :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${
-      baned ? 'bg-negative' : 'bg-blue-grey-10'
-    }`"
-  >
+  <div :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${baned ? 'bg-negative' : ''}`">
     <q-checkbox
       class="col-shrink"
       v-model="skill.checked"

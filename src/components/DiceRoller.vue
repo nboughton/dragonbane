@@ -8,12 +8,12 @@
     <slot name="prepend"></slot>
 
     <q-card-section class="row justify-evenly items-center">
-      <div class="column q-pa-sm bg-blue-grey-10 rounded-borders">
+      <div class="column q-pa-sm rounded-borders">
         <div class="text-h6 text-center">Boons</div>
         <inc-dec v-model.number="b.boons" />
       </div>
 
-      <div class="column q-pa-sm bg-blue-grey-10 rounded-borders">
+      <div class="column q-pa-sm rounded-borders">
         <div class="text-h6 text-center">Banes</div>
         <inc-dec v-model.number="b.banes" />
       </div>
@@ -24,7 +24,7 @@
         <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
       </div>
       <div class="row full-width items-center justify-center q-mb-md">
-        <div class="col text-center text-h5 bg-blue-grey-10 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
+        <div class="col text-center text-h5 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
       </div>
       <div v-if="rolled" class="text-center text-h5">
         {{ resultText }}

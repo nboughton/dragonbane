@@ -50,6 +50,7 @@ export default defineComponent({
         .dialog({
           message: 'Delete this item?',
           cancel: true,
+          maximized: true,
         })
         .onOk(() => app.char.inventory.splice(index, 1));
     const encumberance = computed((): number => {

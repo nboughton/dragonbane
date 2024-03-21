@@ -1,12 +1,23 @@
 // app global css in SCSS form
+body {
+  background: transparent !important;
+}
+
+#q-app,
+.q-header,
+.q-tab-panels,
+.q-dark {
+  backdrop-filter: blur(5px);
+  background: transparent !important;
+}
+
+.q-dialog.fullscreen {
+  backdrop-filter: blur(5px);
+  background-color: rgba(166, 107, 178, 0.8) !important;
+}
+
 /* Firefox */
 input[type='number'] {
   appearance: textfield;
   -moz-appearance: textfield;
-}
-
-.dialog-outline {
-  border-left: 1px solid grey;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
 }

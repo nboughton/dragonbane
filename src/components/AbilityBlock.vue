@@ -76,6 +76,7 @@ export default defineComponent({
           },
           ok: true,
           cancel: true,
+          maximized: true,
         })
         .onOk((wp) => {
           if (app.char.wp.current >= +wp) app.char.wp.current -= +wp;

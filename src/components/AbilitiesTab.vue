@@ -101,6 +101,7 @@ export default defineComponent({
         .dialog({
           message: 'Delete this spell?',
           cancel: true,
+          maximized: true,
         })
         .onOk(() => app.char.spells.splice(index, 1));
     const sortSpells = () =>
@@ -130,6 +131,7 @@ export default defineComponent({
         .dialog({
           message: 'Delete this ability?',
           cancel: true,
+          maximized: true,
         })
         .onOk(() => app.char.abilities.splice(index, 1));
 

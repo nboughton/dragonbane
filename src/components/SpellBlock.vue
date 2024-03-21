@@ -114,13 +114,13 @@
             />
           </div>
 
-          <p class="q-mt-sm q-pa-md rounded-borders bg-blue-grey-10 text-bold">{{ spell.text }}</p>
+          <p class="q-mt-sm q-pa-md rounded-borders text-bold">{{ spell.text }}</p>
         </q-card-section>
       </template>
 
       <template v-slot:append>
         <q-card-section v-if="display.dragon" class="column">
-          <div class="q-pa-md rounded-borders bg-blue-grey-10 text-bold">
+          <div class="q-pa-md rounded-borders text-bold">
             <p class="text-bold">Choose one:</p>
             <ul class="q-pl-md">
               <li class="q-pb-sm">The damage or range of the spell is doubled.</li>
@@ -158,7 +158,7 @@
 
         <q-card-section v-if="display.dragon || display.success" class="column justify-start items-center">
           <q-btn label="Roll" @click="rollDmg()" color="white" text-color="black" />
-          <div v-if="dmgRes.total != 0" class="text-h4 bg-blue-grey-10 rounded-borders q-pa-sm">
+          <div v-if="dmgRes.total != 0" class="text-h4 rounded-borders q-pa-sm">
             {{ dmgRes.total }}
           </div>
           <div class="text-caption">{{ parseResult().join(', ') }}</div>
@@ -260,6 +260,7 @@ export default defineComponent({
               title: `Spend 1 WP to use ${name}?`,
               ok: true,
               cancel: true,
+              maximized: true,
             })
             .onOk(() => app.char.wp.current--)
         : undefined;
@@ -272,6 +273,7 @@ export default defineComponent({
               title: 'Out of Juice!',
               message: `You have ${app.char.wp.current}WP`,
               ok: true,
+              maximized: true,
             })
             .onOk(() => (out = false))
         : (out = true);

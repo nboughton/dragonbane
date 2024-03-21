@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header class="bg-primary">
+    <q-header>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
@@ -168,6 +168,7 @@ export default defineComponent({
         .dialog({
           message: `Delete ${app.chars[index].name}?`,
           cancel: true,
+          maximized: true,
         })
         .onOk(() => {
           app.conf.char = 0;
@@ -210,6 +211,7 @@ export default defineComponent({
         message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
       <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane">Github repository</a> and submit a pull request.</p>
       <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun">ko-fi</a>.</p>`,
+        maximized: true,
       });
 
     return {

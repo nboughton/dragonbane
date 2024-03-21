@@ -6,6 +6,8 @@
 import { useQuasar } from 'quasar';
 import { defineComponent } from 'vue';
 import { useCharacterStore } from './stores/character';
+import OBR from '@owlbear-rodeo/sdk';
+import { setupTheme } from './lib/theme';
 
 export default defineComponent({
   name: 'App',
@@ -15,6 +17,8 @@ export default defineComponent({
     if (c.conf.darkMode == undefined) c.conf.darkMode = true;
     if (c.conf.showSpells == undefined) c.conf.showSpells = true;
     if (c.conf.showTrainedSkills == undefined) c.conf.showTrainedSkills = true;
+
+    OBR.onReady(setupTheme);
 
     const $q = useQuasar();
     $q.dark.set(true);

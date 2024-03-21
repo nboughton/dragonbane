@@ -92,6 +92,7 @@ export default defineComponent({
         .dialog({
           message: 'Delete this skill?',
           cancel: true,
+          maximized: true,
         })
         .onOk(() => delete app.char.secSkills[val]);
 

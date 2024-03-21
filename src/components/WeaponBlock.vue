@@ -164,7 +164,7 @@
             <q-btn label="Roll Damage" @click="rollDmg()" color="white" text-color="black" />
           </div>
           <div class="row full-width items-center justify-center q-mb-md">
-            <div v-if="dmgRes.total != 0" class="col-2 text-center text-h5 bg-blue-grey-10 rounded-borders q-pa-sm">
+            <div v-if="dmgRes.total != 0" class="col-2 text-center text-h5 rounded-borders q-pa-sm">
               {{ dmgRes.total }}
             </div>
           </div>
