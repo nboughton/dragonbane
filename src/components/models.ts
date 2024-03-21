@@ -1,3 +1,5 @@
+export const ID = 'uk.nboughton.obr-dragonbane-sheet';
+
 export interface IDBStore {
   chars: ICharacter[];
   conf: IConfig;

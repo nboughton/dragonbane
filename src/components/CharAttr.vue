@@ -26,7 +26,7 @@
       @close="showRoller = false"
       @result="
         (r) =>
-          OBR.notification.show(
+          send(
             `${app.char.name} rolled ${label}: ${r}`,
             r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
           )
@@ -41,10 +41,10 @@ import { defineComponent, PropType, ref, watch } from 'vue';
 import { ED20Result, ERollType, IAttribute } from './models';
 
 import { useQuasar } from 'quasar';
-import OBR from '@owlbear-rodeo/sdk';
 
 import DiceRoller from './DiceRoller.vue';
 import { useCharacterStore } from 'src/stores/character';
+import { send } from 'src/lib/notify';
 
 export default defineComponent({
   name: 'CharStat',
@@ -99,7 +99,7 @@ export default defineComponent({
       showRoller,
       ERollType,
       ED20Result,
-      OBR,
+      send,
     };
   },
 });

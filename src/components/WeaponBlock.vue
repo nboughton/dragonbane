@@ -54,7 +54,7 @@
       @result="
         (r) => {
           setResultDisplay(r);
-          OBR.notification.show(
+          send(
             `${app.char.name} rolled ${weapon.skill}: ${r}`,
             r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
           );
@@ -177,7 +177,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue';
-import OBR from '@owlbear-rodeo/sdk';
 
 import { IWeapon, EGrip, ERollType, IDiceRoll, ED20Result } from './models';
 
@@ -185,6 +184,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { parseDiceString, rollDice } from 'src/lib/util';
 import { MeleeDemon, RangedDemon, rollTable } from 'src/lib/tables';
+import { send } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
@@ -273,12 +273,12 @@ export default defineComponent({
 
     const rollDmg = () => {
       dmgRes.value = rollDice(dmgDice.value);
-      OBR.notification.show(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+      send(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
     };
 
     return {
       app,
-      OBR,
+      send,
       weapon,
       skills,
       EGrip,

@@ -137,8 +137,8 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { NewCharacter } from 'src/lib/defaults';
 import { roll } from 'src/lib/util';
-import OBR from '@owlbear-rodeo/sdk';
 import { colours } from 'src/lib/theme';
+import { send } from 'src/lib/notify';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -197,7 +197,7 @@ export default defineComponent({
 
     const advance = () => {
       const advanced = app.rollAdvancements();
-      OBR.notification.show(
+      send(
         advanced.length > 0
           ? `${app.char.name} advanced: ${advanced.join(', ')}`
           : `${app.char.name} didn't advance any skills.`,

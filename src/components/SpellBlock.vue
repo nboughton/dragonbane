@@ -87,7 +87,7 @@
       @result="
         (r) => {
           setResultDisplay(r);
-          OBR.notification.show(
+          send(
             `${app.char.name} rolled ${spell.skill}: ${r}`,
             r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
           );
@@ -170,7 +170,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watch } from 'vue';
-import OBR from '@owlbear-rodeo/sdk';
 
 import { ED20Result, EDuration, ERollType, ESpellReq, IDiceRoll, ISpell } from './models';
 
@@ -179,6 +178,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { rollDice, parseDiceString } from 'src/lib/util';
 import { MagicalMishap, rollTable } from 'src/lib/tables';
+import { send } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
@@ -292,7 +292,7 @@ export default defineComponent({
 
     const rollDmg = () => {
       dmgRes.value = rollDice(dmgDice.value);
-      OBR.notification.show(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+      send(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
     };
 
     return {
@@ -301,7 +301,7 @@ export default defineComponent({
       EDuration,
 
       app,
-      OBR,
+      send,
       pl,
       display,
       showRoller,

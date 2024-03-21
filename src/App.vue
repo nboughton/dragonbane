@@ -7,10 +7,13 @@ import { defineComponent, watch } from 'vue';
 import { useCharacterStore } from './stores/character';
 import OBR from '@owlbear-rodeo/sdk';
 import { setupTheme } from './lib/theme';
+import { setupChannels } from './lib/notify';
 import { colours } from './lib/theme';
 import { useQuasar } from 'quasar';
 
-OBR.onReady(setupTheme);
+OBR.onReady(() => {
+  setupTheme(), setupChannels();
+});
 
 export default defineComponent({
   name: 'App',
