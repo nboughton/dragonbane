@@ -111,7 +111,7 @@
       "
     >
       <template v-slot:prepend>
-        <q-card-section class="column justify-center items-center">
+        <q-card-section class="column justify-center items-center q-pb-none q-mb-none">
           <div class="row full-width items-center q-px-md">
             <q-select
               class="col-grow q-mr-sm"
