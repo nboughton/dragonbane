@@ -133,7 +133,7 @@ export default defineComponent({
               break;
           }
         }
-        emit('result', resultText.value);
+        emit('result', `${resultText.value}: (${selectResult()} vs ${props.target})`);
       })();
     };
 

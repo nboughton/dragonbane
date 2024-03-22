@@ -7,6 +7,7 @@
           <div class="col-shrink text-h6">{{ newDie.n }}d</div>
           <q-select
             class="col-shrink text-h6 text-left q-ml-none"
+            options-selected-class="text-purple-2"
             :options="[2, 4, 6, 8, 10, 12, 20, 100]"
             v-model.number="newDie.size"
             borderless

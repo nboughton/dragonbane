@@ -28,7 +28,7 @@
         (r) =>
           notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
-            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
           )
       "
     />

@@ -14,9 +14,17 @@
       >
         <div class="row items-center rounded-borders q-pa-xs q-mt-xs">
           <q-input class="col-xs-8 col-sm-6 q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
-          <q-select class="col-xs-4 col-sm-2 q-pr-xs" label="Skill" v-model="weapon.skill" :options="skills" dense />
+          <q-select
+            class="col-xs-4 col-sm-2 q-pr-xs"
+            options-selected-class="text-purple-2"
+            label="Skill"
+            v-model="weapon.skill"
+            :options="skills"
+            dense
+          />
           <q-select
             class="col-xs-3 col-sm-1 q-pr-xs"
+            options-selected-class="text-purple-2"
             label="Grip"
             v-model="weapon.grip"
             :options="Object.values(EGrip)"
@@ -52,11 +60,11 @@
       :skill="weapon.skill"
       @close="display.roller = false"
       @result="
-        (r) => {
+        (r: string) => {
           setResultDisplay(r);
           notifySend(
             `${app.char.name} rolled ${weapon.skill}: ${r}`,
-            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
           );
         }
       "
@@ -247,18 +255,13 @@ export default defineComponent({
         demon: false,
       };
 
-      switch (r) {
-        case ED20Result.Dragon:
-          display.value.dragon = true;
-          break;
-        case ED20Result.Demon:
-          display.value.demon = true;
-          break;
-        case ED20Result.Success:
-          display.value.success = true;
-        default:
-          break;
-      }
+      r.includes(ED20Result.Dragon)
+        ? (display.value.dragon = true)
+        : r.includes(ED20Result.Demon)
+        ? (display.value.demon = true)
+        : r.includes(ED20Result.Success)
+        ? (display.value.success = true)
+        : null;
     };
 
     const mishap = ref({
