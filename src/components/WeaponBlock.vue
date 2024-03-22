@@ -54,7 +54,7 @@
       @result="
         (r) => {
           setResultDisplay(r);
-          send(
+          notifySend(
             `${app.char.name} rolled ${weapon.skill}: ${r}`,
             r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
           );
@@ -184,7 +184,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { parseDiceString, rollDice } from 'src/lib/util';
 import { MeleeDemon, RangedDemon, rollTable } from 'src/lib/tables';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
@@ -273,12 +273,12 @@ export default defineComponent({
 
     const rollDmg = () => {
       dmgRes.value = rollDice(dmgDice.value);
-      send(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+      notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
     };
 
     return {
       app,
-      send,
+      notifySend,
       weapon,
       skills,
       EGrip,

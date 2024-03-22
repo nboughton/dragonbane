@@ -87,7 +87,7 @@
       @result="
         (r) => {
           setResultDisplay(r);
-          send(
+          notifySend(
             `${app.char.name} rolled ${spell.skill}: ${r}`,
             r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
           );
@@ -178,7 +178,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { rollDice, parseDiceString } from 'src/lib/util';
 import { MagicalMishap, rollTable } from 'src/lib/tables';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
@@ -292,7 +292,7 @@ export default defineComponent({
 
     const rollDmg = () => {
       dmgRes.value = rollDice(dmgDice.value);
-      send(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+      notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
     };
 
     return {
@@ -301,7 +301,7 @@ export default defineComponent({
       EDuration,
 
       app,
-      send,
+      notifySend,
       pl,
       display,
       showRoller,
