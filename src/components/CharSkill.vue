@@ -1,44 +1,38 @@
 <template>
-  <div :class="`row items-center justify-between rounded-borders q-ma-xs q-pa-xs ${baned ? 'bg-negative' : ''}`">
+  <div :class="`row items-center justify-between q-ma-none q-px-xs ${baned ? 'bg-negative' : ''}`">
     <q-checkbox
-      class="col-shrink"
+      class="col-xs-shrink q-ml-xs"
       v-model="skill.checked"
-      checked-icon="mdi-alpha-a-box"
-      unchecked-icon="mdi-alpha-a-box-outline"
+      checked-icon="mdi-rhombus"
+      unchecked-icon="mdi-rhombus-outline"
       :color="app.conf.darkMode == true ? 'white' : 'black'"
-      size="lg"
+      size="xs"
       dense
     >
       <q-tooltip>Advance</q-tooltip>
     </q-checkbox>
 
-    <q-input
-      class="col-xs-2 col-sm-2"
-      input-class="text-center text-bold"
-      type="number"
-      v-model.number="val"
-      dense
-      borderless
-    />
+    <q-input class="col-xs-1" input-class="text-center text-bold" type="number" v-model.number="val" dense borderless />
 
     <q-checkbox
       v-if="app.conf.showTrainedSkills == true || app.conf.showTrainedSkills == undefined"
-      class="col-shrink"
+      class="col-xs-shrink"
       v-model="skill.trained"
-      checked-icon="mdi-alpha-t-box"
-      unchecked-icon="mdi-alpha-t-box-outline"
+      checked-icon="mdi-chevron-up-circle"
+      unchecked-icon="mdi-chevron-up-circle-outline"
       :color="app.conf.darkMode == true ? 'white' : 'black'"
-      size="lg"
+      size="sm"
       dense
     >
       <q-tooltip>Trained</q-tooltip>
     </q-checkbox>
 
-    <div class="col">{{ label }} ({{ skill.attr }})</div>
+    <div class="col">{{ label }}</div>
 
     <div class="col-shrink q-mr-sm" v-if="baned">
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
     </div>
+    <div class="col-2 text-center">{{ skill.attr }}</div>
 
     <div class="col-shrink">
       <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat round dense />

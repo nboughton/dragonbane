@@ -1,11 +1,11 @@
 <template>
-  <div class="row text-bold q-mt-xs">
+  <div class="row text-bold q-ma-sm">
     <span v-if="armourRating > 0">&nbsp;Armour: {{ armourRating }};&nbsp;</span>
     Dmg Bonus: STR: {{ DmgBonus(app.char.attributes.STR.score) }}, AGL:
     {{ DmgBonus(app.char.attributes.AGL.score) }}
   </div>
 
-  <div class="row q-mt-md q-mb-sm text-h5 text-bold items-center">
+  <div class="row q-ma-sm text-h6 text-bold items-center">
     Weapons
     <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
   </div>
@@ -17,13 +17,14 @@
     @delete="removeWeapon(i)"
   />
 
-  <div class="row items-center q-mt-md">
-    <div class="col-shrink text-h5 text-bold">Combat Skills</div>
-    <q-input class="col-grow q-ml-sm" label="Search" v-model="filter" clearable dense>
+  <div class="row items-center q-ma-sm">
+    <div class="col-shrink text-h6 text-bold">Combat Skills</div>
+    <!-- Removed Search as it makes the layout go boing and feels not necessary for 10 skills  -->
+    <!-- <q-input class="col-grow q-ml-sm" label="Search" v-model="filter" clearable dense>
       <template v-slot:prepend>
         <q-icon name="search" />
       </template>
-    </q-input>
+    </q-input> -->
   </div>
   <div class="row q-mt-sm">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -43,7 +44,7 @@
       />
     </div>
   </div>
-  <div class="row justify-between items-center text-center q-mt-md">
+  <div class="row justify-between items-center text-center q-ma-sm">
     <div class="col-xs-12 col-sm-5">
       <armour-block label="Armour" v-model="app.char.armour" />
     </div>

@@ -29,7 +29,7 @@
       <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow />
     </q-expansion-item>
 
-    <div class="row justify-between q-mt-sm q-px-sm">
+    <div class="row justify-between q-px-sm">
       <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">
         <points-block v-model="app.char.hp" label="HP" />
       </div>
@@ -70,28 +70,28 @@
     <q-tabs v-model="tab" align="justify">
       <q-tab name="skills" label="Skills" />
       <q-tab name="combat" label="Combat" />
-      <q-tab name="abilities" label="Abilities & Spells" />
+      <q-tab name="abilities" label="Abilities" />
       <q-tab name="gear" label="Gear" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>
       <!--SKILLS-->
-      <q-tab-panel name="skills">
+      <q-tab-panel name="skills" class="q-pa-none">
         <skills-tab />
       </q-tab-panel>
 
       <!--COMBAT-->
-      <q-tab-panel name="combat">
+      <q-tab-panel name="combat" class="q-pa-none">
         <combat-tab />
       </q-tab-panel>
 
       <!--ABILITIES & SPELLS-->
-      <q-tab-panel name="abilities">
+      <q-tab-panel name="abilities" class="q-pa-none">
         <abilities-tab />
       </q-tab-panel>
 
       <!--GEAR-->
-      <q-tab-panel name="gear">
+      <q-tab-panel name="gear" class="q-pa-none">
         <gear-tab />
       </q-tab-panel>
     </q-tab-panels>

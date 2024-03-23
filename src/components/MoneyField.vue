@@ -1,16 +1,8 @@
 <template>
-  <q-input
-    class="col-xs-12 col-sm-3 q-ma-xs"
-    type="number"
-    v-model.number="dollaBills"
-    input-class="text-right text-h6"
-    rounded
-    dense
-  >
-    <template v-slot:prepend>
-      <span class="text-h6">{{ label }}:</span>
-    </template>
-  </q-input>
+  <div class="row">
+    <q-icon name="mdi-circle-slice-8" :color="iconColor" size="lg" class="col" />
+    <q-input class="col" type="number" v-model.number="dollaBills" input-class="text-right text-h6" rounded dense />
+  </div>
 </template>
 
 <script lang="ts">
@@ -40,8 +32,23 @@ export default defineComponent({
       },
     });
 
+    // Property for determining the icon color based on the label
+    const iconColor = computed(() => {
+      switch (props.label.toLowerCase()) {
+        case 'gold':
+          return 'amber-5';
+        case 'silver':
+          return 'blue-grey-5';
+        case 'copper':
+          return 'brown-5';
+        default:
+          return 'black';
+      }
+    });
+
     return {
       dollaBills,
+      iconColor,
     };
   },
 });

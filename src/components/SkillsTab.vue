@@ -1,15 +1,14 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
   <div class="row">
-    <div class="col-12 text-h5 text-bold q-mb-sm">
-      <div class="row items-baseline q-gutter-lg">
-        <div class="col-shrink">Primary Skills</div>
-        <q-input class="col-grow" label="Search" v-model="filter" clearable dense>
+    <div class="col-12 text-h6 text-bold q-px-sm q-pt-xs">
+      Primary Skills
+      <!-- Removed Search as it makes the layout go boing and feels not necessary for 20 skills  -->
+      <!-- <q-input class="col-grow q-pr-sm" label="Search" v-model="filter" clearable dense>
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
-        </q-input>
-      </div>
+        </q-input> -->
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
       <div v-if="show(k as string)">
@@ -19,9 +18,11 @@
   </div>
 
   <div class="row q-mt-md">
-    <div class="col-12 text-h5 text-bold q-mb-sm">
-      Secondary Skills
-      <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
+    <div class="col-12 text-h6 text-bold">
+      <div class="col-shrink q-pl-sm">
+        Secondary Skills
+        <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
+      </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.secSkills" :key="`secSkill-${k}`">
       <char-skill

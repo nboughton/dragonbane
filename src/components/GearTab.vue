@@ -1,8 +1,8 @@
 <template>
-  <div class="row justify-between">
-    <money-field label="GOLD" v-model="app.char.money.gold" />
-    <money-field label="SILVER" v-model="app.char.money.silver" />
-    <money-field label="COPPER" v-model="app.char.money.copper" />
+  <div class="row">
+    <money-field class="col" label="GOLD" v-model="app.char.money.gold" />
+    <money-field class="col" label="SILVER" v-model="app.char.money.silver" />
+    <money-field class="col" label="COPPER" v-model="app.char.money.copper" />
   </div>
 
   <div class="row text-h6 text-bold q-mt-md items-center">

@@ -4,9 +4,9 @@
   "manifest_version": 1,
   "action": {
     "title": "Dragonbane Sheet",
-    "icon": "/apps/obr-dragonbane-sheet/sheet.svg",
+    "icon": "/icon.svg",
     "popover": "/apps/obr-dragonbane-sheet/",
-    "height": 600,
-    "width": 440
+    "height": 800,
+    "width": 400
   }
 }

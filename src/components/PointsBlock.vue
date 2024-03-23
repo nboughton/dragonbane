@@ -1,7 +1,21 @@
 <template>
-  <div class="column">
-    <q-btn size="xl" :label="`${label} ${points.current}`" @click="showEditDialog = !showEditDialog" flat />
-    <q-linear-progress :value="points.current / points.max" color="positive" track-color="negative" />
+  <div class="row">
+    <div class="col-shrink">
+      <q-btn @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
+    </div>
+    <div class="col-grow flex flex-center">
+      <q-linear-progress
+        @click="showEditDialog = !showEditDialog"
+        :value="points.current / points.max"
+        color="positive"
+        track-color="negative"
+        size="2em"
+      >
+        <div class="absolute-full flex flex-center text-white text-subtitle2">
+          {{ points.current }}/{{ points.max }}
+        </div>
+      </q-linear-progress>
+    </div>
   </div>
 
   <q-dialog v-model="showEditDialog" maximized>
