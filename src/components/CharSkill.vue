@@ -1,7 +1,31 @@
 <template>
   <div :class="`row items-center justify-between q-ma-none q-px-xs ${baned ? 'bg-negative' : ''}`">
     <q-checkbox
-      class="col-xs-shrink q-ml-xs"
+      v-if="editSkills"
+      class="q-ml-xs"
+      v-model="skill.trained"
+      checked-icon="mdi-chevron-up-circle"
+      unchecked-icon="mdi-chevron-up-circle-outline"
+      :color="app.conf.darkMode === true ? 'white' : 'black'"
+      size="xs"
+      dense
+    >
+      <q-tooltip>Train Skill</q-tooltip>
+    </q-checkbox>
+
+    <q-input
+      v-if="editSkills"
+      class="col-1"
+      input-class="text-center text-bold"
+      type="number"
+      v-model.number="val"
+      dense
+      borderless
+    />
+
+    <q-checkbox
+      v-if="!editSkills"
+      class="q-ml-xs"
       v-model="skill.checked"
       checked-icon="mdi-rhombus"
       unchecked-icon="mdi-rhombus-outline"
@@ -9,30 +33,17 @@
       size="xs"
       dense
     >
-      <q-tooltip>Advance</q-tooltip>
+      <q-tooltip>Advance Skill</q-tooltip>
     </q-checkbox>
 
-    <q-input class="col-xs-1" input-class="text-center text-bold" type="number" v-model.number="val" dense borderless />
+    <div v-if="!editSkills" class="text-bold">{{ val }}</div>
 
-    <q-checkbox
-      v-if="app.conf.showTrainedSkills == true || app.conf.showTrainedSkills == undefined"
-      class="col-xs-shrink"
-      v-model="skill.trained"
-      checked-icon="mdi-chevron-up-circle"
-      unchecked-icon="mdi-chevron-up-circle-outline"
-      :color="app.conf.darkMode == true ? 'white' : 'black'"
-      size="sm"
-      dense
-    >
-      <q-tooltip>Trained</q-tooltip>
-    </q-checkbox>
+    <div class="col-grow q-pl-sm">{{ label }}</div>
 
-    <div class="col">{{ label }}</div>
-
-    <div class="col-shrink q-mr-sm" v-if="baned">
+    <div class="col-shrink" v-if="baned">
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
     </div>
-    <div class="col-2 text-center">{{ skill.attr }}</div>
+    <div class="col-1 text-center">{{ skill.attr }}</div>
 
     <div class="col-shrink">
       <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat round dense />
@@ -88,6 +99,9 @@ export default defineComponent({
     skillType: {
       type: String,
       required: true,
+    },
+    editSkills: {
+      type: Boolean,
     },
   },
   emits: ['update:modelValue', 'delete'],

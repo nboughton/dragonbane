@@ -8,7 +8,7 @@
         <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance" flat>
           <q-tooltip>Roll Advancements</q-tooltip>
         </q-btn>
-        <q-btn-dropdown icon="mdi-bed" flat>
+        <q-btn-dropdown icon="mdi-campfire" flat>
           <q-list>
             <q-item clickable v-ripple @click="rest.round()">
               <q-item-section>

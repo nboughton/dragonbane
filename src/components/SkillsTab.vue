@@ -1,18 +1,20 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
-  <div class="row">
-    <div class="col-12 text-h6 text-bold q-px-sm q-pt-xs">
-      Primary Skills
-      <!-- Removed Search as it makes the layout go boing and feels not necessary for 20 skills  -->
-      <!-- <q-input class="col-grow q-pr-sm" label="Search" v-model="filter" clearable dense>
-          <template v-slot:prepend>
-            <q-icon name="search" />
-          </template>
-        </q-input> -->
+  <div class="row q-ml-sm items-center">
+    <div class="col text-h6 text-bold">Primary Skills</div>
+    <div class="q-px-none">
+      <q-toggle v-model="editSkills" icon="mdi-pencil" />
     </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
       <div v-if="show(k as string)">
-        <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" :skill-type="ERollType.Primary" />
+        <char-skill
+          v-model="app.char.priSkills[k]"
+          :label="`${k}`"
+          :edit-skills="editSkills"
+          :skill-type="ERollType.Primary"
+        />
       </div>
     </div>
   </div>
@@ -28,6 +30,7 @@
       <char-skill
         v-model="app.char.secSkills[k]"
         :label="`${k}`"
+        :edit-skills="editSkills"
         show-delete
         @delete="removeSecSkill"
         :skill-type="ERollType.Secondary"
@@ -86,6 +89,7 @@ export default defineComponent({
 
     const $q = useQuasar();
     const showAddSkill = ref(false);
+    const editSkills = ref(false);
     const newSkillName = ref('');
     const newSkillAttr = ref(EAttr.STR);
     const removeSecSkill = (val: string) =>
@@ -115,6 +119,7 @@ export default defineComponent({
       show,
       EAttr,
       ERollType,
+      editSkills,
     };
   },
 });

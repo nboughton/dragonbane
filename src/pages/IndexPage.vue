@@ -4,8 +4,7 @@
     <q-expansion-item
       :default-opened="!app.char.kin"
       :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
-      :caption="`${app.char.age}, Movement: ${app.char.movement}`"
-      header-class="text-h5  rounded-borders"
+      header-class="text-h5"
     >
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
@@ -67,11 +66,13 @@
       </div>
     </div>
 
-    <q-tabs v-model="tab" align="justify">
+    <q-tabs v-model="tab" align="justify" dense>
       <q-tab name="skills" label="Skills" />
       <q-tab name="combat" label="Combat" />
       <q-tab name="abilities" label="Abilities" />
       <q-tab name="gear" label="Gear" />
+      <!-- <q-tab name="character" label="Character" />
+      <q-tab name="log" label="Log" /> -->
     </q-tabs>
 
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>

@@ -1,7 +1,7 @@
 <template>
-  <div class="row">
-    <q-icon name="mdi-circle-slice-8" :color="iconColor" size="lg" class="col" />
-    <q-input class="col" type="number" v-model.number="dollaBills" input-class="text-right text-h6" rounded dense />
+  <div class="row justify-center">
+    <q-icon name="mdi-circle-slice-8" :color="iconColor" size="lg" class="col-shrink" />
+    <q-input class="col-4" type="number" v-model.number="dollaBills" input-class="text-right text-h6" dense />
   </div>
 </template>
 
