@@ -87,6 +87,10 @@ export default defineComponent({
             model: `${attr.value.score}`,
             min: 3,
             max: 18,
+            inputClass: 'text-center text-h4',
+            class: 'q-pa-lg',
+            rounded: true,
+            outlined: true,
           },
           maximized: true,
         })
