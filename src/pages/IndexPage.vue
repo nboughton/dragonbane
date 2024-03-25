@@ -11,7 +11,14 @@
           <q-input class="row" label="Name" v-model="app.char.name" dense />
 
           <div class="row">
-            <q-select class="col" label="Age" v-model="app.char.age" :options="Object.values(EAge)" dense />
+            <q-select
+              class="col"
+              options-selected-class="text-purple-2"
+              label="Age"
+              v-model="app.char.age"
+              :options="Object.values(EAge)"
+              dense
+            />
             <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
           </div>
         </div>

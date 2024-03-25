@@ -10,7 +10,7 @@
         dense
       />
       <q-btn v-else-if="spell.rank == 0" icon="mdi-account-arrow-right" @click="useMagicTrick(spell.name)" flat dense />
-      <q-btn v-else icon="mdi-book-open-variant" @click="showRoller()" flat dense />
+      <q-btn v-else-if="spell.skill" icon="mdi-book-open-variant" @click="showRoller()" flat dense />
     </template>
 
     <template v-slot:content>
@@ -37,18 +37,34 @@
               <q-tooltip>Prepared</q-tooltip>
             </q-checkbox>
             <q-input class="col-grow" label="Name" v-model="spell.name" dense />
-            <q-select class="col" label="Skill" :options="skills" v-model="spell.skill" dense />
             <q-input class="col-xs-2 col-sm-1" label="Rank" v-model.number="spell.rank" type="number" dense />
           </div>
 
+          <q-select
+            class="row"
+            options-selected-class="text-purple-2"
+            label="Skill"
+            :options="skills"
+            v-model="spell.skill"
+            dense
+          />
+
           <div v-if="spell.rank > 0" class="row">
             <q-input class="col" label="Casting Time" v-model="spell.time" dense />
-            <q-select class="col" label="Duration" v-model="spell.duration" :options="Object.values(EDuration)" dense />
+            <q-select
+              class="col"
+              options-selected-class="text-purple-2"
+              label="Duration"
+              v-model="spell.duration"
+              :options="Object.values(EDuration)"
+              dense
+            />
           </div>
 
           <div v-if="spell.rank > 0" class="row items-end">
             <q-select
               class="col"
+              options-selected-class="text-purple-2"
               label="Requirements"
               v-model="spell.req"
               multiple
@@ -85,20 +101,21 @@
       :banes="app.banes('secSkills', spell.skill!)"
       @close="display.roller = false"
       @result="
-        (r) => {
+        (r: string) => {
           setResultDisplay(r);
-          send(
+          notifySend(
             `${app.char.name} rolled ${spell.skill}: ${r}`,
-            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
           );
         }
       "
     >
       <template v-slot:prepend>
-        <q-card-section class="column justify-center items-center">
+        <q-card-section class="column justify-center items-center q-pb-none q-mb-none">
           <div class="row full-width items-center q-px-md">
             <q-select
               class="col-grow q-mr-sm"
+              options-selected-class="text-purple-2"
               label="Power Level"
               :options="powerLevels"
               v-model="pl"
@@ -178,7 +195,7 @@ import { useCharacterStore } from 'src/stores/character';
 
 import { rollDice, parseDiceString } from 'src/lib/util';
 import { MagicalMishap, rollTable } from 'src/lib/tables';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
@@ -229,18 +246,13 @@ export default defineComponent({
         demon: false,
       };
 
-      switch (r) {
-        case ED20Result.Dragon:
-          display.value.dragon = true;
-          break;
-        case ED20Result.Demon:
-          display.value.demon = true;
-          break;
-        case ED20Result.Success:
-          display.value.success = true;
-        default:
-          break;
-      }
+      r.includes(ED20Result.Dragon)
+        ? (display.value.dragon = true)
+        : r.includes(ED20Result.Demon)
+        ? (display.value.demon = true)
+        : r.includes(ED20Result.Success)
+        ? (display.value.success = true)
+        : null;
     };
 
     const showRoller = () => {
@@ -292,7 +304,7 @@ export default defineComponent({
 
     const rollDmg = () => {
       dmgRes.value = rollDice(dmgDice.value);
-      send(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+      notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
     };
 
     return {
@@ -301,7 +313,7 @@ export default defineComponent({
       EDuration,
 
       app,
-      send,
+      notifySend,
       pl,
       display,
       showRoller,

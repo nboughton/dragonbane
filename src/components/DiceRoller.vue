@@ -1,4 +1,5 @@
 <template>
+  <!-- file deepcode ignore PureMethodReturnValueIgnored: The return value is passed as a property to a component -->
   <q-card>
     <q-card-section class="row text-center text-h5">
       <div class="col-grow">{{ name }} ({{ target }})</div>
@@ -19,12 +20,15 @@
       </div>
     </q-card-section>
 
+    <q-card-section class="row justify-center items-center">
+      <div class="col dice-tray">
+        <dice-tray :dice="d20Result.map((d) => ({ name: 'd20', value: d }))" />
+      </div>
+    </q-card-section>
+
     <q-card-section class="column justify-evenly items-center">
       <div class="row full-width items-center justify-center q-mb-md">
         <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
-      </div>
-      <div class="row full-width items-center justify-center q-mb-md">
-        <div class="col text-center text-h5 rounded-borders q-pa-md">{{ d20Result.join(', ') }}</div>
       </div>
       <div v-if="rolled" class="text-center text-h5">
         {{ resultText }}
@@ -45,10 +49,11 @@ import { useCharacterStore } from 'src/stores/character';
 import { roll, sleep, deepCopy } from 'src/lib/util';
 
 import IncDec from './IncDec.vue';
+import DiceTray from './DiceTray.vue';
 
 export default defineComponent({
   name: 'DiceRoller',
-  components: { IncDec },
+  components: { IncDec, DiceTray },
   props: {
     name: {
       type: String,
@@ -81,7 +86,7 @@ export default defineComponent({
     const rolled = ref(false);
 
     const mods = computed((): number => b.value.boons - b.value.banes);
-    const d20Result = ref(Array(Math.abs(mods.value) + 1).fill(0));
+    const d20Result = ref<number[]>(Array(Math.abs(mods.value) + 1).fill(0));
     watch(
       () => mods.value,
       () => {
@@ -128,7 +133,7 @@ export default defineComponent({
               break;
           }
         }
-        emit('result', resultText.value);
+        emit('result', `${resultText.value}: (${selectResult()} vs ${props.target})`);
       })();
     };
 

@@ -42,7 +42,13 @@
     <q-card>
       <q-card-section class="column">
         <q-input label="Skill Name" v-model="newSkillName" dense />
-        <q-select label="Attribute" :options="Object.values(EAttr)" v-model="newSkillAttr" dense />
+        <q-select
+          options-selected-class="text-purple-2"
+          label="Attribute"
+          :options="Object.values(EAttr)"
+          v-model="newSkillAttr"
+          dense
+        />
       </q-card-section>
       <q-card-actions class="row justify-evenly">
         <q-btn

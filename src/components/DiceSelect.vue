@@ -1,16 +1,13 @@
 <template>
   <q-card-section class="top-and-bottom">
     <div class="row items-center justify-center">
-      <div class="col column">
-        <div class="row items-center justify-center q-mb-sm">
-          <q-btn class="col-shrink" label="add dice" @click="addDie" color="white" text-color="black" />
-        </div>
-
-        <div class="row items-center justify-center">
+      <div class="col-shrink">
+        <div class="row items-center">
           <q-btn class="col-1" icon="mdi-minus-circle" @click="if (newDie.n - 1 > 0) newDie.n--;" flat />
           <div class="col-shrink text-h6">{{ newDie.n }}d</div>
           <q-select
             class="col-shrink text-h6 text-left q-ml-none"
+            options-selected-class="text-purple-2"
             :options="[2, 4, 6, 8, 10, 12, 20, 100]"
             v-model.number="newDie.size"
             borderless
@@ -20,7 +17,11 @@
         </div>
       </div>
 
-      <div class="col column items-center">
+      <q-btn class="col-shrink" label="add dice" @click="addDie" color="white" text-color="black" />
+    </div>
+
+    <div class="row items-center justify-center q-mt-md">
+      <div class="column items-center">
         <div class="row text-caption text-center">Dice to roll</div>
         <div class="row items-center justify-center">
           <div

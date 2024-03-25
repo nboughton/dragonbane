@@ -29,9 +29,9 @@
       @close="showRoller = false"
       @result="
         (r) =>
-          send(
+          notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
-            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
           )
       "
     />
@@ -47,7 +47,7 @@ import { useQuasar } from 'quasar';
 
 import DiceRoller from './DiceRoller.vue';
 import { useCharacterStore } from 'src/stores/character';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 export default defineComponent({
   name: 'CharStat',
@@ -102,7 +102,7 @@ export default defineComponent({
       showRoller,
       ERollType,
       ED20Result,
-      send,
+      notifySend,
     };
   },
 });

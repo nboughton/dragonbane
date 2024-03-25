@@ -137,7 +137,7 @@ import { useCharacterStore } from 'src/stores/character';
 import { NewCharacter } from 'src/lib/defaults';
 import { roll } from 'src/lib/util';
 import { colours } from 'src/lib/theme';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -196,7 +196,7 @@ export default defineComponent({
 
     const advance = () => {
       const advanced = app.rollAdvancements();
-      send(
+      notifySend(
         advanced.length > 0
           ? `${app.char.name} advanced: ${advanced.join(', ')}`
           : `${app.char.name} didn't advance any skills.`,
@@ -209,8 +209,8 @@ export default defineComponent({
         title: '<div class="text-h5">About</div>',
         html: true,
         message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
-      <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane">Github repository</a> and submit a pull request.</p>
-      <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun">ko-fi</a>.</p>`,
+      <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane" target="_blank">Github repository</a> and submit a pull request.</p>
+      <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun" target="_blank">ko-fi</a>.</p>`,
         maximized: true,
       });
 

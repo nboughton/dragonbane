@@ -59,10 +59,10 @@
       :roll-type="skillType"
       @close="showRoller = false"
       @result="
-        (r) =>
-          send(
+        (r: string) =>
+          notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
-            r == ED20Result.Dragon || r == ED20Result.Success ? 'SUCCESS' : 'ERROR'
+            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
           )
       "
     />
@@ -77,7 +77,7 @@ import { ED20Result, EAttr, ERollType, ISkill } from './models';
 import { useCharacterStore } from 'src/stores/character';
 
 import { BaseChance } from 'src/lib/defaults';
-import { send } from 'src/lib/notify';
+import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 
@@ -188,7 +188,7 @@ export default defineComponent({
       showRoller,
       ERollType,
       ED20Result,
-      send,
+      notifySend,
     };
   },
 });

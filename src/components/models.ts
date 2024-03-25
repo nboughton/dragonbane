@@ -105,6 +105,8 @@ export interface ISpell {
   prepared: boolean;
 }
 
+export type Die = 'd4' | 'd6' | 'd8' | 'd10' | 'd12' | 'd20';
+
 export interface IDie {
   n: number; // n is the number of dice, i.e 2 in 2d4
   size: number; // Size is the number of sides, i.e 20 for a d20
