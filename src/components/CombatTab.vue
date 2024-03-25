@@ -1,35 +1,44 @@
 <template>
-  <div class="row text-bold q-mt-xs">
-    <span v-if="armourRating > 0">&nbsp;Armour: {{ armourRating }};&nbsp;</span>
-    Dmg Bonus: STR: {{ DmgBonus(app.char.attributes.STR.score) }}, AGL:
-    {{ DmgBonus(app.char.attributes.AGL.score) }}
+  <div class="row text-bold q-px-sm q-pt-xs justify-center">
+    <div class="col text-h6 text-center">
+      <q-icon name="mdi-run" />
+      {{ app.char.movement }}m
+    </div>
+    <div class="col q-ml-sm text-h6 text-center">
+      <q-icon name="mdi-shield" />
+      {{ armourRating }}
+    </div>
+    <div class="col q-ml-sm text-h6 text-center">STR {{ DmgBonus(app.char.attributes.STR.score) }}</div>
+    <div class="col q-ml-sm text-h6 text-center">AGL {{ DmgBonus(app.char.attributes.AGL.score) }}</div>
   </div>
 
-  <div class="row q-mt-md q-mb-sm text-h5 text-bold items-center">
-    Weapons
-    <q-btn icon="add_circle" flat dense rounded @click="addWeapon" />
+  <div class="row q-ml-sm items-center">
+    <div class="col text-h6 text-bold">Weapons</div>
+    <div class="q-px-none">
+      <q-toggle v-model="editWeapons" icon="mdi-pencil" />
+    </div>
   </div>
-
   <weapon-block
     v-for="(w, i) in app.char.weapons"
     :key="`wpn-${i}`"
     v-model="app.char.weapons[i]"
+    :edit-weapons="editWeapons"
     @delete="removeWeapon(i)"
   />
+  <q-btn v-if="editWeapons" icon="add_circle" label="Add Weapon" flat dense rounded @click="addWeapon" />
 
-  <div class="row items-center q-mt-md">
-    <div class="col-shrink text-h5 text-bold">Combat Skills</div>
-    <q-input class="col-grow q-ml-sm" label="Search" v-model="filter" clearable dense>
-      <template v-slot:prepend>
-        <q-icon name="search" />
-      </template>
-    </q-input>
+  <div class="row q-ml-sm items-center">
+    <div class="col text-h6 text-bold">Combat Skills</div>
+    <div class="q-px-none">
+      <q-toggle v-model="editSkills" icon="mdi-pencil" />
+    </div>
   </div>
   <div class="row q-mt-sm">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <char-skill
         v-if="show('Evade')"
         v-model="app.char.priSkills['Evade']"
+        :edit-skills="editSkills"
         label="Evade"
         :skill-type="ERollType.Primary"
       />
@@ -38,12 +47,13 @@
       <char-skill
         v-if="show(k as string)"
         v-model="app.char.wepSkills[k]"
+        :edit-skills="editSkills"
         :label="`${k}`"
         :skill-type="ERollType.Weapon"
       />
     </div>
   </div>
-  <div class="row justify-between items-center text-center q-mt-md">
+  <div class="row justify-between items-center text-center q-ma-sm">
     <div class="col-xs-12 col-sm-5">
       <armour-block label="Armour" v-model="app.char.armour" />
     </div>
@@ -74,6 +84,8 @@ export default defineComponent({
     const app = useCharacterStore();
 
     const $q = useQuasar();
+    const editWeapons = ref(false);
+    const editSkills = ref(false);
     const addWeapon = () => app.char.weapons.push(NewWeapon());
     const removeWeapon = (index: number) =>
       $q
@@ -95,7 +107,8 @@ export default defineComponent({
 
     return {
       app,
-
+      editWeapons,
+      editSkills,
       addWeapon,
       removeWeapon,
       DmgBonus,

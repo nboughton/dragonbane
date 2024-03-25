@@ -1,11 +1,11 @@
 <template>
-  <div class="row justify-between">
-    <money-field label="GOLD" v-model="app.char.money.gold" />
-    <money-field label="SILVER" v-model="app.char.money.silver" />
-    <money-field label="COPPER" v-model="app.char.money.copper" />
+  <div class="row q-px-sm q-pt-sm">
+    <money-field class="col items-center" label="GOLD" v-model="app.char.money.gold" />
+    <money-field class="col items-center" label="SILVER" v-model="app.char.money.silver" />
+    <money-field class="col items-center" label="COPPER" v-model="app.char.money.copper" />
   </div>
 
-  <div class="row text-h6 text-bold q-mt-md items-center">
+  <div class="row text-h6 text-bold q-mx-sm q-mt-sm items-center">
     <div class="col">
       <div class="row items-center">
         <div>Inventory ({{ encumberance }} / {{ encumberMax }})</div>
@@ -16,15 +16,17 @@
     </div>
     <q-checkbox class="col-shrink self-end" v-model="app.char.backpack" label="Backpack" />
   </div>
+
   <item-row
     v-for="(it, i) in app.char.inventory"
     :key="`inv-${i}`"
     v-model="app.char.inventory[i]"
     @delete="removeInvItem(i)"
+    class="q-mx-sm"
   />
 
-  <q-input class="row q-mt-sm" label="Tiny Items" v-model="app.char.tinyItems" dense autogrow />
-  <q-input class="row q-mt-sm" label="Memento" v-model="app.char.memento" dense autogrow />
+  <q-input class="row q-mt-sm q-mx-sm" label="Tiny Items" v-model="app.char.tinyItems" dense autogrow />
+  <q-input class="row q-ma-sm" label="Memento" v-model="app.char.memento" dense autogrow />
 </template>
 
 <script lang="ts">

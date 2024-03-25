@@ -8,7 +8,7 @@
         <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance" flat>
           <q-tooltip>Roll Advancements</q-tooltip>
         </q-btn>
-        <q-btn-dropdown icon="mdi-bed" flat>
+        <q-btn-dropdown icon="mdi-campfire" flat>
           <q-list>
             <q-item clickable v-ripple @click="rest.round()">
               <q-item-section>
@@ -36,7 +36,6 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" bordered>
-      <q-btn class="full-width" label="New Character" flat @click="app.chars.push(NewCharacter())" icon-right="add" />
       <q-list>
         <q-item
           class="items-center"
@@ -52,7 +51,7 @@
             <q-btn icon="delete" flat dense rounded @click="removeChar(i)" />
           </q-item-section>
         </q-item>
-
+        <q-btn class="full-width" label="New Character" flat @click="app.chars.push(NewCharacter())" icon-right="add" />
         <q-separator />
 
         <q-item clickable v-ripple @click="app.exportData">

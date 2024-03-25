@@ -1,55 +1,71 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
-  <action-item-row>
-    <template v-slot:prepend>
-      <q-btn v-if="weapon.skill" icon="mdi-dice-d20" @click="showRoller" flat dense />
-    </template>
-
-    <template v-slot:content>
-      <q-expansion-item
-        :label="weapon.name"
-        :caption="`DMG: ${weapon.damage}, Dur.: ${weapon.durability}, Features: ${weapon.features}`"
-        header-class="text-bold rounded-borders"
-        :default-opened="!weapon.name"
-      >
-        <div class="row items-center rounded-borders q-pa-xs q-mt-xs">
-          <q-input class="col-xs-8 col-sm-6 q-pr-xs" label="Weapon/Shield" v-model="weapon.name" dense />
-          <q-select
-            class="col-xs-4 col-sm-2 q-pr-xs"
-            options-selected-class="text-purple-2"
-            label="Skill"
-            v-model="weapon.skill"
-            :options="skills"
-            dense
-          />
-          <q-select
-            class="col-xs-3 col-sm-1 q-pr-xs"
-            options-selected-class="text-purple-2"
-            label="Grip"
-            v-model="weapon.grip"
-            :options="Object.values(EGrip)"
-            dense
-          />
-          <q-input class="col-xs-3 col-sm-1 q-pr-xs" label="Range" v-model="weapon.range" dense />
-          <q-input class="col-xs-3 col-sm-1 q-pr-xs" label="Damage" v-model="weapon.damage" dense />
-          <q-input
-            class="col-xs-3 col-sm-1 q-pr-xs"
-            type="number"
-            label="Durability"
-            v-model.number="weapon.durability"
-            dense
-          />
+  <div class="q-pa-xs q-pl-sm" flat>
+    <div v-if="!editWeapons">
+      <div class="row justify-between items-center">
+        <div class="col text-bold">{{ weapon.name }}</div>
+        <div class="col text-right">
+          <q-icon name="mdi-skull" size="sm" v-if="weapon.skill && app.banes('wepSkills', weapon.skill!)" />
         </div>
-        <div class="row q-pa-xs items-center">
-          <q-input class="col-grow" label="Features" v-model="weapon.features" dense />
+        <q-btn v-if="weapon.skill" icon="mdi-dice-d20" @click="showRoller" flat dense />
+      </div>
+      <div class="row">
+        <div class="col-shrink">
+          <q-icon name="mdi-sword" />
+          {{ weapon.damage
+          }}{{
+            weapon.skill && app.dmgBonus(app.char.wepSkills[weapon.skill].attr) != '-'
+              ? app.dmgBonus(app.char.wepSkills[weapon.skill].attr)
+              : ''
+          }}
         </div>
-      </q-expansion-item>
-    </template>
+        <div class="col-shrink q-ml-sm">
+          <q-icon name="mdi-anvil" />
+          {{ weapon.durability }}
+        </div>
+        <div v-if="+weapon.range > 2" class="col-shrink q-ml-sm">
+          <q-icon name="mdi-ray-start-arrow" />
+          {{ weapon.range }}m
+        </div>
+        <div class="col-grow text-right q-mr-sm">
+          {{ weapon.features }}
+        </div>
+      </div>
+    </div>
 
-    <template v-slot:append>
-      <q-btn icon="delete" @click="$emit('delete')" flat dense />
-    </template>
-  </action-item-row>
+    <div v-if="editWeapons">
+      <div class="row q-gutter-sm items-center">
+        <q-input class="col-grow" label="Weapon/Shield" v-model="weapon.name" dense />
+        <q-select
+          class="col-shrink"
+          options-selected-class="text-purple-2"
+          label="Skill"
+          v-model="weapon.skill"
+          :options="skills"
+          dense
+        />
+        <q-btn
+          class="col-shrink bg-primary"
+          options-selected-class="text-purple-2"
+          icon="delete"
+          @click="$emit('delete')"
+          flat
+          dense
+        />
+      </div>
+      <div class="row q-gutter-sm">
+        <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(EGrip)" dense />
+        <q-input class="col" label="Range" v-model="weapon.range" dense />
+        <q-input class="col" label="Damage" v-model="weapon.damage" dense />
+        <q-input class="col" label="Durability" type="number" v-model.number="weapon.durability" dense />
+      </div>
+      <div class="row q-gutter-sm">
+        <q-input class="col-grow" label="Features" v-model="weapon.features" dense />
+      </div>
+    </div>
+  </div>
+
+  <action-item-row></action-item-row>
 
   <q-dialog v-model="display.roller" maximized>
     <dice-roller
@@ -202,6 +218,7 @@ export default defineComponent({
   name: 'WeaponBlock',
   components: { DiceRoller, DiceSelect, ActionItemRow },
   props: {
+    editWeapons: Boolean,
     modelValue: {
       type: Object as PropType<IWeapon>,
       required: true,
