@@ -82,11 +82,11 @@
           </q-item-section>
         </q-item>
 
-        <q-item>
+        <!--q-item>
           <q-item-section>
             <q-toggle label="Show 'Trained'" v-model="app.conf.showTrainedSkills" />
           </q-item-section>
-        </q-item>
+        </q-item-->
 
         <q-separator />
 
