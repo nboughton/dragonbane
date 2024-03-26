@@ -1,12 +1,16 @@
 <template>
-  <div class="row text-bold q-px-sm q-pt-xs justify-center">
+  <div class="row text-bold q-px-sm q-pt-xs justify-center items-center">
     <div class="col text-h6 text-center">
-      <q-icon name="mdi-run" />
-      {{ app.char.movement }}m
+      <div class="row items-center justify-center">
+        <q-icon name="mdi-run" />
+        {{ app.char.movement }}m
+      </div>
     </div>
     <div class="col q-ml-sm text-h6 text-center">
-      <q-icon name="mdi-shield" />
-      {{ armourRating }}
+      <div class="row items-center justify-center">
+        <q-icon name="mdi-shield" />
+        {{ armourRating }}
+      </div>
     </div>
     <div class="col q-ml-sm text-h6 text-center">STR {{ DmgBonus(app.char.attributes.STR.score) }}</div>
     <div class="col q-ml-sm text-h6 text-center">AGL {{ DmgBonus(app.char.attributes.AGL.score) }}</div>

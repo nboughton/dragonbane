@@ -10,8 +10,9 @@
         color="positive"
         track-color="negative"
         size="2em"
+        rounded
       >
-        <div class="absolute-full flex flex-center text-white text-subtitle2">
+        <div class="absolute-full flex flex-center text-grey-9 text-subtitle2">
           {{ points.current }}/{{ points.max }}
         </div>
       </q-linear-progress>

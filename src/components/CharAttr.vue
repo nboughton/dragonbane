@@ -4,10 +4,12 @@
       attr.condition.check ? 'bg-negative' : ''
     } rounded-borders`"
   >
-    <q-btn @click="showRoller = true" flat rounded dense size="md">
-      {{ label }}
-      <q-icon name="mdi-dice-d20" />
-    </q-btn>
+    <div class="row items-center">
+      <q-btn @click="showRoller = true" flat rounded dense size="md">
+        {{ label }}
+        <q-icon name="mdi-dice-d20" />
+      </q-btn>
+    </div>
     <q-btn :label="`${attr.score}`" class="col-shrink text-bold q-pa-none" size="xl" @click="editAttr" flat rounded />
     <q-checkbox
       :label="attr.condition.name"
