@@ -50,7 +50,7 @@ export default defineConfig((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/apps/dragonbane/',
+      publicPath: '/apps/obr-dragonbane-sheet/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -81,7 +81,10 @@ export default defineConfig((/* ctx */) => {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
     devServer: {
       // https: true,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
+      cors: {
+        origin: "https://www.owlbear.rodeo",
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
