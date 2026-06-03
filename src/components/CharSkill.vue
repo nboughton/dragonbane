@@ -69,8 +69,8 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 
 import { ED20Result, EAttr, ERollType, ISkill } from './models';
 
@@ -81,115 +81,73 @@ import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 
-export default defineComponent({
-  name: 'CharSkill',
-  components: { DiceRoller },
-  props: {
-    modelValue: {
-      type: Object as PropType<ISkill>,
-      required: true,
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-    showDelete: {
-      type: Boolean,
-    },
-    skillType: {
-      type: String,
-      required: true,
-    },
-    editSkills: {
-      type: Boolean,
-    },
+const skill = defineModel<ISkill>({ required: true });
+const props = defineProps<{
+  label: string;
+  showDelete?: boolean;
+  skillType: string;
+  editSkills: boolean;
+}>();
+defineEmits(['delete']);
+
+const app = useCharacterStore();
+const base = computed((): number => {
+  const b = BaseChance(app.char.attributes[skill.value.attr as EAttr].score);
+  return skill.value.trained ? b * 2 : props.skillType == ERollType.Secondary ? 0 : b;
+});
+
+const val = computed({
+  get(): number {
+    return skill.value.advances + base.value;
   },
-  emits: ['update:modelValue', 'delete'],
-  setup(props, { emit }) {
-    const skill = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (skill.value = props.modelValue),
-      { deep: true }
-    );
-    watch(
-      () => skill.value,
-      () => emit('update:modelValue', skill.value),
-      { deep: true }
-    );
-
-    const app = useCharacterStore();
-    const base = computed((): number => {
-      const b = BaseChance(app.char.attributes[skill.value.attr as EAttr].score);
-      return skill.value.trained ? b * 2 : props.skillType == ERollType.Secondary ? 0 : b;
-    });
-
-    const val = computed({
-      get(): number {
-        return skill.value.advances + base.value;
-      },
-      set(v: number) {
-        if (v <= 18) return (skill.value.advances = v - base.value);
-      },
-    });
-
-    const baned = computed((): boolean => {
-      let b = false;
-      if (app.char.attributes[skill.value.attr as EAttr].condition.check) b = true;
-
-      Object.keys(app.char.armour.bane).forEach((k) => {
-        if (app.char.armour.bane[k] && k == props.label) b = true;
-      });
-
-      Object.keys(app.char.helmet.bane).forEach((k) => {
-        const checked = app.char.helmet.bane[k];
-        if (
-          (checked && k == props.label) ||
-          (checked &&
-            k == 'Ranged Attacks' &&
-            (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
-        )
-          b = true;
-      });
-
-      return b;
-    });
-
-    const banes = computed((): number[] => {
-      let b = [];
-      if (app.char.attributes[skill.value.attr as EAttr].condition.check) b.push(0);
-
-      Object.keys(app.char.armour.bane).forEach((k) => {
-        if (app.char.armour.bane[k] && k == props.label) b.push(0);
-      });
-
-      Object.keys(app.char.helmet.bane).forEach((k) => {
-        const checked = app.char.helmet.bane[k];
-        if (
-          (checked && k == props.label) ||
-          (checked &&
-            k == 'Ranged Attacks' &&
-            (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
-        )
-          b.push(0);
-      });
-
-      return b;
-    });
-
-    const showRoller = ref(false);
-
-    return {
-      app,
-      skill,
-      val,
-      baned,
-      banes,
-      showRoller,
-      ERollType,
-      ED20Result,
-      notifySend,
-    };
+  set(v: number) {
+    if (v <= 18) return (skill.value.advances = v - base.value);
   },
 });
+
+const baned = computed((): boolean => {
+  let b = false;
+  if (app.char.attributes[skill.value.attr as EAttr].condition.check) b = true;
+
+  Object.keys(app.char.armour.bane).forEach((k) => {
+    if (app.char.armour.bane[k] && k == props.label) b = true;
+  });
+
+  Object.keys(app.char.helmet.bane).forEach((k) => {
+    const checked = app.char.helmet.bane[k];
+    if (
+      (checked && k == props.label) ||
+      (checked &&
+        k == 'Ranged Attacks' &&
+        (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
+    )
+      b = true;
+  });
+
+  return b;
+});
+
+const banes = computed((): number[] => {
+  let b = [];
+  if (app.char.attributes[skill.value.attr as EAttr].condition.check) b.push(0);
+
+  Object.keys(app.char.armour.bane).forEach((k) => {
+    if (app.char.armour.bane[k] && k == props.label) b.push(0);
+  });
+
+  Object.keys(app.char.helmet.bane).forEach((k) => {
+    const checked = app.char.helmet.bane[k];
+    if (
+      (checked && k == props.label) ||
+      (checked &&
+        k == 'Ranged Attacks' &&
+        (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
+    )
+      b.push(0);
+  });
+
+  return b;
+});
+
+const showRoller = ref(false);
 </script>

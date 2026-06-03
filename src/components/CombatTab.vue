@@ -68,59 +68,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
 
-import { useCharacterStore } from 'src/stores/character';
+import { ERollType } from './models';
+
 import { useQuasar } from 'quasar';
+import { useCharacterStore } from 'src/stores/character';
 
 import { NewWeapon, DmgBonus } from 'src/lib/defaults';
 
 import CharSkill from 'src/components/CharSkill.vue';
 import WeaponBlock from 'src/components/WeaponBlock.vue';
 import ArmourBlock from 'src/components/ArmourBlock.vue';
-import { ERollType } from './models';
 
-export default defineComponent({
-  name: 'CombatTab',
-  components: { CharSkill, WeaponBlock, ArmourBlock },
-  setup() {
-    const app = useCharacterStore();
+const app = useCharacterStore();
 
-    const $q = useQuasar();
-    const editWeapons = ref(false);
-    const editSkills = ref(false);
-    const addWeapon = () => app.char.weapons.push(NewWeapon());
-    const removeWeapon = (index: number) =>
-      $q
-        .dialog({
-          message: 'Remove this weapon?',
-          cancel: true,
-          maximized: true,
-        })
-        .onOk(() => app.char.weapons.splice(index, 1));
+const $q = useQuasar();
+const editWeapons = ref(false);
+const editSkills = ref(false);
+const addWeapon = () => app.char.weapons.push(NewWeapon());
+const removeWeapon = (index: number) =>
+  $q
+    .dialog({
+      message: 'Remove this weapon?',
+      cancel: true,
+      maximized: true,
+    })
+    .onOk(() => app.char.weapons.splice(index, 1));
 
-    const armourRating = computed((): number => app.char.armour.rating + app.char.helmet.rating);
+const armourRating = computed((): number => app.char.armour.rating + app.char.helmet.rating);
 
-    const filter = ref('');
-    const show = (name: string): boolean => {
-      if (filter.value == '' || filter.value == null) return true;
-      if (RegExp(filter.value, 'i').test(name)) return true;
-      return false;
-    };
-
-    return {
-      app,
-      editWeapons,
-      editSkills,
-      addWeapon,
-      removeWeapon,
-      DmgBonus,
-      armourRating,
-      ERollType,
-      filter,
-      show,
-    };
-  },
-});
+const filter = ref('');
+const show = (name: string): boolean => {
+  if (filter.value == '' || filter.value == null) return true;
+  if (RegExp(filter.value, 'i').test(name)) return true;
+  return false;
+};
 </script>

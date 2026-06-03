@@ -185,8 +185,8 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
 
 import { ED20Result, EDuration, ERollType, ESpellReq, IDiceRoll, ISpell } from './models';
 
@@ -201,139 +201,93 @@ import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
 import ActionItemRow from './ActionItemRow.vue';
 
-export default defineComponent({
-  name: 'SpellBlock',
-  components: { DiceRoller, DiceSelect, ActionItemRow },
-  props: {
-    modelValue: {
-      type: Object as PropType<ISpell>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue', 'delete'],
-  setup(props, { emit }) {
-    const spell = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (spell.value = props.modelValue)
-    );
-    watch(
-      () => spell.value,
-      () => emit('update:modelValue', spell.value)
-    );
+const spell = defineModel<ISpell>({ required: true });
+defineEmits(['delete']);
 
-    const app = useCharacterStore();
-    const skills = computed((): string[] => Object.keys(app.char.secSkills));
-    const dmgDice = ref(parseDiceString(spell.value.text));
-    // For spells we only include the first dice set mentioned
-    dmgDice.value.splice(1);
-    const dmgRes = ref(<IDiceRoll>{ total: 0, results: [] });
-    const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
-    const display = ref({
-      roller: false,
-      select: false,
-      success: false,
-      dragon: false,
-      demon: false,
-    });
-
-    const setResultDisplay = (r: string) => {
-      display.value = {
-        roller: true,
-        select: false,
-        success: false,
-        dragon: false,
-        demon: false,
-      };
-
-      r.includes(ED20Result.Dragon)
-        ? (display.value.dragon = true)
-        : r.includes(ED20Result.Demon)
-        ? (display.value.demon = true)
-        : r.includes(ED20Result.Success)
-        ? (display.value.success = true)
-        : null;
-    };
-
-    const showRoller = () => {
-      if (checkWP(2)) {
-        setResultDisplay('-');
-        dmgRes.value = { total: 0, results: [] };
-      }
-    };
-
-    const mishap = ref('');
-
-    const $q = useQuasar();
-    const useMagicTrick = (name: string) =>
-      checkWP(1)
-        ? $q
-            .dialog({
-              title: `Spend 1 WP to use ${name}?`,
-              ok: true,
-              cancel: true,
-              maximized: true,
-            })
-            .onOk(() => app.char.wp.current--)
-        : undefined;
-
-    const checkWP = (wpReq: number): boolean => {
-      let out = false;
-      app.char.wp.current < wpReq
-        ? $q
-            .dialog({
-              title: 'Out of Juice!',
-              message: `You have ${app.char.wp.current}WP`,
-              ok: true,
-              maximized: true,
-            })
-            .onOk(() => (out = false))
-        : (out = true);
-      return out;
-    };
-
-    const pl = ref(1);
-    const powerLevels = computed((): number[] => {
-      let out = <number[]>[];
-
-      const lvls = [1, 2, 3];
-      lvls.forEach((n) => (n * 2 <= app.char.wp.current ? out.push(n) : undefined));
-
-      return out;
-    });
-
-    const rollDmg = () => {
-      dmgRes.value = rollDice(dmgDice.value);
-      notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
-    };
-
-    return {
-      spell,
-      ESpellReq,
-      EDuration,
-
-      app,
-      notifySend,
-      pl,
-      display,
-      showRoller,
-      setResultDisplay,
-      ERollType,
-      ED20Result,
-      skills,
-      rollDice,
-      dmgDice,
-      dmgRes,
-      rollDmg,
-      parseResult,
-      MagicalMishap,
-      mishap,
-      rollTable,
-      useMagicTrick,
-      powerLevels,
-    };
-  },
+const app = useCharacterStore();
+const skills = computed((): string[] => Object.keys(app.char.secSkills));
+const dmgDice = ref(parseDiceString(spell.value.text));
+// For spells we only include the first dice set mentioned
+dmgDice.value.splice(1);
+const dmgRes = ref(<IDiceRoll>{ total: 0, results: [] });
+const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
+const display = ref({
+  roller: false,
+  select: false,
+  success: false,
+  dragon: false,
+  demon: false,
 });
+
+const setResultDisplay = (r: string) => {
+  display.value = {
+    roller: true,
+    select: false,
+    success: false,
+    dragon: false,
+    demon: false,
+  };
+
+  r.includes(ED20Result.Dragon)
+    ? (display.value.dragon = true)
+    : r.includes(ED20Result.Demon)
+    ? (display.value.demon = true)
+    : r.includes(ED20Result.Success)
+    ? (display.value.success = true)
+    : null;
+};
+
+const showRoller = () => {
+  if (checkWP(2)) {
+    setResultDisplay('-');
+    dmgRes.value = { total: 0, results: [] };
+  }
+};
+
+const mishap = ref('');
+
+const $q = useQuasar();
+const useMagicTrick = (name: string) =>
+  checkWP(1)
+    ? $q
+        .dialog({
+          title: `Spend 1 WP to use ${name}?`,
+          ok: true,
+          cancel: true,
+          maximized: true,
+        })
+        .onOk(() => app.char.wp.current--)
+    : undefined;
+
+const checkWP = (wpReq: number): boolean => {
+  let out = false;
+  app.char.wp.current < wpReq
+    ? $q
+        .dialog({
+          title: 'Out of Juice!',
+          message: `You have ${app.char.wp.current}WP`,
+          ok: true,
+          maximized: true,
+        })
+        .onOk(() => (out = false))
+    : (out = true);
+  return out;
+};
+
+const pl = ref(1);
+const powerLevels = computed((): number[] => {
+  let out = <number[]>[];
+
+  const lvls = [1, 2, 3];
+  lvls.forEach((n) => (n * 2 <= app.char.wp.current ? out.push(n) : undefined));
+
+  return out;
+});
+
+const rollDmg = () => {
+  dmgRes.value = rollDice(dmgDice.value);
+  notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+};
 </script>
 
 <style lang="sass">

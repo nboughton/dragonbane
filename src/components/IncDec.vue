@@ -6,29 +6,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'IncDec',
-  props: {
-    modelValue: {
-      type: Number,
-      required: true,
-    },
-    min: {
-      type: Number,
-      default: 0,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const n = computed({
-      get: (): number => props.modelValue,
-      set: (v: number) => emit('update:modelValue', v),
-    });
-
-    return { n };
-  },
-});
+<script lang="ts" setup>
+const n = defineModel<number>({ required: true });
 </script>

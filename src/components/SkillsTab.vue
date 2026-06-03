@@ -77,56 +77,38 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
 import { EAttr, ERollType } from './models';
 
-import CharSkill from './CharSkill.vue';
 import { useQuasar } from 'quasar';
-import { skill } from 'src/lib/defaults';
 import { useCharacterStore } from 'src/stores/character';
 
-export default defineComponent({
-  name: 'SkillsTab',
-  components: { CharSkill },
-  setup() {
-    const app = useCharacterStore();
+import { skill } from 'src/lib/defaults';
 
-    const $q = useQuasar();
-    const showAddSkill = ref(false);
-    const editSkills = ref(false);
-    const newSkillName = ref('');
-    const newSkillAttr = ref(EAttr.STR);
-    const removeSecSkill = (val: string) =>
-      $q
-        .dialog({
-          message: 'Delete this skill?',
-          cancel: true,
-          maximized: true,
-        })
-        .onOk(() => delete app.char.secSkills[val]);
+import CharSkill from './CharSkill.vue';
 
-    const filter = ref('');
-    const show = (name: string): boolean => {
-      if (filter.value == '' || filter.value == null) return true;
-      if (RegExp(filter.value, 'i').test(name)) return true;
-      return false;
-    };
+const app = useCharacterStore();
 
-    return {
-      app,
-      skill,
-      showAddSkill,
-      newSkillName,
-      newSkillAttr,
-      removeSecSkill,
-      filter,
-      show,
-      EAttr,
-      ERollType,
-      editSkills,
-    };
-  },
-});
+const $q = useQuasar();
+const showAddSkill = ref(false);
+const editSkills = ref(false);
+const newSkillName = ref('');
+const newSkillAttr = ref(EAttr.STR);
+const removeSecSkill = (val: string) =>
+  $q
+    .dialog({
+      message: 'Delete this skill?',
+      cancel: true,
+      maximized: true,
+    })
+    .onOk(() => delete app.char.secSkills[val]);
+
+const filter = ref('');
+const show = (name: string): boolean => {
+  if (filter.value == '' || filter.value == null) return true;
+  if (RegExp(filter.value, 'i').test(name)) return true;
+  return false;
+};
 </script>

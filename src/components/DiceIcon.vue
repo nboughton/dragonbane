@@ -1,3 +1,10 @@
+<template>
+  <div class="die-icon">
+    <q-icon :name="`img:icons/dice/${name}.svg`" size="100px" />
+    <div :class="`die-value text-bold text-black ${name} ${tenPlus ? name + '-ten-plus' : ''}`">{{ value }}</div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Die } from './models';
@@ -9,13 +16,6 @@ const props = defineProps<{
 
 const tenPlus = computed((): boolean => props.value > 9);
 </script>
-
-<template>
-  <div class="die-icon">
-    <q-icon :name="`img:icons/dice/${name}.svg`" size="100px" />
-    <div :class="`die-value text-bold text-black ${name} ${tenPlus ? name + '-ten-plus' : ''}`">{{ value }}</div>
-  </div>
-</template>
 
 <style scoped>
 * {

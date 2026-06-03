@@ -76,8 +76,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -88,81 +88,58 @@ import AbilityBlock from './AbilityBlock.vue';
 import SpellBlock from './SpellBlock.vue';
 import { ISpell } from './models';
 
-export default defineComponent({
-  name: 'AbilitiesTab',
-  components: { AbilityBlock, SpellBlock },
-  setup() {
-    const app = useCharacterStore();
+const app = useCharacterStore();
 
-    const $q = useQuasar();
-    const addSpell = () => app.char.spells.push(NewSpell());
-    const removeSpell = (index: number) =>
-      $q
-        .dialog({
-          message: 'Delete this spell?',
-          cancel: true,
-          maximized: true,
-        })
-        .onOk(() => app.char.spells.splice(index, 1));
-    const sortSpells = () =>
-      app.char.spells.sort((a, b) => {
-        if (a.rank < b.rank) return -1;
-        if (a.rank > b.rank) return 1;
-        else return 0;
-      });
-    const spellsByRank = computed((): number[] => {
-      const spells = [0, 0, 0, 0, 0, 0];
-      app.char.spells.forEach((sp) => {
-        spells[sp.rank]++;
-      });
-      return spells;
-    });
-    const spellsPrepared = computed((): number => {
-      let t = 0;
-      app.char.spells.forEach((sp) => {
-        if (sp.rank > 0 && sp.prepared) t++;
-      });
-      return t;
-    });
-
-    const addAbl = () => app.char.abilities.push(NewAbility());
-    const removeAbl = (index: number) =>
-      $q
-        .dialog({
-          message: 'Delete this ability?',
-          cancel: true,
-          maximized: true,
-        })
-        .onOk(() => app.char.abilities.splice(index, 1));
-
-    const filter = ref('');
-    const show = (s: ISpell): boolean => {
-      if (!s.prepared && showPreparedSpells.value) return false;
-      if (filter.value == null || filter.value == '') return true;
-
-      if (RegExp(filter.value, 'i').test(s.name) || RegExp(filter.value).test(s.text)) return true;
-
-      return false;
-    };
-
-    const showPreparedSpells = ref(false);
-
-    return {
-      app,
-      BaseChance,
-      filter,
-      show,
-
-      addSpell,
-      removeSpell,
-      sortSpells,
-      spellsByRank,
-      spellsPrepared,
-      showPreparedSpells,
-
-      addAbl,
-      removeAbl,
-    };
-  },
+const $q = useQuasar();
+const addSpell = () => app.char.spells.push(NewSpell());
+const removeSpell = (index: number) =>
+  $q
+    .dialog({
+      message: 'Delete this spell?',
+      cancel: true,
+      maximized: true,
+    })
+    .onOk(() => app.char.spells.splice(index, 1));
+const sortSpells = () =>
+  app.char.spells.sort((a, b) => {
+    if (a.rank < b.rank) return -1;
+    if (a.rank > b.rank) return 1;
+    else return 0;
+  });
+const spellsByRank = computed((): number[] => {
+  const spells = [0, 0, 0, 0, 0, 0];
+  app.char.spells.forEach((sp) => {
+    spells[sp.rank]++;
+  });
+  return spells;
 });
+const spellsPrepared = computed((): number => {
+  let t = 0;
+  app.char.spells.forEach((sp) => {
+    if (sp.rank > 0 && sp.prepared) t++;
+  });
+  return t;
+});
+
+const addAbl = () => app.char.abilities.push(NewAbility());
+const removeAbl = (index: number) =>
+  $q
+    .dialog({
+      message: 'Delete this ability?',
+      cancel: true,
+      maximized: true,
+    })
+    .onOk(() => app.char.abilities.splice(index, 1));
+
+const filter = ref('');
+const show = (s: ISpell): boolean => {
+  if (!s.prepared && showPreparedSpells.value) return false;
+  if (filter.value == null || filter.value == '') return true;
+
+  if (RegExp(filter.value, 'i').test(s.name) || RegExp(filter.value).test(s.text)) return true;
+
+  return false;
+};
+
+const showPreparedSpells = ref(false);
 </script>

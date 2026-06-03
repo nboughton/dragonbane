@@ -126,8 +126,8 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
 import { EAttr, IDBStore } from 'src/components/models';
 
@@ -139,100 +139,74 @@ import { roll } from 'src/lib/util';
 import { colours } from 'src/lib/theme';
 import { notifySend } from 'src/lib/notify';
 
-export default defineComponent({
-  name: 'MainLayout',
+const leftDrawerOpen = ref(false);
 
-  components: {},
+const app = useCharacterStore();
+const $q = useQuasar();
 
-  setup() {
-    const leftDrawerOpen = ref(false);
+const showDataLoad = ref(false);
+const fileToLoad = ref(null);
+const loadData = () => {
+  const f: File = fileToLoad.value as unknown as File;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const data = JSON.parse(ev.target?.result as string) as IDBStore;
+    app.loadData(data);
+    showDataLoad.value = false;
+  };
+  reader.readAsText(f);
+};
 
-    const app = useCharacterStore();
-    const $q = useQuasar();
+const removeChar = (index: number) =>
+  $q
+    .dialog({
+      message: `Delete ${app.chars[index].name}?`,
+      cancel: true,
+      maximized: true,
+    })
+    .onOk(() => {
+      app.conf.char = 0;
+      app.chars.splice(index, 1);
+    });
 
-    const showDataLoad = ref(false);
-    const fileToLoad = ref(null);
-    const loadData = () => {
-      const f: File = fileToLoad.value as unknown as File;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const data = JSON.parse(ev.target?.result as string) as IDBStore;
-        app.loadData(data);
-        showDataLoad.value = false;
-      };
-      reader.readAsText(f);
-    };
+const rest = {
+  round: () => {
+    app.char.wp.current += roll(6);
+    if (app.char.wp.current > app.char.wp.max) app.char.wp.current = app.char.wp.max;
+  },
+  stretch: () => {
+    rest.round();
+    app.char.hp.current += roll(6);
+    if (app.char.hp.current > app.char.hp.max) app.char.hp.current = app.char.hp.max;
+  },
+  shift: () => {
+    app.char.wp.current = app.char.wp.max;
+    app.char.hp.current = app.char.hp.max;
+    Object.keys(app.char.attributes).forEach((attr) => (app.char.attributes[attr as EAttr].condition.check = false));
+  },
+};
 
-    const removeChar = (index: number) =>
-      $q
-        .dialog({
-          message: `Delete ${app.chars[index].name}?`,
-          cancel: true,
-          maximized: true,
-        })
-        .onOk(() => {
-          app.conf.char = 0;
-          app.chars.splice(index, 1);
-        });
+const advance = () => {
+  const advanced = app.rollAdvancements();
+  notifySend(
+    advanced.length > 0
+      ? `${app.char.name} advanced: ${advanced.join(', ')}`
+      : `${app.char.name} didn't advance any skills.`,
+    'INFO'
+  );
+};
 
-    const rest = {
-      round: () => {
-        app.char.wp.current += roll(6);
-        if (app.char.wp.current > app.char.wp.max) app.char.wp.current = app.char.wp.max;
-      },
-      stretch: () => {
-        rest.round();
-        app.char.hp.current += roll(6);
-        if (app.char.hp.current > app.char.hp.max) app.char.hp.current = app.char.hp.max;
-      },
-      shift: () => {
-        app.char.wp.current = app.char.wp.max;
-        app.char.hp.current = app.char.hp.max;
-        Object.keys(app.char.attributes).forEach(
-          (attr) => (app.char.attributes[attr as EAttr].condition.check = false)
-        );
-      },
-    };
-
-    const advance = () => {
-      const advanced = app.rollAdvancements();
-      notifySend(
-        advanced.length > 0
-          ? `${app.char.name} advanced: ${advanced.join(', ')}`
-          : `${app.char.name} didn't advance any skills.`,
-        'INFO'
-      );
-    };
-
-    const about = () =>
-      $q.dialog({
-        title: '<div class="text-h5">About</div>',
-        html: true,
-        message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
+const about = () =>
+  $q.dialog({
+    title: '<div class="text-h5">About</div>',
+    html: true,
+    message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
       <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane" target="_blank">Github repository</a> and submit a pull request.</p>
       <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun" target="_blank">ko-fi</a>.</p>`,
-        maximized: true,
-      });
+    maximized: true,
+  });
 
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-      app,
-      rest,
-      advance,
-      about,
-
-      NewCharacter,
-      removeChar,
-
-      showDataLoad,
-      fileToLoad,
-      loadData,
-
-      colours,
-    };
-  },
-});
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
 </script>

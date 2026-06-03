@@ -19,35 +19,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
+<script lang="ts" setup>
 import { IArmour } from './models';
-export default defineComponent({
-  name: 'ArmourBlock',
-  props: {
-    modelValue: {
-      type: Object as PropType<IArmour>,
-      required: true,
-    },
-    label: {
-      type: String,
-    },
-  },
-  emits: ['update:modelValue', 'delete'],
-  setup(props, { emit }) {
-    const amr = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (amr.value = props.modelValue)
-    );
-    watch(
-      () => amr.value,
-      () => emit('update:modelValue', amr.value)
-    );
 
-    return {
-      amr,
-    };
-  },
-});
+const amr = defineModel<IArmour>({ required: true });
+defineProps<{ label: string }>();
 </script>

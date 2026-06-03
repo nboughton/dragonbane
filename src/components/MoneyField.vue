@@ -6,51 +6,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-export default defineComponent({
-  name: 'MoneyField',
-  props: {
-    modelValue: {
-      type: Number,
-      required: true,
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const dollaBills = computed({
-      get(): number {
-        return props.modelValue;
-      },
-      // deepcode ignore VueGetterDoesntReturn: An emit doesn't require a return value
-      set(n: number) {
-        emit('update:modelValue', n);
-      },
-    });
+const dollaBills = defineModel<number>({ required: true });
+const props = defineProps<{ label: string }>();
 
-    // Property for determining the icon color based on the label
-    const iconColor = computed(() => {
-      switch (props.label.toLowerCase()) {
-        case 'gold':
-          return 'amber-5';
-        case 'silver':
-          return 'blue-grey-5';
-        case 'copper':
-          return 'brown-5';
-        default:
-          return 'black';
-      }
-    });
-
-    return {
-      dollaBills,
-      iconColor,
-    };
-  },
+// Property for determining the icon color based on the label
+const iconColor = computed(() => {
+  switch (props.label.toLowerCase()) {
+    case 'gold':
+      return 'amber-5';
+    case 'silver':
+      return 'blue-grey-5';
+    case 'copper':
+      return 'brown-5';
+    default:
+      return 'black';
+  }
 });
 </script>

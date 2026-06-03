@@ -40,45 +40,18 @@
   </q-card-section>
 </template>
 
-<script lang="ts">
-import { PropType, defineComponent, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
 import { IDie } from './models';
 
 import { deepCopy } from 'src/lib/util';
 
-export default defineComponent({
-  name: 'DiceSelect',
-  props: {
-    modelValue: {
-      type: Array as PropType<IDie[]>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const dice = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (dice.value = props.modelValue),
-      { deep: true }
-    );
-    watch(
-      () => dice.value,
-      () => emit('update:modelValue', dice.value),
-      { deep: true }
-    );
-    const newDie = ref(<IDie>{ n: 1, size: 10 });
-    const addDie = () => dice.value.unshift(deepCopy(newDie.value));
-    const rmDie = (index: number) => dice.value.splice(index, 1);
-    return {
-      dice,
-      newDie,
-      addDie,
-      rmDie,
-    };
-  },
-});
+const dice = defineModel<IDie[]>({ required: true });
+
+const newDie = ref(<IDie>{ n: 1, size: 10 });
+const addDie = () => dice.value.unshift(deepCopy(newDie.value));
+const rmDie = (index: number) => dice.value.splice(index, 1);
 </script>
 
 <style lang="sass">

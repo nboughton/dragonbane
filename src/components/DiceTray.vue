@@ -1,6 +1,13 @@
-<script setup lang="ts">
-import DiceIcon from './DiceIcon.vue';
+<template>
+  <div class="row justify-center">
+    <DiceIcon v-for="(d, i) in dice" :key="i" :name="d.name" :value="d.value" />
+  </div>
+</template>
+
+<script lang="ts" setup>
 import { Die } from './models';
+
+import DiceIcon from './DiceIcon.vue';
 
 defineProps<{
   dice: {
@@ -9,9 +16,3 @@ defineProps<{
   }[];
 }>();
 </script>
-
-<template>
-  <div class="row justify-center">
-    <DiceIcon v-for="(d, i) in dice" :key="i" :name="d.name" :value="d.value" />
-  </div>
-</template>

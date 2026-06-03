@@ -39,8 +39,8 @@
   </q-card>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { computed, ref, watch } from 'vue';
 
 import { ERollType, ED20Result } from './models';
 
@@ -51,124 +51,109 @@ import { roll, sleep, deepCopy } from 'src/lib/util';
 import IncDec from './IncDec.vue';
 import DiceTray from './DiceTray.vue';
 
-export default defineComponent({
-  name: 'DiceRoller',
-  components: { IncDec, DiceTray },
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    skill: {
-      type: String,
-    },
-    target: {
-      type: Number,
-      required: true,
-    },
-    boons: {
-      type: Number,
-      default: 0,
-    },
-    banes: {
-      type: Number,
-      default: 0,
-    },
-    rollType: {
-      type: String, // ERollType
-      required: true,
-    },
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
   },
-  emits: ['close', 'result'],
-  setup(props, { emit }) {
-    const app = useCharacterStore();
-    const b = ref({ boons: props.boons, banes: props.banes });
-    const rolled = ref(false);
+  skill: {
+    type: String,
+  },
+  target: {
+    type: Number,
+    required: true,
+  },
+  boons: {
+    type: Number,
+    default: 0,
+  },
+  banes: {
+    type: Number,
+    default: 0,
+  },
+  rollType: {
+    type: String, // ERollType
+    required: true,
+  },
+});
 
-    const mods = computed((): number => b.value.boons - b.value.banes);
-    const d20Result = ref<number[]>(Array(Math.abs(mods.value) + 1).fill(0));
-    watch(
-      () => mods.value,
-      () => {
-        rolled.value = false;
-        d20Result.value = Array(Math.abs(mods.value) + 1).fill(0);
+const emit = defineEmits(['close', 'result']);
+
+const app = useCharacterStore();
+const b = ref({ boons: props.boons, banes: props.banes });
+const rolled = ref(false);
+
+const mods = computed((): number => b.value.boons - b.value.banes);
+const d20Result = ref<number[]>(Array(Math.abs(mods.value) + 1).fill(0));
+watch(
+  () => mods.value,
+  () => {
+    rolled.value = false;
+    d20Result.value = Array(Math.abs(mods.value) + 1).fill(0);
+  }
+);
+
+const rollBtnLabel = computed((): string =>
+  mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`
+);
+
+const rollIt = () => {
+  rolled.value = false;
+  void (async () => {
+    for (let i = 0; i < 20; i++) {
+      d20Result.value.forEach((v, i) => (d20Result.value[i] = roll(20)));
+      await sleep(75 + i * 10);
+    }
+    rolled.value = true;
+
+    // Apply special effects
+    if (selectResult() == 1 || selectResult() == 20) {
+      switch (props.rollType) {
+        case ERollType.Primary:
+          app.char.priSkills[props.name].checked = true;
+          break;
+        case ERollType.Secondary:
+          app.char.secSkills[props.name].checked = true;
+          break;
+        case ERollType.Weapon:
+          app.char.wepSkills[props.name].checked = true;
+          break;
+        case ERollType.Attack:
+          if (props.skill) app.char.wepSkills[props.skill].checked = true;
+          break;
+        case ERollType.Attr:
+          //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
+          break;
+        case ERollType.Spell:
+          if (props.skill) app.char.secSkills[props.skill].checked = true;
+          break;
+        default:
+          break;
       }
-    );
+    }
+    emit('result', `${resultText.value}: (${selectResult()} vs ${props.target})`);
+  })();
+};
 
-    const rollBtnLabel = computed((): string =>
-      mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`
-    );
+const selectResult = (): number => {
+  let cmp = deepCopy(d20Result.value);
+  const sortFn = (a: number, b: number): number => {
+    if (a < b) return -1;
+    else if (b < a) return 1;
+    else return 0;
+  };
 
-    const rollIt = () => {
-      rolled.value = false;
-      void (async () => {
-        for (let i = 0; i < 20; i++) {
-          d20Result.value.forEach((v, i) => (d20Result.value[i] = roll(20)));
-          await sleep(75 + i * 10);
-        }
-        rolled.value = true;
+  mods.value < 0 ? cmp.sort(sortFn).reverse() : cmp.sort(sortFn);
+  return cmp[0];
+};
 
-        // Apply special effects
-        if (selectResult() == 1 || selectResult() == 20) {
-          switch (props.rollType) {
-            case ERollType.Primary:
-              app.char.priSkills[props.name].checked = true;
-              break;
-            case ERollType.Secondary:
-              app.char.secSkills[props.name].checked = true;
-              break;
-            case ERollType.Weapon:
-              app.char.wepSkills[props.name].checked = true;
-              break;
-            case ERollType.Attack:
-              if (props.skill) app.char.wepSkills[props.skill].checked = true;
-              break;
-            case ERollType.Attr:
-              //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
-              break;
-            case ERollType.Spell:
-              if (props.skill) app.char.secSkills[props.skill].checked = true;
-              break;
-            default:
-              break;
-          }
-        }
-        emit('result', `${resultText.value}: (${selectResult()} vs ${props.target})`);
-      })();
-    };
+const resultText = computed((): string => {
+  const r = selectResult();
+  if (r === 1) return ED20Result.Dragon;
+  if (r === 20) return ED20Result.Demon;
+  if (r <= props.target) return ED20Result.Success;
+  if (r > props.target) return ED20Result.Fail;
 
-    const selectResult = (): number => {
-      let cmp = deepCopy(d20Result.value);
-      const sortFn = (a: number, b: number): number => {
-        if (a < b) return -1;
-        else if (b < a) return 1;
-        else return 0;
-      };
-
-      mods.value < 0 ? cmp.sort(sortFn).reverse() : cmp.sort(sortFn);
-      return cmp[0];
-    };
-
-    const resultText = computed((): string => {
-      const r = selectResult();
-      if (r === 1) return ED20Result.Dragon;
-      if (r === 20) return ED20Result.Demon;
-      if (r <= props.target) return ED20Result.Success;
-      if (r > props.target) return ED20Result.Fail;
-
-      return 'Something has gone wrong :(';
-    });
-
-    return {
-      b,
-      d20Result,
-      rollIt,
-      mods,
-      rolled,
-      selectResult,
-      resultText,
-      rollBtnLabel,
-    };
-  },
+  return 'Something has gone wrong :(';
 });
 </script>

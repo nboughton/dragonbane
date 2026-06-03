@@ -29,9 +29,7 @@
   </action-item-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
-
+<script lang="ts" setup>
 import { IAbility } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
@@ -39,53 +37,28 @@ import { useQuasar } from 'quasar';
 
 import ActionItemRow from './ActionItemRow.vue';
 
-export default defineComponent({
-  name: 'AbilityBlock',
-  components: { ActionItemRow },
-  props: {
-    modelValue: {
-      type: Object as PropType<IAbility>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue', 'delete'],
-  setup(props, { emit }) {
-    const abl = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (abl.value = props.modelValue)
-    );
-    watch(
-      () => abl.value,
-      () => emit('update:modelValue', abl.value)
-    );
+const abl = defineModel<IAbility>({ required: true });
+defineEmits(['delete']);
 
-    const $q = useQuasar();
-    const app = useCharacterStore();
-    const activate = () =>
-      $q
-        .dialog({
-          title: `Use ${abl.value.name}?`,
-          message: abl.value.text,
-          prompt: {
-            label: 'Spend WP',
-            model: `${abl.value.wp}`,
-            type: 'number',
-            hint: `current WP: ${app.char.wp.current}`,
-            max: app.char.wp.current,
-          },
-          ok: true,
-          cancel: true,
-          maximized: true,
-        })
-        .onOk((wp) => {
-          if (app.char.wp.current >= +wp) app.char.wp.current -= +wp;
-        });
-
-    return {
-      abl,
-      activate,
-    };
-  },
-});
+const $q = useQuasar();
+const app = useCharacterStore();
+const activate = () =>
+  $q
+    .dialog({
+      title: `Use ${abl.value.name}?`,
+      message: abl.value.text,
+      prompt: {
+        label: 'Spend WP',
+        model: `${abl.value.wp}`,
+        type: 'number',
+        hint: `current WP: ${app.char.wp.current}`,
+        max: app.char.wp.current,
+      },
+      ok: true,
+      cancel: true,
+      maximized: true,
+    })
+    .onOk((wp) => {
+      if (app.char.wp.current >= +wp) app.char.wp.current -= +wp;
+    });
 </script>

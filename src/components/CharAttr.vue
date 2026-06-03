@@ -40,76 +40,41 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 
 import { ED20Result, ERollType, IAttribute } from './models';
 
 import { useQuasar } from 'quasar';
-
-import DiceRoller from './DiceRoller.vue';
 import { useCharacterStore } from 'src/stores/character';
+
 import { notifySend } from 'src/lib/notify';
 
-export default defineComponent({
-  name: 'CharStat',
-  components: { DiceRoller },
-  props: {
-    modelValue: {
-      type: Object as PropType<IAttribute>,
-      required: true,
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const attr = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (attr.value = props.modelValue),
-      { deep: true }
-    );
-    watch(
-      () => attr.value,
-      () => emit('update:modelValue', attr.value),
-      { deep: true }
-    );
+import DiceRoller from './DiceRoller.vue';
 
-    const $q = useQuasar();
-    const editAttr = () =>
-      $q
-        .dialog({
-          title: `Edit ${props.label}`,
-          cancel: true,
-          prompt: {
-            type: 'number',
-            model: `${attr.value.score}`,
-            min: 3,
-            max: 18,
-            inputClass: 'text-center text-h4',
-            class: 'q-pa-lg',
-            rounded: true,
-            outlined: true,
-          },
-          maximized: true,
-        })
-        .onOk((n) => (attr.value.score = n));
+const attr = defineModel<IAttribute>({ required: true });
+const props = defineProps<{ label: string }>();
 
-    const showRoller = ref(false);
-    const app = useCharacterStore();
+const $q = useQuasar();
+const editAttr = () =>
+  $q
+    .dialog({
+      title: `Edit ${props.label}`,
+      cancel: true,
+      prompt: {
+        type: 'number',
+        model: `${attr.value.score}`,
+        min: 3,
+        max: 18,
+        inputClass: 'text-center text-h4',
+        class: 'q-pa-lg',
+        rounded: true,
+        outlined: true,
+      },
+      maximized: true,
+    })
+    .onOk((n) => (attr.value.score = n));
 
-    return {
-      app,
-      attr,
-      editAttr,
-      showRoller,
-      ERollType,
-      ED20Result,
-      notifySend,
-    };
-  },
-});
+const showRoller = ref(false);
+const app = useCharacterStore();
 </script>

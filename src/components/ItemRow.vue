@@ -6,32 +6,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
+<script lang="ts" setup>
 import { IItem } from './models';
-export default defineComponent({
-  name: 'ItemRow',
-  props: {
-    modelValue: {
-      type: Object as PropType<IItem>,
-      required: true,
-    },
-  },
-  emits: ['update:modelValue', 'delete'],
-  setup(props, { emit }) {
-    const item = ref(props.modelValue);
-    watch(
-      () => props.modelValue,
-      () => (item.value = props.modelValue)
-    );
-    watch(
-      () => item.value,
-      () => emit('update:modelValue', item.value)
-    );
 
-    return {
-      item,
-    };
-  },
-});
+const item = defineModel<IItem>({ required: true });
+defineEmits(['delete']);
 </script>

@@ -106,15 +106,13 @@
   </q-page>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 
 import { EAge, EAttr } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
-
-import { BaseChance, DmgBonus } from 'src/lib/defaults';
 
 import CharAttr from 'src/components/CharAttr.vue';
 import PointsBlock from 'src/components/PointsBlock.vue';
@@ -123,67 +121,43 @@ import CombatTab from 'src/components/CombatTab.vue';
 import AbilitiesTab from 'src/components/AbilitiesTab.vue';
 import GearTab from 'src/components/GearTab.vue';
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: {
-    CharAttr,
-    PointsBlock,
-    SkillsTab,
-    CombatTab,
-    AbilitiesTab,
-    GearTab,
-  },
-  setup() {
-    const app = useCharacterStore();
-    const tab = ref('skills');
+const app = useCharacterStore();
+const tab = ref('skills');
 
-    const $q = useQuasar();
-    const rollStats = () =>
-      $q
-        .dialog({
-          message: 'Roll and apply Character Stats?',
-          maximized: true,
-          cancel: true,
-        })
-        .onOk(() => {
-          const r = (): number => {
-            let sum = 0;
+const $q = useQuasar();
+const rollStats = () =>
+  $q
+    .dialog({
+      message: 'Roll and apply Character Stats?',
+      maximized: true,
+      cancel: true,
+    })
+    .onOk(() => {
+      const r = (): number => {
+        let sum = 0;
 
-            let rolls: number[] = new Array(4).fill(0);
-            rolls.forEach((n, i) => (rolls[i] = Math.floor(Math.random() * 6) + 1));
-            rolls.sort();
-            rolls.shift();
-            rolls.forEach((roll) => (sum += roll));
+        let rolls: number[] = new Array(4).fill(0);
+        rolls.forEach((n, i) => (rolls[i] = Math.floor(Math.random() * 6) + 1));
+        rolls.sort();
+        rolls.shift();
+        rolls.forEach((roll) => (sum += roll));
 
-            return sum;
-          };
+        return sum;
+      };
 
-          Object.keys(EAttr).forEach((attr) => (app.char.attributes[attr as EAttr].score = r()));
+      Object.keys(EAttr).forEach((attr) => (app.char.attributes[attr as EAttr].score = r()));
 
-          const hp = app.char.attributes[EAttr.CON].score;
-          app.char.hp.max = hp;
-          app.char.hp.current = hp;
+      const hp = app.char.attributes[EAttr.CON].score;
+      app.char.hp.max = hp;
+      app.char.hp.current = hp;
 
-          const wp = app.char.attributes[EAttr.WIL].score;
-          app.char.wp.max = wp;
-          app.char.wp.current = wp;
-        });
-    const statsRolled = computed((): boolean => {
-      let total = 0;
-      Object.keys(EAttr).forEach((attr) => (total += app.char.attributes[attr as EAttr].score));
-      return total == 0;
+      const wp = app.char.attributes[EAttr.WIL].score;
+      app.char.wp.max = wp;
+      app.char.wp.current = wp;
     });
-
-    return {
-      app,
-      tab,
-      EAttr,
-      EAge,
-      DmgBonus,
-      BaseChance,
-      rollStats,
-      statsRolled,
-    };
-  },
+const statsRolled = computed((): boolean => {
+  let total = 0;
+  Object.keys(EAttr).forEach((attr) => (total += app.char.attributes[attr as EAttr].score));
+  return total == 0;
 });
 </script>
