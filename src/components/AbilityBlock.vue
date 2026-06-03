@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IAbility } from './models';
+import type { IAbility } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 import { useQuasar } from 'quasar';

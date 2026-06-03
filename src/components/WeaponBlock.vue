@@ -13,8 +13,8 @@
           <q-icon name="mdi-sword" />
           {{ weapon.damage
           }}{{
-            weapon.skill && app.dmgBonus(app.char.wepSkills[weapon.skill].attr) != '-'
-              ? app.dmgBonus(app.char.wepSkills[weapon.skill].attr)
+            weapon.skill && app.dmgBonus(app.char.wepSkills[weapon.skill]!.attr) != '-'
+              ? app.dmgBonus(app.char.wepSkills[weapon.skill]!.attr)
               : ''
           }}
         </div>
@@ -53,7 +53,7 @@
         />
       </div>
       <div class="row q-gutter-sm">
-        <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(EGrip)" dense />
+        <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(Grips)" dense />
         <q-input class="col" label="Range" v-model="weapon.range" dense />
         <q-input class="col" label="Damage" v-model="weapon.damage" dense />
         <q-input class="col" label="Durability" type="number" v-model.number="weapon.durability" dense />
@@ -69,17 +69,17 @@
   <q-dialog v-model="display.roller" maximized>
     <dice-roller
       :name="weapon.name"
-      :roll-type="ERollType.Attack"
+      :roll-type="RollTypes.Attack"
       :target="app.skill('wepSkills', weapon.skill!)"
       :banes="app.banes('wepSkills', weapon.skill!)"
-      :skill="weapon.skill"
+      :skill="weapon.skill!"
       @close="display.roller = false"
       @result="
         (r: string) => {
           setResultDisplay(r);
           notifySend(
             `${app.char.name} rolled ${weapon.skill}: ${r}`,
-            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
+            r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           );
         }
       "
@@ -209,7 +209,8 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
-import { IWeapon, EGrip, ERollType, IDiceRoll, ED20Result } from './models';
+import type { IWeapon, IDiceRoll } from './models';
+import { Grips, RollTypes, D20Results } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
@@ -237,14 +238,16 @@ const display = ref({
 
 const dmgDice = ref(parseDiceString(weapon.value.damage));
 
-const dmgBonus = computed(() => (weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill].attr) : '-'));
+const dmgBonus = computed(() =>
+  weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill]!.attr) : '-',
+);
 if (dmgBonus.value != '-') dmgDice.value.push(...parseDiceString(dmgBonus.value));
 watch(
   () => weapon.value.damage,
   () => {
     dmgDice.value = parseDiceString(weapon.value.damage);
     if (dmgBonus.value != '-') dmgDice.value.push(...parseDiceString(dmgBonus.value));
-  }
+  },
 );
 
 const dmgRes = ref(<IDiceRoll>{ total: 0, results: [] });
@@ -259,13 +262,13 @@ const setResultDisplay = (r: string) => {
     demon: false,
   };
 
-  r.includes(ED20Result.Dragon)
-    ? (display.value.dragon = true)
-    : r.includes(ED20Result.Demon)
-    ? (display.value.demon = true)
-    : r.includes(ED20Result.Success)
-    ? (display.value.success = true)
-    : null;
+  if (r.includes(D20Results.Dragon)) {
+    display.value.dragon = true;
+  } else if (r.includes(D20Results.Demon)) {
+    display.value.demon = true;
+  } else if (r.includes(D20Results.Success)) {
+    display.value.success = true;
+  }
 };
 
 const mishap = ref({
@@ -280,7 +283,7 @@ const showRoller = () => {
 
 const rollDmg = () => {
   dmgRes.value = rollDice(dmgDice.value);
-  notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
 };
 </script>
 

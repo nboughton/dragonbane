@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IItem } from './models';
+import type { IItem } from './models';
 
 const item = defineModel<IItem>({ required: true });
 defineEmits(['delete']);

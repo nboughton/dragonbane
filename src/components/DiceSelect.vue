@@ -43,13 +43,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { IDie } from './models';
+import type { IDie } from './models';
 
 import { deepCopy } from 'src/lib/util';
 
 const dice = defineModel<IDie[]>({ required: true });
 
-const newDie = ref(<IDie>{ n: 1, size: 10 });
+const newDie = ref({ n: 1, size: 10 });
 const addDie = () => dice.value.unshift(deepCopy(newDie.value));
 const rmDie = (index: number) => dice.value.splice(index, 1);
 </script>

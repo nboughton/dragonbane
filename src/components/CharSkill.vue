@@ -62,7 +62,7 @@
         (r: string) =>
           notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
-            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
+            r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
       "
     />
@@ -72,7 +72,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 
-import { ED20Result, EAttr, ERollType, ISkill } from './models';
+import type { ISkill } from './models';
+import { D20Results, RollTypes } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
@@ -92,8 +93,8 @@ defineEmits(['delete']);
 
 const app = useCharacterStore();
 const base = computed((): number => {
-  const b = BaseChance(app.char.attributes[skill.value.attr as EAttr].score);
-  return skill.value.trained ? b * 2 : props.skillType == ERollType.Secondary ? 0 : b;
+  const b = BaseChance(app.char.attributes[skill.value.attr].score);
+  return skill.value.trained ? b * 2 : props.skillType == RollTypes.Secondary ? 0 : b;
 });
 
 const val = computed({
@@ -107,7 +108,7 @@ const val = computed({
 
 const baned = computed((): boolean => {
   let b = false;
-  if (app.char.attributes[skill.value.attr as EAttr].condition.check) b = true;
+  if (app.char.attributes[skill.value.attr].condition.check) b = true;
 
   Object.keys(app.char.armour.bane).forEach((k) => {
     if (app.char.armour.bane[k] && k == props.label) b = true;
@@ -128,8 +129,8 @@ const baned = computed((): boolean => {
 });
 
 const banes = computed((): number[] => {
-  let b = [];
-  if (app.char.attributes[skill.value.attr as EAttr].condition.check) b.push(0);
+  const b = [];
+  if (app.char.attributes[skill.value.attr].condition.check) b.push(0);
 
   Object.keys(app.char.armour.bane).forEach((k) => {
     if (app.char.armour.bane[k] && k == props.label) b.push(0);

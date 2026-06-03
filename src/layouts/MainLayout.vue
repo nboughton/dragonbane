@@ -129,7 +129,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { EAttr, IDBStore } from 'src/components/models';
+import type { Attr, IDBStore } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -160,7 +160,7 @@ const loadData = () => {
 const removeChar = (index: number) =>
   $q
     .dialog({
-      message: `Delete ${app.chars[index].name}?`,
+      message: `Delete ${app.chars[index]!.name}?`,
       cancel: true,
       maximized: true,
     })
@@ -182,17 +182,17 @@ const rest = {
   shift: () => {
     app.char.wp.current = app.char.wp.max;
     app.char.hp.current = app.char.hp.max;
-    Object.keys(app.char.attributes).forEach((attr) => (app.char.attributes[attr as EAttr].condition.check = false));
+    Object.keys(app.char.attributes).forEach((attr) => (app.char.attributes[attr as Attr].condition.check = false));
   },
 };
 
 const advance = () => {
   const advanced = app.rollAdvancements();
-  notifySend(
+  void notifySend(
     advanced.length > 0
       ? `${app.char.name} advanced: ${advanced.join(', ')}`
       : `${app.char.name} didn't advance any skills.`,
-    'INFO'
+    'INFO',
   );
 };
 

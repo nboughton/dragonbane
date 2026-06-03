@@ -55,7 +55,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { IPoints } from './models';
+import type { IPoints } from './models';
 
 const points = defineModel<IPoints>({ required: true });
 defineProps<{

@@ -27,13 +27,13 @@
       :name="label"
       :banes="attr.condition.check ? 1 : 0"
       :target="attr.score"
-      :roll-type="ERollType.Attr"
+      :roll-type="RollTypes.Attr"
       @close="showRoller = false"
       @result="
         (r) =>
           notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
-            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
+            r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
       "
     />
@@ -43,7 +43,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { ED20Result, ERollType, IAttribute } from './models';
+import type { IAttribute } from './models';
+import { D20Results, RollTypes } from './models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';

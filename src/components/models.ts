@@ -16,7 +16,7 @@ export interface ICharacter {
   id: string;
   name: string;
   kin: string;
-  age: EAge;
+  age: Age;
   profession: string;
   weakness: string;
   appearance: string;
@@ -34,7 +34,7 @@ export interface ICharacter {
     silver: number;
     copper: number;
   };
-  attributes: { [key in EAttr]: IAttribute };
+  attributes: Record<Attr, IAttribute>;
   priSkills: { [index: string]: ISkill };
   wepSkills: { [index: string]: ISkill };
   secSkills: { [index: string]: ISkill };
@@ -51,13 +51,13 @@ export interface IPoints {
 export interface IAttribute {
   score: number;
   condition: {
-    name: ECond;
+    name: Condition;
     check: boolean;
   };
 }
 
 export interface ISkill {
-  attr: EAttr;
+  attr: Attr;
   trained: boolean;
   checked: boolean;
   advances: number;
@@ -73,7 +73,7 @@ export interface IItem {
 export interface IWeapon {
   name: string;
   skill?: string;
-  grip: EGrip;
+  grip: Grip;
   range: string;
   damage: string;
   durability: number;
@@ -96,11 +96,11 @@ export interface ISpell {
   name: string;
   skill?: string;
   rank: number;
-  req: ESpellReq[];
+  req: SpellReq[];
   ingredient?: string;
   time: string;
   range: string;
-  duration: EDuration;
+  duration: Duration;
   text: string;
   prepared: boolean;
 }
@@ -131,65 +131,82 @@ export interface ITable {
   rows: ITableRow[];
 }
 
-export enum EAttr {
-  STR = 'STR',
-  CON = 'CON',
-  AGL = 'AGL',
-  INT = 'INT',
-  WIL = 'WIL',
-  CHA = 'CHA',
-}
+export const Attrs = {
+  STR : 'STR',
+  CON : 'CON',
+  AGL : 'AGL',
+  INT : 'INT',
+  WIL : 'WIL',
+  CHA : 'CHA',
+} as const
 
-export enum ECond {
-  Exhausted = 'Exhausted',
-  Sickly = 'Sickly',
-  Dazed = 'Dazed',
-  Angry = 'Angry',
-  Scared = 'Scared',
-  Disheartened = 'Disheartened',
-}
+export type Attr = (typeof Attrs)[keyof typeof Attrs]
 
-export enum EDuration {
-  Instant = 'Instant',
-  Round = 'Round',
-  Stretch = 'Stretch',
-  Shift = 'Shift',
-  Concentration = 'Concentration',
-}
+export const Conditions = {
+  Exhausted : 'Exhausted',
+  Sickly : 'Sickly',
+  Dazed : 'Dazed',
+  Angry : 'Angry',
+  Scared : 'Scared',
+  Disheartened : 'Disheartened',
+} as const
 
-export enum ESpellReq {
-  Word = 'Word',
-  Gesture = 'Gesture',
-  Focus = 'Focus',
-  Ingredient = 'Ingredient',
-}
+export type Condition = (typeof Conditions)[keyof typeof Conditions]
 
-export enum EAge {
-  Young = 'Young',
-  Adult = 'Adult',
-  Old = 'Old',
-}
+export const Durations = {
+  Instant : 'Instant',
+  Round : 'Round',
+  Stretch : 'Stretch',
+  Shift : 'Shift',
+  Concentration : 'Concentration',
+} as const
 
-export enum EGrip {
-  None = '-',
-  One = '1H',
-  Two = '2H',
-}
+export type Duration = (typeof Durations)[keyof typeof Durations]
 
-export enum ERollType {
-  Attr = 'attribute',
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Weapon = 'weapon',
-  Attack = 'attack',
-  Spell = 'spell',
-}
+export const SpellReqs = {
+  Word : 'Word',
+  Gesture : 'Gesture',
+  Focus : 'Focus',
+  Ingredient : 'Ingredient',
+} as const
 
-export enum ED20Result {
-  Dragon = 'Dragon!',
-  Demon = 'Demon!',
-  Success = 'Success!',
-  Fail = 'Failure',
-}
+export type SpellReq = (typeof SpellReqs)[keyof typeof SpellReqs]
 
-export type SkillTypes = 'priSkills' | 'secSkills' | 'wepSkills';
+export const Ages = {
+  Young : 'Young',
+  Adult : 'Adult',
+  Old : 'Old',
+} as const
+
+export type Age = (typeof Ages)[keyof typeof Ages]
+
+export const Grips = {
+  None : '-',
+  One : '1H',
+  Two : '2H',
+} as const
+
+export type Grip = (typeof Grips)[keyof typeof Grips]
+
+export const RollTypes = {
+  Attr : 'attribute',
+  Primary : 'primary',
+  Secondary : 'secondary',
+  Weapon : 'weapon',
+  Attack : 'attack',
+  Spell : 'spell',
+} as const
+
+export type RollType = (typeof RollTypes)[keyof typeof RollTypes]
+
+export const D20Results = {
+  Dragon : 'Dragon!',
+  Demon : 'Demon!',
+  Success : 'Success!',
+  Fail : 'Failure',
+} as const
+
+export type D20Result = (typeof D20Results)[keyof typeof D20Results]
+
+export type SkillType = 'priSkills' | 'secSkills' | 'wepSkills';
+

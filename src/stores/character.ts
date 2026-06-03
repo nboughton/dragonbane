@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { EAttr, ICharacter, IConfig, IDBStore, SkillTypes } from 'src/components/models';
+import type { Attr, ICharacter, IConfig, IDBStore, SkillType } from 'src/components/models';
 
 import { exportFile } from 'quasar';
 
@@ -11,62 +11,63 @@ import { roll } from 'src/lib/util';
 
 export const useCharacterStore = defineStore('character', {
   state: () => ({
-    chars: <ICharacter[]>[NewCharacter()],
-    conf: <IConfig>{
+    chars: [NewCharacter()],
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    conf: {
       char: 0,
       showTrainedSkills: true,
       showSpells: true,
       darkMode: true,
-    },
+    } as IConfig,
   }),
   getters: {
-    char: (state): ICharacter => state.chars[state.conf.char],
+    char: (state): ICharacter => state.chars[state.conf.char]!,
     skill: (state) => {
-      return (skillType: SkillTypes, skillName: string): number => {
-        const s = state.chars[state.conf.char][skillType][skillName];
-        const b = state.chars[state.conf.char].attributes[s.attr].score;
-        return s.locked && s.value ? s.value : s.advances + (s.trained ? BaseChance(b) * 2 : BaseChance(b));
+      return (skillType: SkillType, skillName: string): number => {
+        const s = state.chars[state.conf.char]![skillType][skillName];
+        const b = state.chars[state.conf.char]!.attributes[s!.attr].score;
+        return s!.locked && s!.value ? s!.value : s!.advances + (s!.trained ? BaseChance(b) * 2 : BaseChance(b));
       };
     },
     dmgBonus: (state) => {
-      return (attr: EAttr): string => DmgBonus(state.chars[state.conf.char].attributes[attr].score);
+      return (attr: Attr): string => DmgBonus(state.chars[state.conf.char]!.attributes[attr].score);
     },
     banes: (state) => {
-      return (skillType: SkillTypes, skillName: string): number => {
+      return (skillType: SkillType, skillName: string): number => {
         let b = 0;
-        const s = state.chars[state.conf.char][skillType][skillName];
-        if (state.chars[state.conf.char].attributes[s.attr as EAttr].condition.check) b++;
+        const s = state.chars[state.conf.char]![skillType][skillName];
+        if (state.chars[state.conf.char]!.attributes[s!.attr].condition.check) b++;
         return b;
       };
     },
   },
   actions: {
     lockSkills() {
-      const sections: SkillTypes[] = ['priSkills', 'secSkills', 'wepSkills'];
+      const sections: SkillType[] = ['priSkills', 'secSkills', 'wepSkills'];
 
       sections.forEach((section) => {
         Object.keys(this.char[section]).forEach((key) => {
-          this.char[section][key].value = this.skill(section, key);
-          this.char[section][key].locked = true;
+          this.char[section][key]!.value = this.skill(section, key);
+          this.char[section][key]!.locked = true;
         });
       });
     },
 
     rollAdvancements(): string[] {
-      const sections: SkillTypes[] = ['priSkills', 'secSkills', 'wepSkills'];
+      const sections: SkillType[] = ['priSkills', 'secSkills', 'wepSkills'];
       const advanced: string[] = [];
 
       sections.forEach((section) => {
         Object.keys(this.char[section]).forEach((skill) => {
-          if (this.char[section][skill].checked) {
+          if (this.char[section][skill]!.checked) {
             const s = this.char[section][skill];
             const n = roll(20);
             if (n > this.skill(section, skill)) {
               advanced.push(skill);
-              if (s.locked && s.value) this.char[section][skill].value = s.value + 1;
-              else this.char[section][skill].advances++;
+              if (s!.locked && s!.value) this.char[section][skill]!.value = s!.value + 1;
+              else this.char[section][skill]!.advances++;
             }
-            this.char[section][skill].checked = false;
+            this.char[section][skill]!.checked = false;
           }
         });
       });
@@ -102,13 +103,5 @@ export const useCharacterStore = defineStore('character', {
       //} else alert('This does not look like valid data for this app');
     },
   },
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'DragonbaneCharacters',
-        storage: localStorage,
-      },
-    ],
-  },
+  persist: true
 });

@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
-import { ERollType, ED20Result } from './models';
+import { RollTypes, D20Results } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
@@ -72,7 +72,7 @@ const props = defineProps({
     default: 0,
   },
   rollType: {
-    type: String, // ERollType
+    type: String, // RollTypes
     required: true,
   },
 });
@@ -90,11 +90,11 @@ watch(
   () => {
     rolled.value = false;
     d20Result.value = Array(Math.abs(mods.value) + 1).fill(0);
-  }
+  },
 );
 
 const rollBtnLabel = computed((): string =>
-  mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`
+  mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`,
 );
 
 const rollIt = () => {
@@ -109,23 +109,23 @@ const rollIt = () => {
     // Apply special effects
     if (selectResult() == 1 || selectResult() == 20) {
       switch (props.rollType) {
-        case ERollType.Primary:
-          app.char.priSkills[props.name].checked = true;
+        case RollTypes.Primary:
+          app.char.priSkills[props.name]!.checked = true;
           break;
-        case ERollType.Secondary:
-          app.char.secSkills[props.name].checked = true;
+        case RollTypes.Secondary:
+          app.char.secSkills[props.name]!.checked = true;
           break;
-        case ERollType.Weapon:
-          app.char.wepSkills[props.name].checked = true;
+        case RollTypes.Weapon:
+          app.char.wepSkills[props.name]!.checked = true;
           break;
-        case ERollType.Attack:
-          if (props.skill) app.char.wepSkills[props.skill].checked = true;
+        case RollTypes.Attack:
+          if (props.skill) app.char.wepSkills[props.skill]!.checked = true;
           break;
-        case ERollType.Attr:
+        case RollTypes.Attr:
           //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
           break;
-        case ERollType.Spell:
-          if (props.skill) app.char.secSkills[props.skill].checked = true;
+        case RollTypes.Spell:
+          if (props.skill) app.char.secSkills[props.skill]!.checked = true;
           break;
         default:
           break;
@@ -136,23 +136,27 @@ const rollIt = () => {
 };
 
 const selectResult = (): number => {
-  let cmp = deepCopy(d20Result.value);
+  const cmp = deepCopy(d20Result.value);
   const sortFn = (a: number, b: number): number => {
     if (a < b) return -1;
     else if (b < a) return 1;
     else return 0;
   };
 
-  mods.value < 0 ? cmp.sort(sortFn).reverse() : cmp.sort(sortFn);
-  return cmp[0];
+  if (mods.value < 0) {
+    cmp.sort(sortFn).reverse();
+  } else {
+    cmp.sort(sortFn);
+  }
+  return cmp[0]!;
 };
 
 const resultText = computed((): string => {
   const r = selectResult();
-  if (r === 1) return ED20Result.Dragon;
-  if (r === 20) return ED20Result.Demon;
-  if (r <= props.target) return ED20Result.Success;
-  if (r > props.target) return ED20Result.Fail;
+  if (r === 1) return D20Results.Dragon;
+  if (r === 20) return D20Results.Demon;
+  if (r <= props.target) return D20Results.Success;
+  if (r > props.target) return D20Results.Fail;
 
   return 'Something has gone wrong :(';
 });

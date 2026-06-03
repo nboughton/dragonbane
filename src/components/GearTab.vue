@@ -20,7 +20,7 @@
   <item-row
     v-for="(it, i) in app.char.inventory"
     :key="`inv-${i}`"
-    v-model="app.char.inventory[i]"
+    v-model="app.char.inventory[i]!"
     @delete="removeInvItem(i)"
     class="q-mx-sm"
   />

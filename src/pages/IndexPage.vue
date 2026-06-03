@@ -16,7 +16,7 @@
               options-selected-class="text-purple-2"
               label="Age"
               v-model="app.char.age"
-              :options="Object.values(EAge)"
+              :options="Object.values(Ages)"
               dense
             />
             <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
@@ -49,27 +49,27 @@
         <q-tooltip>Roll stats</q-tooltip>
       </q-btn>
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.STR" v-model="app.char.attributes.STR" />
+        <char-attr :label="Attrs.STR" v-model="app.char.attributes.STR" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.CON" v-model="app.char.attributes.CON" />
+        <char-attr :label="Attrs.CON" v-model="app.char.attributes.CON" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.AGL" v-model="app.char.attributes.AGL" />
+        <char-attr :label="Attrs.AGL" v-model="app.char.attributes.AGL" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.INT" v-model="app.char.attributes.INT" />
+        <char-attr :label="Attrs.INT" v-model="app.char.attributes.INT" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.WIL" v-model="app.char.attributes.WIL" />
+        <char-attr :label="Attrs.WIL" v-model="app.char.attributes.WIL" />
       </div>
 
       <div class="col-xs-4 col-sm-2 col-md-2">
-        <char-attr :label="EAttr.CHA" v-model="app.char.attributes.CHA" />
+        <char-attr :label="Attrs.CHA" v-model="app.char.attributes.CHA" />
       </div>
     </div>
 
@@ -109,7 +109,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 
-import { EAge, EAttr } from 'src/components/models';
+import type { Attr } from 'src/components/models';
+import { Ages, Attrs } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -136,7 +137,7 @@ const rollStats = () =>
       const r = (): number => {
         let sum = 0;
 
-        let rolls: number[] = new Array(4).fill(0);
+        const rolls: number[] = new Array(4).fill(0);
         rolls.forEach((n, i) => (rolls[i] = Math.floor(Math.random() * 6) + 1));
         rolls.sort();
         rolls.shift();
@@ -145,19 +146,19 @@ const rollStats = () =>
         return sum;
       };
 
-      Object.keys(EAttr).forEach((attr) => (app.char.attributes[attr as EAttr].score = r()));
+      Object.keys(Attrs).forEach((attr) => (app.char.attributes[attr as Attr].score = r()));
 
-      const hp = app.char.attributes[EAttr.CON].score;
+      const hp = app.char.attributes[Attrs.CON].score;
       app.char.hp.max = hp;
       app.char.hp.current = hp;
 
-      const wp = app.char.attributes[EAttr.WIL].score;
+      const wp = app.char.attributes[Attrs.WIL].score;
       app.char.wp.max = wp;
       app.char.wp.current = wp;
     });
 const statsRolled = computed((): boolean => {
   let total = 0;
-  Object.keys(EAttr).forEach((attr) => (total += app.char.attributes[attr as EAttr].score));
+  Object.keys(Attrs).forEach((attr) => (total += app.char.attributes[attr as Attr].score));
   return total == 0;
 });
 </script>

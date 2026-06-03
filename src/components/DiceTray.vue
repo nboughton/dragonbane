@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Die } from './models';
+import type { Die } from './models';
 
 import DiceIcon from './DiceIcon.vue';
 

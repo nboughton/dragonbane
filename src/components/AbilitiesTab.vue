@@ -8,7 +8,7 @@
       <ability-block
         v-for="(ab, i) in app.char.abilities"
         :key="`abl-${i}`"
-        v-model="app.char.abilities[i]"
+        v-model="app.char.abilities[i]!"
         @delete="removeAbl(i)"
       />
     </div>
@@ -58,7 +58,7 @@
       </div>
 
       <div v-for="(sp, i) in app.char.spells" :key="`spell-${i}`">
-        <spell-block v-if="show(sp)" v-model="app.char.spells[i]" @delete="removeSpell(i)" />
+        <spell-block v-if="show(sp)" v-model="app.char.spells[i]!" @delete="removeSpell(i)" />
       </div>
     </div>
   </div>
@@ -70,7 +70,7 @@
     <ability-block
       v-for="(ab, i) in app.char.abilities"
       :key="`abl-${i}`"
-      v-model="app.char.abilities[i]"
+      v-model="app.char.abilities[i]!"
       @delete="removeAbl(i)"
     />
   </div>
@@ -86,7 +86,7 @@ import { NewAbility, NewSpell, BaseChance } from 'src/lib/defaults';
 
 import AbilityBlock from './AbilityBlock.vue';
 import SpellBlock from './SpellBlock.vue';
-import { ISpell } from './models';
+import type { ISpell } from './models';
 
 const app = useCharacterStore();
 
@@ -109,7 +109,7 @@ const sortSpells = () =>
 const spellsByRank = computed((): number[] => {
   const spells = [0, 0, 0, 0, 0, 0];
   app.char.spells.forEach((sp) => {
-    spells[sp.rank]++;
+    spells[sp.rank]!++;
   });
   return spells;
 });

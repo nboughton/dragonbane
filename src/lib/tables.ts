@@ -1,4 +1,4 @@
-import { ITable } from 'src/components/models';
+import type { ITable } from 'src/components/models';
 import { parseDiceString, rollDice } from './util';
 
 export const rollTable = (t: ITable): string | undefined => {

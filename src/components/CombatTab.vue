@@ -25,7 +25,7 @@
   <weapon-block
     v-for="(w, i) in app.char.weapons"
     :key="`wpn-${i}`"
-    v-model="app.char.weapons[i]"
+    v-model="app.char.weapons[i]!"
     :edit-weapons="editWeapons"
     @delete="removeWeapon(i)"
   />
@@ -41,19 +41,19 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <char-skill
         v-if="show('Evade')"
-        v-model="app.char.priSkills['Evade']"
+        v-model="app.char.priSkills['Evade']!"
         :edit-skills="editSkills"
         label="Evade"
-        :skill-type="ERollType.Primary"
+        :skill-type="RollTypes.Primary"
       />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.wepSkills" :key="`skill-${k}`">
       <char-skill
         v-if="show(k as string)"
-        v-model="app.char.wepSkills[k]"
+        v-model="app.char.wepSkills[k]!"
         :edit-skills="editSkills"
         :label="`${k}`"
-        :skill-type="ERollType.Weapon"
+        :skill-type="RollTypes.Weapon"
       />
     </div>
   </div>
@@ -71,7 +71,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { ERollType } from './models';
+import { RollTypes } from './models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';

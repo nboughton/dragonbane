@@ -10,10 +10,10 @@
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
       <div v-if="show(k as string)">
         <char-skill
-          v-model="app.char.priSkills[k]"
+          v-model="app.char.priSkills[k]!"
           :label="`${k}`"
           :edit-skills="editSkills"
-          :skill-type="ERollType.Primary"
+          :skill-type="RollTypes.Primary"
         />
       </div>
     </div>
@@ -28,12 +28,12 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.secSkills" :key="`secSkill-${k}`">
       <char-skill
-        v-model="app.char.secSkills[k]"
+        v-model="app.char.secSkills[k]!"
         :label="`${k}`"
         :edit-skills="editSkills"
         show-delete
         @delete="removeSecSkill"
-        :skill-type="ERollType.Secondary"
+        :skill-type="RollTypes.Secondary"
       />
     </div>
   </div>
@@ -45,7 +45,7 @@
         <q-select
           options-selected-class="text-purple-2"
           label="Attribute"
-          :options="Object.values(EAttr)"
+          :options="Object.values(Attrs)"
           v-model="newSkillAttr"
           dense
         />
@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { EAttr, ERollType } from './models';
+import { Attrs, RollTypes } from './models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -95,7 +95,7 @@ const $q = useQuasar();
 const showAddSkill = ref(false);
 const editSkills = ref(false);
 const newSkillName = ref('');
-const newSkillAttr = ref(EAttr.STR);
+const newSkillAttr = ref(Attrs.STR);
 const removeSecSkill = (val: string) =>
   $q
     .dialog({

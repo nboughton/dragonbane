@@ -56,7 +56,7 @@
               options-selected-class="text-purple-2"
               label="Duration"
               v-model="spell.duration"
-              :options="Object.values(EDuration)"
+              :options="Object.values(Durations)"
               dense
             />
           </div>
@@ -68,7 +68,7 @@
               label="Requirements"
               v-model="spell.req"
               multiple
-              :options="Object.values(ESpellReq)"
+              :options="Object.values(SpellReqs)"
               dense
             />
             <q-input class="col" label="Range" v-model="spell.range" dense />
@@ -76,7 +76,7 @@
 
           <q-input
             class="row"
-            v-if="spell.req.includes(ESpellReq.Ingredient)"
+            v-if="spell.req.includes(SpellReqs.Ingredient)"
             label="Ingredient"
             v-model="spell.ingredient"
             dense
@@ -95,8 +95,8 @@
   <q-dialog v-model="display.roller" maximized>
     <dice-roller
       :name="spell.name"
-      :roll-type="ERollType.Spell"
-      :skill="spell.skill"
+      :roll-type="RollTypes.Spell"
+      :skill="spell.skill!"
       :target="app.skill('secSkills', spell.skill!)"
       :banes="app.banes('secSkills', spell.skill!)"
       @close="display.roller = false"
@@ -105,7 +105,7 @@
           setResultDisplay(r);
           notifySend(
             `${app.char.name} rolled ${spell.skill}: ${r}`,
-            r.includes(ED20Result.Dragon) || r.includes(ED20Result.Success) ? 'SUCCESS' : 'ERROR'
+            r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           );
         }
       "
@@ -160,13 +160,17 @@
           <q-expansion-item label="Magical Mishap Table" header-class="text-h6">
             <table>
               <thead>
-                <th>D20</th>
-                <th>Effect</th>
+                <tr>
+                  <th>D20</th>
+                  <th>Effect</th>
+                </tr>
               </thead>
-              <tr v-for="(row, i) in MagicalMishap.rows" :key="`mm-${i}`">
-                <td class="q-pa-xs">{{ row.floor }}</td>
-                <td class="q-pa-xs">{{ row.text }}</td>
-              </tr>
+              <tbody>
+                <tr v-for="(row, i) in MagicalMishap.rows" :key="`mm-${i}`">
+                  <td class="q-pa-xs">{{ row.floor }}</td>
+                  <td class="q-pa-xs">{{ row.text }}</td>
+                </tr>
+              </tbody>
             </table>
           </q-expansion-item>
         </q-card-section>
@@ -188,7 +192,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { ED20Result, EDuration, ERollType, ESpellReq, IDiceRoll, ISpell } from './models';
+import type { IDiceRoll, ISpell } from './models';
+import { D20Results, Durations, RollTypes, SpellReqs } from './models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -228,13 +233,13 @@ const setResultDisplay = (r: string) => {
     demon: false,
   };
 
-  r.includes(ED20Result.Dragon)
-    ? (display.value.dragon = true)
-    : r.includes(ED20Result.Demon)
-    ? (display.value.demon = true)
-    : r.includes(ED20Result.Success)
-    ? (display.value.success = true)
-    : null;
+  if (r.includes(D20Results.Dragon)) {
+    display.value.dragon = true;
+  } else if (r.includes(D20Results.Demon)) {
+    display.value.demon = true;
+  } else if (r.includes(D20Results.Success)) {
+    display.value.success = true;
+  }
 };
 
 const showRoller = () => {
@@ -261,22 +266,22 @@ const useMagicTrick = (name: string) =>
 
 const checkWP = (wpReq: number): boolean => {
   let out = false;
-  app.char.wp.current < wpReq
-    ? $q
-        .dialog({
-          title: 'Out of Juice!',
-          message: `You have ${app.char.wp.current}WP`,
-          ok: true,
-          maximized: true,
-        })
-        .onOk(() => (out = false))
-    : (out = true);
+  if (app.char.wp.current < wpReq) {
+    $q.dialog({
+      title: 'Out of Juice!',
+      message: `You have ${app.char.wp.current}WP`,
+      ok: true,
+      maximized: true,
+    }).onOk(() => (out = false));
+  } else {
+    out = true;
+  }
   return out;
 };
 
 const pl = ref(1);
 const powerLevels = computed((): number[] => {
-  let out = <number[]>[];
+  const out = <number[]>[];
 
   const lvls = [1, 2, 3];
   lvls.forEach((n) => (n * 2 <= app.char.wp.current ? out.push(n) : undefined));
@@ -286,7 +291,7 @@ const powerLevels = computed((): number[] => {
 
 const rollDmg = () => {
   dmgRes.value = rollDice(dmgDice.value);
-  notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
 };
 </script>
 

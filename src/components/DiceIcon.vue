@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Die } from './models';
+import type { Die } from './models';
 
 const props = defineProps<{
   name: Die;

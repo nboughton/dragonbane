@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IArmour } from './models';
+import type { IArmour } from './models';
 
 const amr = defineModel<IArmour>({ required: true });
 defineProps<{ label: string }>();

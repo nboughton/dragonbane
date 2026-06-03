@@ -1,4 +1,4 @@
-import OBR, { Theme } from '@owlbear-rodeo/sdk';
+import OBR, { type Theme } from '@owlbear-rodeo/sdk';
 import { setCssVar } from 'quasar';
 import { ref } from 'vue';
 
