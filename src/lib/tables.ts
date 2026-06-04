@@ -1,7 +1,7 @@
-import type { ITable } from 'src/components/models';
+import type { Table } from 'src/components/models';
 import { parseDiceString, rollDice } from './util';
 
-export const rollTable = (t: ITable): string | undefined => {
+export const rollTable = (t: Table): string | undefined => {
   const n = rollDice(parseDiceString(t.dice));
 
   return t.rows.find((row) => {
@@ -10,7 +10,7 @@ export const rollTable = (t: ITable): string | undefined => {
   })?.text;
 };
 
-export const MeleeDemon: ITable = {
+export const MeleeDemon: Table = {
   dice: '1d6',
   rows: [
     { floor: 1, text: 'You drop your weapon at your feet. Picking it up is an action.' },
@@ -34,7 +34,7 @@ export const MeleeDemon: ITable = {
   ],
 };
 
-export const RangedDemon: ITable = {
+export const RangedDemon: Table = {
   dice: '1d6',
   rows: [
     { floor: 1, text: 'You drop your weapon at your feet. Picking it up is an action.' },
@@ -52,7 +52,7 @@ export const RangedDemon: ITable = {
   ],
 };
 
-export const MagicalMishap: ITable = {
+export const MagicalMishap: Table = {
   dice: '1d20',
   rows: [
     { floor: 1, text: 'The magical powers leave you Dazed.' },

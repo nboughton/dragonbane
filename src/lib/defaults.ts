@@ -1,22 +1,8 @@
 import { uid } from 'quasar';
-import type {
-  Attr,
-  Condition,
-  ICharacter,
-  ISkill,
-  IAttribute,
-  IWeapon,
-  IAbility,
-  ISpell} from 'src/components/models';
-import {
-  Attrs,
-  Conditions,
-  Durations,
-  Ages,
-  Grips,
-} from 'src/components/models';
+import type { Attr, Condition, Character, Skill, Attribute, Weapon, Ability, Spell } from 'src/components/models';
+import { Attrs, Conditions, Durations, Ages, Grips, WepSkills } from 'src/components/models';
 
-export const NewCharacter = (): ICharacter => ({
+export const NewCharacter = (): Character => ({
   id: uid(),
   name: 'New character',
   kin: '',
@@ -107,14 +93,14 @@ export const NewCharacter = (): ICharacter => ({
   weapons: [],
 });
 
-export const skill = (attr: Attr): ISkill => ({
+export const skill = (attr: Attr): Skill => ({
   attr,
   trained: false,
   checked: false,
   advances: 0,
 });
 
-export const stat = (cond: Condition): IAttribute => ({
+export const stat = (cond: Condition): Attribute => ({
   score: 0,
   condition: {
     name: cond,
@@ -122,8 +108,9 @@ export const stat = (cond: Condition): IAttribute => ({
   },
 });
 
-export const NewWeapon = (): IWeapon => ({
+export const NewWeapon = (): Weapon => ({
   name: '',
+  skill: WepSkills.Axes,
   grip: Grips.None,
   range: '',
   damage: '',
@@ -131,13 +118,13 @@ export const NewWeapon = (): IWeapon => ({
   features: '',
 });
 
-export const NewAbility = (): IAbility => ({
+export const NewAbility = (): Ability => ({
   name: '',
   wp: 0,
   text: '',
 });
 
-export const NewSpell = (): ISpell => ({
+export const NewSpell = (): Spell => ({
   name: '',
   rank: 0,
   req: [],

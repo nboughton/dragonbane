@@ -42,6 +42,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
+import type { PriSkill, WepSkill } from './models';
 import { RollTypes, D20Results } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
@@ -110,19 +111,19 @@ const rollIt = () => {
     if (selectResult() == 1 || selectResult() == 20) {
       switch (props.rollType) {
         case RollTypes.Primary:
-          app.char.priSkills[props.name]!.checked = true;
+          app.char.priSkills[props.name as PriSkill].checked = true;
           break;
         case RollTypes.Secondary:
           app.char.secSkills[props.name]!.checked = true;
           break;
         case RollTypes.Weapon:
-          app.char.wepSkills[props.name]!.checked = true;
+          app.char.wepSkills[props.name as WepSkill].checked = true;
           break;
         case RollTypes.Attack:
-          if (props.skill) app.char.wepSkills[props.skill]!.checked = true;
+          if (props.skill) app.char.wepSkills[props.skill as WepSkill].checked = true;
           break;
         case RollTypes.Attr:
-          //if (selectResult() == 20) app.char.attributes[props.name as EAttr].condition.check = true;
+          //if (selectResult() == 20) app.char.attributes[props.name as Attr].condition.check = true;
           break;
         case RollTypes.Spell:
           if (props.skill) app.char.secSkills[props.skill]!.checked = true;

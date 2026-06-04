@@ -7,10 +7,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.priSkills" :key="`priSkill-${k}`">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(_, k) in app.char.priSkills" :key="`priSkill-${k}`">
       <div v-if="show(k as string)">
         <char-skill
-          v-model="app.char.priSkills[k]!"
+          v-model="app.char.priSkills[k]"
           :label="`${k}`"
           :edit-skills="editSkills"
           :skill-type="RollTypes.Primary"
@@ -26,7 +26,7 @@
         <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
       </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.secSkills" :key="`secSkill-${k}`">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(_, k) in app.char.secSkills" :key="`secSkill-${k}`">
       <char-skill
         v-model="app.char.secSkills[k]!"
         :label="`${k}`"

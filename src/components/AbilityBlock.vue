@@ -30,14 +30,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { IAbility } from './models';
+import type { Ability } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 import { useQuasar } from 'quasar';
 
 import ActionItemRow from './ActionItemRow.vue';
 
-const abl = defineModel<IAbility>({ required: true });
+const abl = defineModel<Ability>({ required: true });
 defineEmits(['delete']);
 
 const $q = useQuasar();

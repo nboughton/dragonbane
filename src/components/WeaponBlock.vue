@@ -70,7 +70,7 @@
     <dice-roller
       :name="weapon.name"
       :roll-type="RollTypes.Attack"
-      :target="app.skill('wepSkills', weapon.skill!)"
+      :target="app.skillValue('wepSkills', weapon.skill!)"
       :banes="app.banes('wepSkills', weapon.skill!)"
       :skill="weapon.skill!"
       @close="display.roller = false"
@@ -209,7 +209,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
-import type { IWeapon, IDiceRoll } from './models';
+import type { Weapon, DiceRoll } from './models';
 import { Grips, RollTypes, D20Results } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
@@ -222,7 +222,7 @@ import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
 import ActionItemRow from './ActionItemRow.vue';
 
-const weapon = defineModel<IWeapon>({ required: true });
+const weapon = defineModel<Weapon>({ required: true });
 defineEmits(['delete']);
 defineProps<{ editWeapons: boolean }>();
 
@@ -238,9 +238,7 @@ const display = ref({
 
 const dmgDice = ref(parseDiceString(weapon.value.damage));
 
-const dmgBonus = computed(() =>
-  weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill]!.attr) : '-',
-);
+const dmgBonus = computed(() => (weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill].attr) : '-'));
 if (dmgBonus.value != '-') dmgDice.value.push(...parseDiceString(dmgBonus.value));
 watch(
   () => weapon.value.damage,
@@ -250,7 +248,7 @@ watch(
   },
 );
 
-const dmgRes = ref(<IDiceRoll>{ total: 0, results: [] });
+const dmgRes = ref(<DiceRoll>{ total: 0, results: [] });
 const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
 
 const setResultDisplay = (r: string) => {

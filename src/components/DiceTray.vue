@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { Die } from './models';
+import type { DieType } from './models';
 
 import DiceIcon from './DiceIcon.vue';
 
 defineProps<{
   dice: {
-    name: Die;
+    name: DieType;
     value: number;
   }[];
 }>();

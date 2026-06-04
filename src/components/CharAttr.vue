@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import type { IAttribute } from './models';
+import type { Attribute } from './models';
 import { D20Results, RollTypes } from './models';
 
 import { useQuasar } from 'quasar';
@@ -53,7 +53,7 @@ import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 
-const attr = defineModel<IAttribute>({ required: true });
+const attr = defineModel<Attribute>({ required: true });
 const props = defineProps<{ label: string }>();
 
 const $q = useQuasar();

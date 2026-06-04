@@ -1,6 +1,17 @@
 import { defineStore } from 'pinia';
 
-import type { Attr, ICharacter, IConfig, IDBStore, SkillType } from 'src/components/models';
+import {
+  type Attr,
+  type Character,
+  type AppConfig,
+  type DBStore,
+  type SkillType,
+  type PriSkill,
+  type WepSkill,
+  type Skill,
+  PriSkills,
+  WepSkills,
+} from 'src/components/models';
 
 import { exportFile } from 'quasar';
 
@@ -18,58 +29,100 @@ export const useCharacterStore = defineStore('character', {
       showTrainedSkills: true,
       showSpells: true,
       darkMode: true,
-    } as IConfig,
+    } as AppConfig,
   }),
   getters: {
-    char: (state): ICharacter => state.chars[state.conf.char]!,
-    skill: (state) => {
-      return (skillType: SkillType, skillName: string): number => {
-        const s = state.chars[state.conf.char]![skillType][skillName];
-        const b = state.chars[state.conf.char]!.attributes[s!.attr].score;
-        return s!.locked && s!.value ? s!.value : s!.advances + (s!.trained ? BaseChance(b) * 2 : BaseChance(b));
+    char(state): Character {
+      return state.chars[state.conf.char]!;
+    },
+    skill(): (skillType: SkillType, skillName: string) => Skill | undefined {
+      return (skillType: SkillType, skillName: string): Skill | undefined => {
+        switch (skillType) {
+          case 'priSkills':
+            return this.char[skillType][skillName as PriSkill];
+          case 'secSkills':
+            return this.char[skillType][skillName];
+          case 'wepSkills':
+            return this.char[skillType][skillName as WepSkill];
+          default:
+            console.error(`app.skill; Skill issue: ${skillName}`);
+            return undefined;
+        }
       };
     },
-    dmgBonus: (state) => {
-      return (attr: Attr): string => DmgBonus(state.chars[state.conf.char]!.attributes[attr].score);
-    },
-    banes: (state) => {
+    skillValue(): (skilltype: SkillType, skillName: string) => number {
       return (skillType: SkillType, skillName: string): number => {
+        const s = this.skill(skillType, skillName);
+        if (!s) return -1;
+
+        const b = this.char.attributes[s.attr].score;
+        return s.locked && s.value ? s.value : s.advances + (s.trained ? BaseChance(b) * 2 : BaseChance(b));
+      };
+    },
+    dmgBonus(): (attr: Attr) => string {
+      return (attr: Attr): string => DmgBonus(this.char.attributes[attr].score);
+    },
+    banes(): (skillType: SkillType, skillName: string) => number {
+      return (skillType: SkillType, skillName: string): number => {
+        const s = this.skill(skillType, skillName);
+        if (!s) return -1;
+
         let b = 0;
-        const s = state.chars[state.conf.char]![skillType][skillName];
-        if (state.chars[state.conf.char]!.attributes[s!.attr].condition.check) b++;
+        if (this.char.attributes[s.attr].condition.check) b++;
         return b;
       };
     },
   },
   actions: {
-    lockSkills() {
-      const sections: SkillType[] = ['priSkills', 'secSkills', 'wepSkills'];
-
-      sections.forEach((section) => {
-        Object.keys(this.char[section]).forEach((key) => {
-          this.char[section][key]!.value = this.skill(section, key);
-          this.char[section][key]!.locked = true;
-        });
-      });
+    log(msg: string) {
+      // Store the last 50 log messages
+      if (!this.char.log) this.char.log = [];
+      const ts = new Date();
+      this.char.log.unshift(`${ts.toDateString()} ${ts.toTimeString()}: ${msg}`);
+      if (this.char.log.length > 50) this.char.log.pop();
     },
 
     rollAdvancements(): string[] {
-      const sections: SkillType[] = ['priSkills', 'secSkills', 'wepSkills'];
       const advanced: string[] = [];
 
-      sections.forEach((section) => {
-        Object.keys(this.char[section]).forEach((skill) => {
-          if (this.char[section][skill]!.checked) {
-            const s = this.char[section][skill];
-            const n = roll(20);
-            if (n > this.skill(section, skill)) {
-              advanced.push(skill);
-              if (s!.locked && s!.value) this.char[section][skill]!.value = s!.value + 1;
-              else this.char[section][skill]!.advances++;
-            }
-            this.char[section][skill]!.checked = false;
+      Object.values(PriSkills).forEach((s) => {
+        if (this.char.priSkills[s].checked) {
+          const sk = this.char.priSkills[s];
+          const n = roll(20);
+          if (n > this.skillValue('priSkills', s)) {
+            advanced.push(s);
+            if (sk.locked && sk.value) this.char.priSkills[s].value = sk.value + 1;
+            else this.char.priSkills[s].advances++;
           }
-        });
+          this.char.priSkills[s].checked = false;
+        }
+      });
+
+      Object.values(WepSkills).forEach((s) => {
+        if (this.char.wepSkills[s].checked) {
+          const sk = this.char.wepSkills[s];
+          const n = roll(20);
+          if (n > this.skillValue('priSkills', s)) {
+            advanced.push(s);
+            if (sk.locked && sk.value) this.char.wepSkills[s].value = sk.value + 1;
+            else this.char.wepSkills[s].advances++;
+          }
+          this.char.wepSkills[s].checked = false;
+        }
+      });
+
+      Object.keys(this.char.secSkills).forEach((s) => {
+        if (!this.char.secSkills[s]) return;
+        if (this.char.secSkills[s].checked) {
+          const sk = this.char.secSkills[s];
+          const n = roll(20);
+          if (n > this.skillValue('priSkills', s)) {
+            advanced.push(s);
+            if (sk.locked && sk.value) this.char.secSkills[s].value = sk.value + 1;
+            else this.char.secSkills[s].advances++;
+          }
+          this.char.secSkills[s].checked = false;
+        }
       });
 
       return advanced;
@@ -82,12 +135,12 @@ export const useCharacterStore = defineStore('character', {
         JSON.stringify({
           chars: this.chars,
           conf: this.conf,
-        })
+        }),
       );
     },
 
-    loadData(d: IDBStore) {
-      //if (d satisfies IDBStore) {
+    loadData(d: DBStore) {
+      //if (d satisfies DBStore) {
       this.conf = d.conf;
       d.chars.forEach((lChar) => {
         let overwrite = false;
@@ -103,5 +156,5 @@ export const useCharacterStore = defineStore('character', {
       //} else alert('This does not look like valid data for this app');
     },
   },
-  persist: true
+  persist: true,
 });

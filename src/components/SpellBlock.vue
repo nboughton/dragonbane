@@ -97,7 +97,7 @@
       :name="spell.name"
       :roll-type="RollTypes.Spell"
       :skill="spell.skill!"
-      :target="app.skill('secSkills', spell.skill!)"
+      :target="app.skillValue('secSkills', spell.skill!)"
       :banes="app.banes('secSkills', spell.skill!)"
       @close="display.roller = false"
       @result="
@@ -192,7 +192,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import type { IDiceRoll, ISpell } from './models';
+import type { DiceRoll, Spell } from './models';
 import { D20Results, Durations, RollTypes, SpellReqs } from './models';
 
 import { useQuasar } from 'quasar';
@@ -206,7 +206,7 @@ import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
 import ActionItemRow from './ActionItemRow.vue';
 
-const spell = defineModel<ISpell>({ required: true });
+const spell = defineModel<Spell>({ required: true });
 defineEmits(['delete']);
 
 const app = useCharacterStore();
@@ -214,7 +214,7 @@ const skills = computed((): string[] => Object.keys(app.char.secSkills));
 const dmgDice = ref(parseDiceString(spell.value.text));
 // For spells we only include the first dice set mentioned
 dmgDice.value.splice(1);
-const dmgRes = ref(<IDiceRoll>{ total: 0, results: [] });
+const dmgRes = ref(<DiceRoll>{ total: 0, results: [] });
 const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
 const display = ref({
   roller: false,

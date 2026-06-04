@@ -1,9 +1,9 @@
-import type { IDiceRoll, IDie } from 'src/components/models';
+import type { DiceRoll, Die } from 'src/components/models';
 
 export const roll = (size: number): number => Math.floor(Math.random() * size) + 1;
 
-export const parseDiceString = (dice: string): IDie[] => {
-  const out = <IDie[]>[];
+export const parseDiceString = (dice: string): Die[] => {
+  const out = <Die[]>[];
   dice.match(/\d*d\d+/gi)?.forEach((d) => {
     const parts = d.split(/d/i);
     if (parts && parts.length == 2) out.push({ n: +parts[0]! < 1 ? 1 : +parts[0]!, size: +parts[1]! });
@@ -11,8 +11,8 @@ export const parseDiceString = (dice: string): IDie[] => {
   return out;
 };
 
-export const rollDice = (dice: IDie[]): IDiceRoll => {
-  const out = <IDiceRoll>{
+export const rollDice = (dice: Die[]): DiceRoll => {
+  const out = <DiceRoll>{
     total: 0,
     results: [],
   };

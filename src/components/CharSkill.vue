@@ -72,8 +72,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 
-import type { ISkill } from './models';
-import { D20Results, RollTypes } from './models';
+import type { Skill } from './models';
+import { D20Results, RollTypes, WepSkills } from './models';
 
 import { useCharacterStore } from 'src/stores/character';
 
@@ -82,7 +82,7 @@ import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 
-const skill = defineModel<ISkill>({ required: true });
+const skill = defineModel<Skill>({ required: true });
 const props = defineProps<{
   label: string;
   showDelete?: boolean;
@@ -120,7 +120,7 @@ const baned = computed((): boolean => {
       (checked && k == props.label) ||
       (checked &&
         k == 'Ranged Attacks' &&
-        (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
+        (props.label == WepSkills.Bows || props.label == WepSkills.Crossbows || props.label == WepSkills.Slings))
     )
       b = true;
   });
@@ -142,7 +142,7 @@ const banes = computed((): number[] => {
       (checked && k == props.label) ||
       (checked &&
         k == 'Ranged Attacks' &&
-        (props.label == 'Bows' || props.label == 'Crossbows' || props.label == 'Slings'))
+        (props.label == WepSkills.Bows || props.label == WepSkills.Crossbows || props.label == WepSkills.Slings))
     )
       b.push(0);
   });

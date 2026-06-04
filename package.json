@@ -5,6 +5,7 @@
   "productName": "OBR Dragonbane Sheet",
   "author": "Nick Boughton <nicholasboughton@gmail.com>",
   "private": true,
+  "type": "module",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
@@ -16,7 +17,6 @@
   "dependencies": {
     "@owlbear-rodeo/sdk": "^3.1.0",
     "@quasar/extras": "^2.0.0",
-    "@tresjs/core": "^5.8.1",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
     "quasar": "^2.19.3",
@@ -38,6 +38,7 @@
     "globals": "^17.6.0",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3",
+    "vite-plugin-checker": "^0.14.1",
     "vue-tsc": "^3.3.3"
   },
   "engines": {

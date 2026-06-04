@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { IArmour } from './models';
+import type { Armour } from './models';
 
-const amr = defineModel<IArmour>({ required: true });
+const amr = defineModel<Armour>({ required: true });
 defineProps<{ label: string }>();
 </script>

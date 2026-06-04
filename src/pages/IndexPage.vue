@@ -78,8 +78,7 @@
       <q-tab name="combat" label="Combat" />
       <q-tab name="abilities" label="Abilities" />
       <q-tab name="gear" label="Gear" />
-      <!-- <q-tab name="character" label="Character" />
-      <q-tab name="log" label="Log" /> -->
+      <q-tab name="log" label="Log" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>
@@ -102,6 +101,11 @@
       <q-tab-panel name="gear" class="q-pa-none">
         <gear-tab />
       </q-tab-panel>
+
+      <!--LOG-->
+      <q-tab-panel name="log" class="q-pa-none">
+        <log-tab />
+      </q-tab-panel>
     </q-tab-panels>
   </q-page>
 </template>
@@ -121,6 +125,7 @@ import SkillsTab from 'src/components/SkillsTab.vue';
 import CombatTab from 'src/components/CombatTab.vue';
 import AbilitiesTab from 'src/components/AbilitiesTab.vue';
 import GearTab from 'src/components/GearTab.vue';
+import LogTab from 'src/components/LogTab.vue';
 
 const app = useCharacterStore();
 const tab = ref('skills');

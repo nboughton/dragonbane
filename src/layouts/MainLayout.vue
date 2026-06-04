@@ -129,7 +129,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import type { Attr, IDBStore } from 'src/components/models';
+import type { Attr, DBStore } from 'src/components/models';
 
 import { useQuasar } from 'quasar';
 import { useCharacterStore } from 'src/stores/character';
@@ -150,7 +150,7 @@ const loadData = () => {
   const f: File = fileToLoad.value as unknown as File;
   const reader = new FileReader();
   reader.onload = (ev) => {
-    const data = JSON.parse(ev.target?.result as string) as IDBStore;
+    const data = JSON.parse(ev.target?.result as string) as DBStore;
     app.loadData(data);
     showDataLoad.value = false;
   };

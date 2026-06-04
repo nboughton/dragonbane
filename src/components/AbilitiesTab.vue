@@ -86,7 +86,7 @@ import { NewAbility, NewSpell, BaseChance } from 'src/lib/defaults';
 
 import AbilityBlock from './AbilityBlock.vue';
 import SpellBlock from './SpellBlock.vue';
-import type { ISpell } from './models';
+import type { Spell } from './models';
 
 const app = useCharacterStore();
 
@@ -132,7 +132,7 @@ const removeAbl = (index: number) =>
     .onOk(() => app.char.abilities.splice(index, 1));
 
 const filter = ref('');
-const show = (s: ISpell): boolean => {
+const show = (s: Spell): boolean => {
   if (!s.prepared && showPreparedSpells.value) return false;
   if (filter.value == null || filter.value == '') return true;
 

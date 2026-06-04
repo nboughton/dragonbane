@@ -55,9 +55,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import type { IPoints } from './models';
+import type { StatPoints } from './models';
 
-const points = defineModel<IPoints>({ required: true });
+const points = defineModel<StatPoints>({ required: true });
 defineProps<{
   label: string;
   showMax?: boolean;
