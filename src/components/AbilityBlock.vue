@@ -9,10 +9,10 @@
         :label="`${abl.name} [WP: ${abl.wp}]`"
         :caption="abl.text"
         :caption-lines="0.5"
-        header-class="text-bold q-pl-xs rounded-borders"
+        header-class="text-bold q-pl-xs"
         :default-opened="!abl.name"
       >
-        <div class="column q-my-sm">
+        <div class="column q-pa-xs q-my-sm">
           <div class="row">
             <q-input class="col" label="Name" v-model="abl.name" dense />
             <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />

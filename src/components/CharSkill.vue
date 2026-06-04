@@ -2,7 +2,7 @@
   <div :class="`row items-center justify-between q-ma-none q-px-xs ${baned ? 'bg-negative' : ''}`">
     <q-checkbox
       v-if="editSkills"
-      class="q-ml-xs"
+      class="q-ml-xs q-mb-xs"
       v-model="skill.trained"
       checked-icon="mdi-chevron-up-circle"
       unchecked-icon="mdi-chevron-up-circle-outline"
@@ -25,7 +25,7 @@
 
     <q-checkbox
       v-if="!editSkills"
-      class="q-ml-xs"
+      class="q-ml-xs q-mb-xs"
       v-model="skill.checked"
       checked-icon="mdi-rhombus"
       unchecked-icon="mdi-rhombus-outline"

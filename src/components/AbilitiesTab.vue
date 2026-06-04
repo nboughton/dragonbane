@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between" v-if="app.conf.showSpells">
     <div class="col-xs-12 col-sm-12 col-lg-6 q-px-xs">
-      <div class="row q-mt-md q-mb-sm text-h6 text-bold items-center">
+      <div class="row q-ml-xs q-mt-md q-mb-sm text-h6 text-bold items-center">
         Heroic Abilities
         <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
       </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-12 col-lg-6 q-px-xs">
-      <div class="row q-mt-md q-mb-sm text-h6 text-bold items-center justify-between">
+      <div class="row q-ml-xs q-mt-md q-mb-sm text-h6 text-bold items-center justify-between">
         <div class="col-shrink">
           Spells
           <q-btn icon="add_circle" flat dense rounded @click="addSpell" />
@@ -41,7 +41,7 @@
         </q-btn>
       </div>
 
-      <div class="row items-center">
+      <div class="row q-ml-xs items-center">
         <div class="col-shrink text-bold">Known (by rank):</div>
         <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
           <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="row items-center q-mt-xs">
+      <div class="row items-center q-ml-xs q-mt-xs">
         <div class="col-shrink text-bold">Prepared:</div>
         <div class="col-shrink q-ml-sm q-px-xs">
           {{ spellsPrepared }}/{{ BaseChance(app.char.attributes.INT.score) }}

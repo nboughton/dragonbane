@@ -8,7 +8,7 @@
         @click="showEditDialog = !showEditDialog"
         :value="points.current / points.max"
         color="positive"
-        track-color="negative"
+        track-color="grey-1"
         size="2em"
         rounded
       >

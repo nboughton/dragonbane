@@ -1,8 +1,12 @@
 <template>
-  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to the component -->
-  <div class="row q-ml-sm items-center">
-    <div class="col text-h6 text-bold">Primary Skills</div>
-    <div class="q-px-none">
+  <div class="row no-wrap q-pl-sm justify-between items-center">
+    <div class="col-4 text-h6 text-bold">Primary Skills</div>
+    <q-input class="col-5" input-class="rounded-borders" label="Filter List" v-model="filter" clearable dense>
+      <template v-slot:prepend>
+        <q-icon name="search" />
+      </template>
+    </q-input>
+    <div class="col-shrink q-px-none">
       <q-toggle v-model="editSkills" icon="mdi-pencil" />
     </div>
   </div>

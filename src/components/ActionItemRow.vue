@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center justify-between rounded-borders q-mb-sm">
+  <div class="row bg-dark items-center justify-between rounded-borders q-ma-xs">
     <div class="col-1 items-center justify-center">
       <div class="row items-center justify-center">
         <slot name="prepend"></slot>

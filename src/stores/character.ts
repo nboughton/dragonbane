@@ -77,8 +77,8 @@ export const useCharacterStore = defineStore('character', {
     log(msg: string) {
       // Store the last 50 log messages
       if (!this.char.log) this.char.log = [];
-      const ts = new Date();
-      this.char.log.unshift(`${ts.toDateString()} ${ts.toTimeString()}: ${msg}`);
+      //const ts = new Date();
+      this.char.log.unshift(msg);
       if (this.char.log.length > 50) this.char.log.pop();
     },
 

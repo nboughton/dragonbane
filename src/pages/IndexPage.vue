@@ -1,6 +1,6 @@
 <template>
   <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
-  <q-page class="column" :padding="$q.screen.gt.sm">
+  <q-page class="column bg-dark" :padding="$q.screen.gt.sm">
     <q-expansion-item
       :default-opened="!app.char.kin"
       :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
@@ -103,7 +103,7 @@
       </q-tab-panel>
 
       <!--LOG-->
-      <q-tab-panel name="log" class="q-pa-none">
+      <q-tab-panel name="log">
         <log-tab />
       </q-tab-panel>
     </q-tab-panels>
