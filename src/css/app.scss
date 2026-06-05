@@ -8,6 +8,10 @@ body {
   background-color: transparent;
 }
 
+a {
+  color: white;
+}
+
 #q-app,
 .q-layout,
 .q-page-container,
@@ -18,14 +22,6 @@ body {
   background-color: transparent !important;
 }
 
-a {
-  color: white;
-}
-
-.q-dialog.maximised .q-card {
-  border-radius: 10px;
-}
-
 .q-dialog,
 .q-menu,
 .q-drawer {
@@ -33,6 +29,12 @@ a {
   background-color: rgba(56, 60, 72, 0.8) !important;
   box-shadow: none;
   border: 1px solid grey;
+  border-radius: 10px !important;
+  margin: 5px;
+}
+
+.q-dialog__backdrop,
+.q-dialog__inner {
   border-radius: 10px;
 }
 
