@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-xs q-pl-sm" flat>
+  <div class="q-ma-xs q-pa-xs q-pl-sm rounded-borders outlined" flat>
     <div v-if="!editWeapons">
       <div class="row justify-between items-center">
         <div class="col text-bold">{{ weapon.name }}</div>
@@ -35,22 +35,10 @@
     <div v-if="editWeapons">
       <div class="row q-gutter-sm items-center">
         <q-input class="col-grow" label="Weapon/Shield" v-model="weapon.name" dense />
-        <q-select
-          class="col-shrink"
-          options-selected-class="text-purple-2"
-          label="Skill"
-          v-model="weapon.skill"
-          :options="skills"
-          dense
-        />
-        <q-btn
-          class="col-shrink bg-primary"
-          options-selected-class="text-purple-2"
-          icon="delete"
-          @click="$emit('delete')"
-          flat
-          dense
-        />
+        <q-select class="col-shrink" options-selected-class="text-purple-2" label="Skill" v-model="weapon.skill"
+          :options="skills" dense />
+        <q-btn class="col-shrink bg-primary" options-selected-class="text-purple-2" icon="delete"
+          @click="$emit('delete')" flat dense />
       </div>
       <div class="row q-gutter-sm">
         <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(Grips)" dense />
@@ -59,7 +47,7 @@
         <q-input class="col" label="Durability" type="number" v-model.number="weapon.durability" dense />
       </div>
       <div class="row q-gutter-sm">
-        <q-input class="col-grow" label="Features" v-model="weapon.features" dense />
+        <q-input class="col-grow" label="Features" v-model="weapon.features" dense borderless />
       </div>
     </div>
   </div>
@@ -67,14 +55,8 @@
   <action-item-row></action-item-row>
 
   <q-dialog v-model="display.roller" maximized>
-    <dice-roller
-      :name="weapon.name"
-      :roll-type="RollTypes.Attack"
-      :target="app.skillValue('wepSkills', weapon.skill!)"
-      :banes="app.banes('wepSkills', weapon.skill!)"
-      :skill="weapon.skill!"
-      @close="display.roller = false"
-      @result="
+    <dice-roller :name="weapon.name" :roll-type="RollTypes.Attack" :target="app.skillValue('wepSkills', weapon.skill!)"
+      :banes="app.banes('wepSkills', weapon.skill!)" :skill="weapon.skill!" @close="display.roller = false" @result="
         (r: string) => {
           setResultDisplay(r);
           notifySend(
@@ -82,8 +64,7 @@
             r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           );
         }
-      "
-    >
+      ">
       <template v-slot:append>
         <q-card-section v-if="display.dragon" class="column q-gutter-sm">
           <q-expansion-item label="Melee Special Effects" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
@@ -107,11 +88,8 @@
             </div>
           </q-expansion-item>
 
-          <q-expansion-item
-            label="Ranged Special Effects"
-            class="rounded-borders bg-blue-grey-9"
-            header-class="text-h6"
-          >
+          <q-expansion-item label="Ranged Special Effects" class="rounded-borders bg-blue-grey-9"
+            header-class="text-h6">
             <div class="q-pa-sm">
               <p class="text-bold">Choose one:</p>
               <ul class="q-pl-md">
@@ -132,12 +110,8 @@
           <q-expansion-item label="Melee Mishap" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
-                <q-btn
-                  class="col-shrink"
-                  label="Roll your mishap"
-                  @click="mishap.melee = rollTable(MeleeDemon) as string"
-                  outline
-                />
+                <q-btn class="col-shrink" label="Roll your mishap"
+                  @click="mishap.melee = rollTable(MeleeDemon) as string" outline />
                 <div class="col">{{ mishap.melee }}</div>
               </div>
 
@@ -161,12 +135,8 @@
           <q-expansion-item label="Ranged Mishap" class="rounded-borders bg-blue-grey-9" header-class="text-h6">
             <div class="q-pa-sm">
               <div class="row q-gutter-md items-center q-mb-md">
-                <q-btn
-                  class="col-shrink"
-                  label="Roll your mishap"
-                  @click="mishap.ranged = rollTable(RangedDemon) as string"
-                  outline
-                />
+                <q-btn class="col-shrink" label="Roll your mishap"
+                  @click="mishap.ranged = rollTable(RangedDemon) as string" outline />
                 <div class="col">{{ mishap.ranged }}</div>
               </div>
 

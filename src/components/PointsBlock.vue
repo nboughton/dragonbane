@@ -1,22 +1,18 @@
 <template>
   <div class="row">
-    <div class="col-shrink">
-      <q-btn @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
-    </div>
+
+    <q-btn v-if="!labelRight" class="col-shrink" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
+
     <div class="col-grow flex flex-center">
-      <q-linear-progress
-        @click="showEditDialog = !showEditDialog"
-        :value="points.current / points.max"
-        color="positive"
-        track-color="grey-1"
-        size="2em"
-        rounded
-      >
+      <q-linear-progress @click="showEditDialog = !showEditDialog" :value="points.current / points.max" color="positive"
+        track-color="grey-1" size="2em" rounded>
         <div class="absolute-full flex flex-center text-grey-9 text-subtitle2">
           {{ points.current }}/{{ points.max }}
         </div>
       </q-linear-progress>
     </div>
+
+    <q-btn v-if="labelRight" class="col-shrink" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
   </div>
 
   <q-dialog v-model="showEditDialog" maximized>
@@ -27,26 +23,11 @@
       </q-card-section>
 
       <q-card-section class="row items-center justify-center">
-        <q-input
-          class="col-5 input-left"
-          input-class="text-center text-h4"
-          label="Current"
-          type="number"
-          v-model.number="points.current"
-          :max="points.max"
-          :min="0"
-          borderless
-        />
+        <q-input class="col-5 input-left" input-class="text-center text-h4" label="Current" type="number"
+          v-model.number="points.current" :max="points.max" :min="0" borderless />
 
-        <q-input
-          class="col-5 input-right"
-          input-class="text-center text-h4"
-          label="Max"
-          type="number"
-          v-model.number="points.max"
-          :min="0"
-          borderless
-        />
+        <q-input class="col-5 input-right" input-class="text-center text-h4" label="Max" type="number"
+          v-model.number="points.max" :min="0" borderless />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -61,6 +42,7 @@ const points = defineModel<StatPoints>({ required: true });
 defineProps<{
   label: string;
   showMax?: boolean;
+  labelRight?: boolean
 }>();
 
 const showEditDialog = ref(false);

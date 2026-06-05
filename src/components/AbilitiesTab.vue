@@ -5,12 +5,8 @@
         Heroic Abilities
         <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
       </div>
-      <ability-block
-        v-for="(ab, i) in app.char.abilities"
-        :key="`abl-${i}`"
-        v-model="app.char.abilities[i]!"
-        @delete="removeAbl(i)"
-      />
+      <ability-block v-for="(ab, i) in app.char.abilities" :key="`abl-${i}`" v-model="app.char.abilities[i]!"
+        @delete="removeAbl(i)" />
     </div>
 
     <div class="col-xs-12 col-sm-12 col-lg-6 q-px-xs">
@@ -26,13 +22,8 @@
           </template>
         </q-input>
 
-        <q-checkbox
-          class="col-shrink"
-          v-model="showPreparedSpells"
-          checked-icon="mdi-eye"
-          unchecked-icon="mdi-eye-off"
-          color="white"
-        >
+        <q-checkbox class="col-shrink" v-model="showPreparedSpells" checked-icon="mdi-eye" unchecked-icon="mdi-eye-off"
+          color="white">
           <q-tooltip>Toggle prepared spells</q-tooltip>
         </q-checkbox>
 
@@ -45,8 +36,7 @@
         <div class="col-shrink text-bold">Known (by rank):</div>
         <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
           <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
-            {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }}
-          </span>
+            {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }} </span>
         </div>
       </div>
 
@@ -67,12 +57,8 @@
       Heroic Abilities
       <q-btn icon="add_circle" flat dense rounded @click="addAbl" />
     </div>
-    <ability-block
-      v-for="(ab, i) in app.char.abilities"
-      :key="`abl-${i}`"
-      v-model="app.char.abilities[i]!"
-      @delete="removeAbl(i)"
-    />
+    <ability-block v-for="(ab, i) in app.char.abilities" :key="`abl-${i}`" v-model="app.char.abilities[i]!"
+      @delete="removeAbl(i)" />
   </div>
 </template>
 

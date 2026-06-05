@@ -1,24 +1,15 @@
 <template>
-  <!-- file deepcode ignore PureFunctionReturnValueIgnored: The return value is passed to a component -->
-  <q-page class="column bg-dark" :padding="$q.screen.gt.sm">
-    <q-expansion-item
-      :default-opened="!app.char.kin"
+  <q-page class="column" :padding="$q.screen.gt.sm">
+    <q-expansion-item :default-opened="!app.char.kin"
       :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
-      header-class="text-h5"
-    >
+      header-class="text-h5">
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
           <q-input class="row" label="Name" v-model="app.char.name" dense />
 
           <div class="row">
-            <q-select
-              class="col"
-              options-selected-class="text-purple-2"
-              label="Age"
-              v-model="app.char.age"
-              :options="Object.values(Ages)"
-              dense
-            />
+            <q-select class="col" options-selected-class="text-purple-2" label="Age" v-model="app.char.age"
+              :options="Object.values(Ages)" dense />
             <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
           </div>
         </div>
@@ -32,19 +23,21 @@
         </div>
       </div>
 
-      <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow />
+      <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow borderless />
     </q-expansion-item>
 
-    <div class="row justify-between q-px-sm">
+    <q-separator />
+    <div class="row justify-between q-px-sm q-mt-md q-mb-sm">
       <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">
         <points-block v-model="app.char.hp" label="HP" />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-4 q-pl-xs">
-        <points-block v-model="app.char.wp" label="WP" />
+        <points-block v-model="app.char.wp" label="WP" label-right />
       </div>
     </div>
 
-    <div class="row justify-evenly">
+
+    <div class="row justify-evenly q-mb-md">
       <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" label="Roll stats">
         <q-tooltip>Roll stats</q-tooltip>
       </q-btn>
@@ -73,6 +66,7 @@
       </div>
     </div>
 
+    <q-separator />
     <q-tabs v-model="tab" align="justify" dense>
       <q-tab name="skills" label="Skills" />
       <q-tab name="combat" label="Combat" />

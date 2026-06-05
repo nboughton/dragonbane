@@ -1,26 +1,50 @@
 // app global css in SCSS form
+:root {
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 body {
-  background: transparent !important;
+  background-color: transparent;
+}
+
+#q-app,
+.q-layout,
+.q-page-container,
+.q-page,
+.q-card,
+.body--dark,
+.q-tab-panels {
+  background-color: transparent !important;
 }
 
 a {
   color: white;
 }
 
-#q-app,
-.q-header,
-.q-tab-panels,
-.q-dark {
-  backdrop-filter: blur(5px);
-  /*background: transparent !important;*/
-  background-color: rgba(255, 255, 255, 0.05);
+.q-dialog.maximised .q-card {
+  border-radius: 10px;
 }
 
-.q-dialog.fullscreen,
+.q-dialog,
 .q-menu,
 .q-drawer {
   backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.75) !important;
+  background-color: rgba(56, 60, 72, 0.8) !important;
+  box-shadow: none;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.outlined {
+  border: 1px solid grey;
+}
+
+.scroll-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100%;
+  max-height: 100%;
 }
 
 /* Firefox */

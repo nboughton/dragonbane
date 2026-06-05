@@ -5,20 +5,15 @@
     </template>
 
     <template v-slot:content>
-      <q-expansion-item
-        :label="`${abl.name} [WP: ${abl.wp}]`"
-        :caption="abl.text"
-        :caption-lines="0.5"
-        header-class="text-bold q-pl-xs"
-        :default-opened="!abl.name"
-      >
-        <div class="column q-pa-xs q-my-sm">
+      <q-expansion-item :label="`${abl.name} [WP: ${abl.wp}]`" :caption="abl.text" :caption-lines="0.5"
+        header-class="text-bold q-pl-xs" :default-opened="!abl.name">
+        <div class="column">
           <div class="row">
             <q-input class="col" label="Name" v-model="abl.name" dense />
             <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />
           </div>
 
-          <q-input class="row" label="Text" v-model="abl.text" dense autogrow />
+          <q-input class="row" label="Text" v-model="abl.text" dense autogrow borderless />
         </div>
       </q-expansion-item>
     </template>

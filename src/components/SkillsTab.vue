@@ -13,12 +13,8 @@
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(_, k) in app.char.priSkills" :key="`priSkill-${k}`">
       <div v-if="show(k as string)">
-        <char-skill
-          v-model="app.char.priSkills[k]"
-          :label="`${k}`"
-          :edit-skills="editSkills"
-          :skill-type="RollTypes.Primary"
-        />
+        <char-skill v-model="app.char.priSkills[k]" :label="`${k}`" :edit-skills="editSkills"
+          :skill-type="RollTypes.Primary" />
       </div>
     </div>
   </div>
@@ -31,14 +27,8 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(_, k) in app.char.secSkills" :key="`secSkill-${k}`">
-      <char-skill
-        v-model="app.char.secSkills[k]!"
-        :label="`${k}`"
-        :edit-skills="editSkills"
-        show-delete
-        @delete="removeSecSkill"
-        :skill-type="RollTypes.Secondary"
-      />
+      <char-skill v-model="app.char.secSkills[k]!" :label="`${k}`" :edit-skills="editSkills" show-delete
+        @delete="removeSecSkill" :skill-type="RollTypes.Secondary" />
     </div>
   </div>
 
@@ -46,36 +36,19 @@
     <q-card>
       <q-card-section class="column">
         <q-input label="Skill Name" v-model="newSkillName" dense />
-        <q-select
-          options-selected-class="text-purple-2"
-          label="Attribute"
-          :options="Object.values(Attrs)"
-          v-model="newSkillAttr"
-          dense
-        />
+        <q-select options-selected-class="text-purple-2" label="Attribute" :options="Object.values(Attrs)"
+          v-model="newSkillAttr" dense />
       </q-card-section>
       <q-card-actions class="row justify-evenly">
-        <q-btn
-          class="col"
-          color="red"
-          label="Cancel"
-          @click="
-            newSkillName = '';
-            showAddSkill = false;
-          "
-          flat
-        />
-        <q-btn
-          class="col"
-          color="green"
-          label="Add"
-          @click="
-            app.char.secSkills[newSkillName] = skill(newSkillAttr);
-            newSkillName = '';
-            showAddSkill = false;
-          "
-          flat
-        />
+        <q-btn class="col" color="red" label="Cancel" @click="
+          newSkillName = '';
+        showAddSkill = false;
+        " flat />
+        <q-btn class="col" color="green" label="Add" @click="
+          app.char.secSkills[newSkillName] = skill(newSkillAttr);
+        newSkillName = '';
+        showAddSkill = false;
+        " flat />
       </q-card-actions>
     </q-card>
   </q-dialog>

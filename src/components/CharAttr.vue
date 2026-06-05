@@ -1,42 +1,24 @@
 <template>
-  <div
-    :class="`column items-center justify-center q-ma-xs q-pa-xs ${
-      attr.condition.check ? 'bg-negative' : ''
-    } rounded-borders`"
-  >
+  <div :class="`column items-center justify-center q-ma-xs q-pa-xs ${attr.condition.check ? 'bg-negative' : ''
+    } rounded-borders outlined`">
     <q-btn class="row justify-center items-center" @click="showRoller = true" flat rounded>
       <span class="text-h5 text-bold">{{ label }}</span>
       <q-icon name="mdi-dice-d20" size="sm" />
     </q-btn>
 
-    <q-btn :label="`${attr.score}`" class="col-shrink text-bold q-pa-none" size="xl" @click="editAttr" flat rounded />
-    <q-checkbox
-      class="q-mt-xs"
-      :label="attr.condition.name"
-      v-model="attr.condition.check"
-      size="sm"
-      left-label
-      dense
-      unchecked-icon="mdi-emoticon-happy"
-      checked-icon="mdi-skull"
-      color="white"
-    />
+    <q-btn :label="`${attr.score}`" class="col-shrink text-bold q-pa-none" size="lg" @click="editAttr" flat rounded />
+    <q-checkbox class="q-mt-xs" :label="attr.condition.name" v-model="attr.condition.check" size="sm" left-label dense
+      unchecked-icon="mdi-emoticon-happy" checked-icon="mdi-skull" color="white" />
   </div>
   <q-dialog v-model="showRoller" maximized>
-    <dice-roller
-      :name="label"
-      :banes="attr.condition.check ? 1 : 0"
-      :target="attr.score"
-      :roll-type="RollTypes.Attr"
-      @close="showRoller = false"
-      @result="
+    <dice-roller :name="label" :banes="attr.condition.check ? 1 : 0" :target="attr.score" :roll-type="RollTypes.Attr"
+      @close="showRoller = false" @result="
         (r) =>
           notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
             r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
-      "
-    />
+      " />
   </q-dialog>
 </template>
 

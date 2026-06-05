@@ -1,5 +1,4 @@
 <template>
-  <!-- file deepcode ignore PureMethodReturnValueIgnored: The return value is passed as a property to a component -->
   <q-card>
     <q-card-section class="row text-center text-h5">
       <div class="col-grow">{{ name }} ({{ target }})</div>
