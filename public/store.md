@@ -18,14 +18,16 @@ A character sheet app for Dragonbane with built-in dice rolls, boons and banes, 
 
 ![Screenshot showing left drawer menu](https://nboughton.uk/apps/obr-dragonbane-sheet/image-3.png)
 
-![Screenshot of the extension displaying a weapon roll](https://nboughton.uk/apps/obr-dragonbane-sheet/image-2.png)
-
 - Automatically calculates Base Chance for skills, number of spells preparable, weight of coins carried etc.
 
 - Automatically mark skills for advancement on a Dragon or Demon roll and log the last 50 roll notifications in the LOG tab.
 
-- Roll weapon attacks directly from the Combat
+- Marks baned skills clearly and accounts for armour related banes.
+
+- Roll weapon attacks directly from the Combat tab
 
 - Spend WP directly from the abilities tab when using spells or heroic abilities
+
+![Screenshot of the extension displaying a weapon roll](https://nboughton.uk/apps/obr-dragonbane-sheet/image-2.png)
 
 For help and/or to raise bug reports you can contact the author in the Owlbear Rodeo discord (@tiberianpun) or use the github repository at https://github.com/nboughton/dragonbane
