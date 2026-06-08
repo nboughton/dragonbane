@@ -14,7 +14,9 @@ learn-more: https://github.com/nboughton/dragonbane/tree/obr-integration
 
 A character sheet app for Dragonbane with built-in dice rolls, boons and banes, rest, advancement etc.
 
-**Your character data is stored in your browser's local storage so be sure to export it often so that nothing is lost if your browser data is wiped.**
+**Your character data is stored in your browser's local storage so be sure to export it often so that nothing is lost if your browser data is wiped. The export button is in the left drawer menu.**
+
+![Screenshot showing left drawer menu](https://nboughton.uk/apps/obr-dragonbane-sheet/image-3.png)
 
 ![Screenshot of the extension displaying a weapon roll](https://nboughton.uk/apps/obr-dragonbane-sheet/image-2.png)
 
