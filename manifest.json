@@ -1,12 +1,12 @@
 {
   "name": "Dragonbane Sheet",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "manifest_version": 1,
   "action": {
     "title": "Dragonbane Sheet",
     "icon": "/apps/obr-dragonbane-sheet/icon.svg",
     "popover": "/apps/obr-dragonbane-sheet/",
     "height": 800,
-    "width": 420
+    "width": 450
   }
 }
