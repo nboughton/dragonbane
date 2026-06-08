@@ -52,8 +52,6 @@
     </div>
   </div>
 
-  <action-item-row></action-item-row>
-
   <q-dialog v-model="display.roller" maximized>
     <dice-roller :name="weapon.name" :roll-type="RollTypes.Attack" :target="app.skillValue('wepSkills', weapon.skill!)"
       :banes="app.banes('wepSkills', weapon.skill!)" :skill="weapon.skill!" @close="display.roller = false" @result="
@@ -190,7 +188,6 @@ import { notifySend } from 'src/lib/notify';
 
 import DiceRoller from './DiceRoller.vue';
 import DiceSelect from './DiceSelect.vue';
-import ActionItemRow from './ActionItemRow.vue';
 
 const weapon = defineModel<Weapon>({ required: true });
 defineEmits(['delete']);
