@@ -102,7 +102,7 @@ export const useCharacterStore = defineStore('character', {
         if (this.char.wepSkills[s].checked) {
           const sk = this.char.wepSkills[s];
           const n = roll(20);
-          if (n > this.skillValue('priSkills', s)) {
+          if (n > this.skillValue('wepSkills', s)) {
             advanced.push(s);
             if (sk.locked && sk.value) this.char.wepSkills[s].value = sk.value + 1;
             else this.char.wepSkills[s].advances++;
@@ -116,7 +116,7 @@ export const useCharacterStore = defineStore('character', {
         if (this.char.secSkills[s].checked) {
           const sk = this.char.secSkills[s];
           const n = roll(20);
-          if (n > this.skillValue('priSkills', s)) {
+          if (n > this.skillValue('secSkills', s)) {
             advanced.push(s);
             if (sk.locked && sk.value) this.char.secSkills[s].value = sk.value + 1;
             else this.char.secSkills[s].advances++;

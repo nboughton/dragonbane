@@ -200,6 +200,7 @@ export const Durations = {
   Stretch: 'Stretch',
   Shift: 'Shift',
   Concentration: 'Concentration',
+  Permanent: 'Permanent',
 } as const;
 
 export type Duration = (typeof Durations)[keyof typeof Durations];
