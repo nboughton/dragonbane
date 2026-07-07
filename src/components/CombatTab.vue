@@ -18,18 +18,16 @@
 
   <div class="row q-ml-sm items-center">
     <div class="col text-h6 text-bold">Weapons</div>
-    <div class="q-px-none">
-      <q-toggle v-model="editWeapons" icon="mdi-pencil" />
-    </div>
+    <q-btn v-if="editWeapons" class="col-shrink" icon="add_circle" flat dense rounded @click="addWeapon">
+      <q-tooltip>Add Weapon</q-tooltip>
+    </q-btn>
+    <q-toggle class="col-shrink q-px-none" v-model="editWeapons" icon="mdi-pencil">
+      <q-tooltip>Edit Weapons</q-tooltip>
+    </q-toggle>
   </div>
-  <weapon-block
-    v-for="(w, i) in app.char.weapons"
-    :key="`wpn-${i}`"
-    v-model="app.char.weapons[i]!"
-    :edit-weapons="editWeapons"
-    @delete="removeWeapon(i)"
-  />
-  <q-btn v-if="editWeapons" icon="add_circle" label="Add Weapon" flat dense rounded @click="addWeapon" />
+  <weapon-block v-for="(w, i) in app.char.weapons" :key="`wpn-${i}`" v-model="app.char.weapons[i]!"
+    :edit-weapons="editWeapons" @delete="removeWeapon(i)" />
+
 
   <div class="row q-ml-sm items-center">
     <div class="col text-h6 text-bold">Combat Skills</div>
@@ -39,22 +37,12 @@
   </div>
   <div class="row q-mt-sm">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <char-skill
-        v-if="show('Evade')"
-        v-model="app.char.priSkills['Evade']!"
-        :edit-skills="editSkills"
-        label="Evade"
-        :skill-type="RollTypes.Primary"
-      />
+      <char-skill v-if="show('Evade')" v-model="app.char.priSkills['Evade']!" :edit-skills="editSkills" label="Evade"
+        :skill-type="RollTypes.Primary" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(sk, k) in app.char.wepSkills" :key="`skill-${k}`">
-      <char-skill
-        v-if="show(k as string)"
-        v-model="app.char.wepSkills[k]!"
-        :edit-skills="editSkills"
-        :label="`${k}`"
-        :skill-type="RollTypes.Weapon"
-      />
+      <char-skill v-if="show(k as string)" v-model="app.char.wepSkills[k]!" :edit-skills="editSkills" :label="`${k}`"
+        :skill-type="RollTypes.Weapon" />
     </div>
   </div>
   <div class="row justify-between items-center text-center q-ma-sm">

@@ -1,27 +1,26 @@
 <template>
-  <action-item-row>
-    <template v-slot:prepend>
-      <q-btn icon="mdi-account-arrow-right" flat dense @click="activate" />
-    </template>
+  <div class="q-ma-xs q-pa-xs rounded-borders outlined" flat>
+    <div class="column" v-if="editAbilities">
+      <div class="row q-gutter-sm items-center">
+        <q-input class="col" label="Name" v-model="abl.name" dense />
+        <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />
+        <q-btn class="col-shrink bg-primary" icon="delete" flat dense @click="$emit('delete')" />
+      </div>
 
-    <template v-slot:content>
-      <q-expansion-item :label="`${abl.name} [WP: ${abl.wp}]`" :caption="abl.text" :caption-lines="0.5"
-        header-class="text-bold q-pl-xs" :default-opened="!abl.name">
-        <div class="column">
-          <div class="row">
-            <q-input class="col" label="Name" v-model="abl.name" dense />
-            <q-input class="col-xs-2 col-sm-1" label="WP" v-model.number="abl.wp" type="number" dense />
-          </div>
+      <q-input class="row" label="Text" v-model="abl.text" dense autogrow borderless />
+    </div>
 
-          <q-input class="row" label="Text" v-model="abl.text" dense autogrow borderless />
+    <div v-else class="row q-pa-xs">
+      <q-btn class="col-shrink" icon="mdi-account-arrow-right" flat dense @click="activate" />
+      <div class="col-grow q-ml-xs">
+        <div class="row">
+          <span class="col-grow text-bold">{{ abl.name }}</span>
+          <span class="col-shrink text-caption">WP {{ abl.wp }}</span>
         </div>
-      </q-expansion-item>
-    </template>
-
-    <template v-slot:append>
-      <q-btn icon="delete" flat dense @click="$emit('delete')" />
-    </template>
-  </action-item-row>
+        <div class="row">{{ abl.text }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -30,10 +29,9 @@ import type { Ability } from './models';
 import { useCharacterStore } from 'src/stores/character';
 import { useQuasar } from 'quasar';
 
-import ActionItemRow from './ActionItemRow.vue';
-
 const abl = defineModel<Ability>({ required: true });
 defineEmits(['delete']);
+defineProps<{ editAbilities: boolean }>()
 
 const $q = useQuasar();
 const app = useCharacterStore();

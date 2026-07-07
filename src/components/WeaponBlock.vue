@@ -1,6 +1,23 @@
 <template>
   <div class="q-ma-xs q-pa-xs q-pl-sm rounded-borders outlined" flat>
-    <div v-if="!editWeapons">
+    <div v-if="editWeapons">
+      <div class="row q-gutter-sm items-center">
+        <q-input class="col-grow" label="Weapon/Shield" v-model="weapon.name" dense />
+        <q-select class="col-shrink" options-selected-class="text-purple-2" label="Skill" v-model="weapon.skill"
+          :options="skills" dense />
+        <q-btn class="col-shrink bg-primary" icon="delete" @click="$emit('delete')" flat dense />
+      </div>
+      <div class="row q-gutter-sm">
+        <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(Grips)" dense />
+        <q-input class="col" label="Range" v-model="weapon.range" dense />
+        <q-input class="col" label="Damage" v-model="weapon.damage" dense />
+        <q-input class="col" label="Durability" type="number" v-model.number="weapon.durability" dense />
+      </div>
+      <div class="row q-gutter-sm">
+        <q-input class="col-grow" label="Features" v-model="weapon.features" dense borderless />
+      </div>
+    </div>
+    <div v-else>
       <div class="row justify-between items-center">
         <div class="col text-bold">{{ weapon.name }}</div>
         <div class="col text-right">
@@ -11,8 +28,8 @@
       <div class="row">
         <div class="col-shrink">
           <q-icon name="mdi-sword" />
-          {{ weapon.damage
-          }}{{
+          {{ weapon.damage }}
+          {{
             weapon.skill && app.dmgBonus(app.char.wepSkills[weapon.skill]!.attr) != '-'
               ? app.dmgBonus(app.char.wepSkills[weapon.skill]!.attr)
               : ''
@@ -29,25 +46,6 @@
         <div class="col-grow text-right q-mr-sm">
           {{ weapon.features }}
         </div>
-      </div>
-    </div>
-
-    <div v-if="editWeapons">
-      <div class="row q-gutter-sm items-center">
-        <q-input class="col-grow" label="Weapon/Shield" v-model="weapon.name" dense />
-        <q-select class="col-shrink" options-selected-class="text-purple-2" label="Skill" v-model="weapon.skill"
-          :options="skills" dense />
-        <q-btn class="col-shrink bg-primary" options-selected-class="text-purple-2" icon="delete"
-          @click="$emit('delete')" flat dense />
-      </div>
-      <div class="row q-gutter-sm">
-        <q-select class="col" label="Grip" v-model="weapon.grip" :options="Object.values(Grips)" dense />
-        <q-input class="col" label="Range" v-model="weapon.range" dense />
-        <q-input class="col" label="Damage" v-model="weapon.damage" dense />
-        <q-input class="col" label="Durability" type="number" v-model.number="weapon.durability" dense />
-      </div>
-      <div class="row q-gutter-sm">
-        <q-input class="col-grow" label="Features" v-model="weapon.features" dense borderless />
       </div>
     </div>
   </div>
