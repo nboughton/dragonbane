@@ -1,7 +1,7 @@
 <template>
   <q-page class="column" :padding="$q.screen.gt.sm">
     <q-expansion-item :default-opened="!app.char.kin"
-      :label="`${app.char.name}${app.char.kin ? ' ' + t('ui.the') + ' ' + t('kins.' + app.char.kin, app.char.kin) : ''}${app.char.profession ? ' ' + t('professions.' + app.char.profession, app.char.profession) : ''}`"
+      :label="`${app.char.name}${app.char.kin ? ', ' + t('kins.' + app.char.kin, app.char.kin) : ''}${app.char.profession ? ', ' + t('professions.' + app.char.profession, app.char.profession) : ''}`"
       header-class="text-h5">
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
