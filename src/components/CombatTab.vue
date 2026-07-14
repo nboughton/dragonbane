@@ -12,8 +12,8 @@
         {{ armourRating }}
       </div>
     </div>
-    <div class="col q-ml-sm text-h6 text-center">STR {{ DmgBonus(app.char.attributes.STR.score) }}</div>
-    <div class="col q-ml-sm text-h6 text-center">AGL {{ DmgBonus(app.char.attributes.AGL.score) }}</div>
+    <div class="col q-ml-sm text-h6 text-center">{{ t('attributes.STR') }} {{ DmgBonus(app.char.attributes.STR.score) }}</div>
+    <div class="col q-ml-sm text-h6 text-center">{{ t('attributes.AGL') }} {{ DmgBonus(app.char.attributes.AGL.score) }}</div>
   </div>
 
   <div class="row q-ml-sm items-center">
