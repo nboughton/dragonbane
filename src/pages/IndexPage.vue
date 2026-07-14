@@ -29,11 +29,11 @@
     </q-expansion-item>
 
     <q-separator />
-    <div class="row justify-between q-px-sm q-mt-md q-mb-sm">
-      <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">
+    <div class="row justify-start q-px-sm q-mt-md q-mb-sm q-gutter-x-md">
+      <div class="col-xs-4 col-sm-4 col-md-3">
         <points-block v-model="app.char.hp" :label="t('ui.hp')" />
       </div>
-      <div class="col-xs-6 col-sm-6 col-md-4 q-pl-xs">
+      <div class="col-xs-4 col-sm-4 col-md-3">
         <points-block v-model="app.char.wp" :label="t('ui.wp')" label-right />
       </div>
     </div>
