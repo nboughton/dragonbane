@@ -6,23 +6,17 @@
       v-model="skill.trained"
       checked-icon="mdi-chevron-up-circle"
       unchecked-icon="mdi-chevron-up-circle-outline"
-      :color="app.conf.darkMode === true ? 'white' : 'black'"
+      color="primary"
       size="xs"
       dense
     >
       <q-tooltip>{{ t('ui.trained') }}</q-tooltip>
     </q-checkbox>
-
-    <q-input
-      v-if="editSkills"
-      class="col-2"
-      input-class="text-center text-bold"
-      type="number"
-      v-model.number="localVal"
-      @update:model-value="onInputVal"
-      dense
-      borderless
-    />
+    <div v-if="editSkills" class="row items-center justify-center no-wrap col-shrink">
+      <q-btn size="xs" icon="remove" flat round dense @click.stop="decrement" />
+      <span class="text-bold text-center q-mx-xs">{{ val }}</span>
+      <q-btn size="xs" icon="add" flat round dense @click.stop="increment" />
+    </div>
 
     <q-checkbox
       v-if="!editSkills"
@@ -30,7 +24,7 @@
       v-model="skill.checked"
       checked-icon="mdi-rhombus"
       unchecked-icon="mdi-rhombus-outline"
-      :color="app.conf.darkMode == true ? 'white' : 'black'"
+      color="primary"
       size="xs"
       dense
     >
@@ -39,7 +33,13 @@
 
     <div v-if="!editSkills" class="text-bold">{{ val }}</div>
 
-    <div class="col-grow q-pl-sm">{{ t('skills.' + label, label) }}</div>
+    <div
+      class="col-grow q-pl-sm"
+      :class="editSkills ? '' : 'cursor-pointer'"
+      @click="editSkills ? null : showRoller = true"
+    >
+      {{ t('skills.' + label, label) }}
+    </div>
 
     <div class="col-shrink" v-if="baned">
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import type { Skill } from './models';
@@ -113,18 +113,17 @@ const val = computed({
   },
 });
 
-const localVal = ref(val.value);
-watch(() => val.value, (newVal) => {
-  localVal.value = newVal;
-});
-const onInputVal = (newVal: number | string | null) => {
-  const v = Number(newVal);
-  if (isNaN(v) || newVal === null || newVal === '') {
-    skill.value.advances = 0;
-    return;
+
+
+const increment = () => {
+  if (val.value < 18) {
+    skill.value.advances++;
   }
-  if (v <= 18) {
-    skill.value.advances = v - base.value;
+};
+
+const decrement = () => {
+  if (skill.value.advances > 0) {
+    skill.value.advances--;
   }
 };
 
