@@ -17,12 +17,12 @@
   </div>
 
   <div class="row q-ml-sm items-center">
-    <div class="col text-h6 text-bold">Weapons</div>
+    <div class="col text-h6 text-bold">{{ t('ui.weapons') }}</div>
     <q-btn v-if="editWeapons" class="col-shrink" icon="add_circle" flat dense rounded @click="addWeapon">
-      <q-tooltip>Add Weapon</q-tooltip>
+      <q-tooltip>{{ t('ui.addWeapon') }}</q-tooltip>
     </q-btn>
     <q-toggle class="col-shrink q-px-none" v-model="editWeapons" icon="mdi-pencil">
-      <q-tooltip>Edit Weapons</q-tooltip>
+      <q-tooltip>{{ t('ui.editWeapons') }}</q-tooltip>
     </q-toggle>
   </div>
   <weapon-block v-for="(w, i) in app.char.weapons" :key="`wpn-${i}`" v-model="app.char.weapons[i]!"
@@ -30,7 +30,7 @@
 
 
   <div class="row q-ml-sm items-center">
-    <div class="col text-h6 text-bold">Combat Skills</div>
+    <div class="col text-h6 text-bold">{{ t('ui.combatSkills') }}</div>
     <div class="q-px-none">
       <q-toggle v-model="editSkills" icon="mdi-pencil" />
     </div>
@@ -47,17 +47,18 @@
   </div>
   <div class="row justify-between items-center text-center q-ma-sm">
     <div class="col-xs-12 col-sm-5">
-      <armour-block label="Armour" v-model="app.char.armour" />
+      <armour-block :label="t('ui.armour')" v-model="app.char.armour" />
     </div>
 
     <div class="col-xs-12 col-sm-5">
-      <armour-block label="Helmet" v-model="app.char.helmet" />
+      <armour-block :label="t('ui.helmet')" v-model="app.char.helmet" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { RollTypes } from './models';
 
@@ -71,6 +72,7 @@ import WeaponBlock from 'src/components/WeaponBlock.vue';
 import ArmourBlock from 'src/components/ArmourBlock.vue';
 
 const app = useCharacterStore();
+const { t } = useI18n();
 
 const $q = useQuasar();
 const editWeapons = ref(false);
@@ -79,9 +81,8 @@ const addWeapon = () => app.char.weapons.push(NewWeapon());
 const removeWeapon = (index: number) =>
   $q
     .dialog({
-      message: 'Remove this weapon?',
+      message: t('ui.deleteConfirm', { name: t('ui.weapon') }),
       cancel: true,
-      maximized: true,
     })
     .onOk(() => app.char.weapons.splice(index, 1));
 

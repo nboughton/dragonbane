@@ -18,15 +18,15 @@
   <q-dialog v-model="showEditDialog" maximized>
     <q-card>
       <q-card-section class="row text-h6 items-center justify-between">
-        <div class="col">Adjust {{ label }}</div>
+        <div class="col">{{ t('ui.adjustPoints', { name: label }) }}</div>
         <q-btn class="col-shrink" icon="close" flat dense rounded @click="showEditDialog = false" />
       </q-card-section>
 
       <q-card-section class="row items-center justify-center">
-        <q-input class="col-5 input-left" input-class="text-center text-h4" label="Current" type="number"
+        <q-input class="col-5 input-left" input-class="text-center text-h4" :label="t('ui.current')" type="number"
           v-model.number="points.current" :max="points.max" :min="0" borderless />
 
-        <q-input class="col-5 input-right" input-class="text-center text-h4" label="Max" type="number"
+        <q-input class="col-5 input-right" input-class="text-center text-h4" :label="t('ui.max')" type="number"
           v-model.number="points.max" :min="0" borderless />
       </q-card-section>
     </q-card>
@@ -35,6 +35,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { StatPoints } from './models';
 
@@ -46,6 +47,7 @@ defineProps<{
 }>();
 
 const showEditDialog = ref(false);
+const { t } = useI18n();
 </script>
 
 <style scoped>

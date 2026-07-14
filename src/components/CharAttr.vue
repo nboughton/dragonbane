@@ -2,20 +2,20 @@
   <div :class="`column items-center justify-center q-ma-xs q-pa-xs ${attr.condition.check ? 'bg-negative' : ''
     } rounded-borders outlined`">
     <q-btn class="row justify-center items-center" @click="showRoller = true" flat rounded>
-      <span class="text-h5 text-bold">{{ label }}</span>
+      <span class="text-h5 text-bold">{{ t('attributes.' + label) }}</span>
       <q-icon name="mdi-dice-d20" size="sm" />
     </q-btn>
 
     <q-btn :label="`${attr.score}`" class="col-shrink text-bold q-pa-none" size="lg" @click="editAttr" flat rounded />
-    <q-checkbox class="q-mt-xs" :label="attr.condition.name" v-model="attr.condition.check" size="sm" left-label dense
+    <q-checkbox class="q-mt-xs" :label="t('conditions.' + attr.condition.name)" v-model="attr.condition.check" size="sm" left-label dense
       unchecked-icon="mdi-emoticon-happy" checked-icon="mdi-skull" color="white" />
   </div>
   <q-dialog v-model="showRoller" maximized>
-    <dice-roller :name="label" :banes="attr.condition.check ? 1 : 0" :target="attr.score" :roll-type="RollTypes.Attr"
+    <dice-roller :name="t('attributes.' + label)" :banes="attr.condition.check ? 1 : 0" :target="attr.score" :roll-type="RollTypes.Attr"
       @close="showRoller = false" @result="
         (r) =>
           notifySend(
-            `${app.char.name} rolled ${label}: ${r}`,
+            t('ui.notifyRoll', { name: app.char.name, label: t('attributes.' + label), result: r }),
             r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
       " />
@@ -24,6 +24,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Attribute } from './models';
 import { D20Results, RollTypes } from './models';
@@ -39,10 +40,11 @@ const attr = defineModel<Attribute>({ required: true });
 const props = defineProps<{ label: string }>();
 
 const $q = useQuasar();
+const { t } = useI18n();
 const editAttr = () =>
   $q
     .dialog({
-      title: `Edit ${props.label}`,
+      title: t('ui.edit', { name: t('attributes.' + props.label) }),
       cancel: true,
       prompt: {
         type: 'number',
@@ -56,7 +58,7 @@ const editAttr = () =>
       },
       maximized: true,
     })
-    .onOk((n) => (attr.value.score = n));
+    .onOk((n) => (attr.value.score = Number(n)));
 
 const showRoller = ref(false);
 const app = useCharacterStore();

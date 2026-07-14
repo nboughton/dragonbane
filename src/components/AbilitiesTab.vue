@@ -2,7 +2,7 @@
   <div class="column justify-between">
     <!---ABILITIES-->
     <div class="row q-ml-xs q-mt-md q-mb-sm items-center">
-      <span class="col-grow text-h6 text-bold">Heroic Abilities</span>
+      <span class="col-grow text-h6 text-bold">{{ t('ui.heroicAbilities') }}</span>
       <q-btn v-if="editAbilities" icon="add_circle" flat dense rounded @click="addAbl" />
       <q-toggle class="col-shrink q-px-none" icon="mdi-pencil" v-model="editAbilities" />
     </div>
@@ -12,11 +12,11 @@
     <!---SPELLS-->
     <div class="row q-ml-xs q-mt-md q-mb-sm text-h6 text-bold items-center justify-between">
       <div class="col-shrink">
-        Spells
+        {{ t('ui.spells') }}
         <q-btn v-if="editAbilities" icon="add_circle" flat dense rounded @click="addSpell" />
       </div>
 
-      <q-input class="col-grow q-px-sm" label="Search" v-model="filter" clearable dense>
+      <q-input class="col-grow q-px-sm" :label="t('ui.search')" v-model="filter" clearable dense>
         <template v-slot:prepend>
           <q-icon name="search" />
         </template>
@@ -24,24 +24,24 @@
 
       <q-checkbox class="col-shrink" v-model="showPreparedSpells" checked-icon="mdi-eye" unchecked-icon="mdi-eye-off"
         color="white">
-        <q-tooltip>Toggle prepared spells</q-tooltip>
+        <q-tooltip>{{ t('ui.togglePreparedSpells') }}</q-tooltip>
       </q-checkbox>
 
       <q-btn class="col-shrink" icon="sort" flat dense rounded @click="sortSpells">
-        <q-tooltip>Sort spells by rank</q-tooltip>
+        <q-tooltip>{{ t('ui.sortSpells') }}</q-tooltip>
       </q-btn>
     </div>
 
     <div class="row q-ml-xs items-center">
-      <div class="col-shrink text-bold">Known (by rank):</div>
+      <div class="col-shrink text-bold">{{ t('ui.knownSpells') }}</div>
       <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
         <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
-          {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }} </span>
+          {{ i < 1 ? t('ui.magicTricks') : t('ui.rank', { rank: i }) }}: {{ r }} </span>
       </div>
     </div>
 
     <div class="row items-center q-ml-xs q-mt-xs">
-      <div class="col-shrink text-bold">Prepared:</div>
+      <div class="col-shrink text-bold">{{ t('ui.preparedColon') }}</div>
       <div class="col-shrink q-ml-sm q-px-xs">
         {{ spellsPrepared }}/{{ BaseChance(app.char.attributes.INT.score) }}
       </div>
@@ -57,6 +57,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Spell } from './models';
 
@@ -69,6 +70,7 @@ import AbilityBlock from './AbilityBlock.vue';
 import SpellBlock from './SpellBlock.vue';
 
 const app = useCharacterStore();
+const { t } = useI18n();
 const editAbilities = ref(false)
 
 const $q = useQuasar();
@@ -77,9 +79,8 @@ const addAbl = () => app.char.abilities.push(NewAbility());
 const removeAbl = (index: number) =>
   $q
     .dialog({
-      message: 'Delete this ability?',
+      message: t('ui.deleteAbilityConfirmDialog'),
       cancel: true,
-      maximized: true,
     })
     .onOk(() => app.char.abilities.splice(index, 1));
 
@@ -87,9 +88,8 @@ const addSpell = () => app.char.spells.push(NewSpell());
 const removeSpell = (index: number) =>
   $q
     .dialog({
-      message: 'Delete this spell?',
+      message: t('ui.deleteSpellConfirmDialog'),
       cancel: true,
-      maximized: true,
     })
     .onOk(() => app.char.spells.splice(index, 1));
 const sortSpells = () =>
@@ -112,8 +112,6 @@ const spellsPrepared = computed((): number => {
   });
   return t;
 });
-
-
 
 const filter = ref('');
 const show = (s: Spell): boolean => {

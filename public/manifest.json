@@ -1,0 +1,14 @@
+{
+  "name": "Drakar och demoner / Dragonbane Sheet",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "description": "Interactive character sheet companion for Dragonbane RPG.",
+  "icon": "https://dbsheet-kohl.vercel.app/icon.svg",
+  "action": {
+    "title": "Rollformulär",
+    "icon": "https://dbsheet-kohl.vercel.app/icon.svg",
+    "popover": "https://dbsheet-kohl.vercel.app/",
+    "width": 800,
+    "height": 700
+  }
+}

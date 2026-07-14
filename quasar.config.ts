@@ -11,7 +11,7 @@ export default defineConfig((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [],
+    boot: ['i18n'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -50,7 +50,7 @@ export default defineConfig((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/apps/obr-dragonbane-sheet/',
+      publicPath: process.env.VERCEL ? '/' : '/apps/dragonbane/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -82,9 +82,11 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // https: true,
       open: false, // opens browser window automatically
-      cors: {
-        origin: "https://www.owlbear.rodeo",
-      }
+      cors: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      allowedHosts: true
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

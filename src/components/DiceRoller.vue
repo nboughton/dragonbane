@@ -9,12 +9,12 @@
 
     <q-card-section class="row justify-evenly items-center">
       <div class="column q-pa-sm rounded-borders">
-        <div class="text-h6 text-center">Boons</div>
+        <div class="text-h6 text-center">{{ t('ui.boons') }}</div>
         <inc-dec v-model.number="b.boons" />
       </div>
 
       <div class="column q-pa-sm rounded-borders">
-        <div class="text-h6 text-center">Banes</div>
+        <div class="text-h6 text-center">{{ t('ui.banes') }}</div>
         <inc-dec v-model.number="b.banes" />
       </div>
     </q-card-section>
@@ -30,7 +30,7 @@
         <q-btn class="col-shrink" :label="rollBtnLabel" @click="rollIt" color="white" text-color="black" />
       </div>
       <div v-if="rolled" class="text-center text-h5">
-        {{ resultText }}
+        {{ t('d20Results.' + resultText) }}
       </div>
     </q-card-section>
 
@@ -40,6 +40,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { PriSkill, WepSkill } from './models';
 import { RollTypes, D20Results } from './models';
@@ -80,6 +81,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'result']);
 
 const app = useCharacterStore();
+const { t } = useI18n();
 const b = ref({ boons: props.boons, banes: props.banes });
 const rolled = ref(false);
 
@@ -93,9 +95,12 @@ watch(
   },
 );
 
-const rollBtnLabel = computed((): string =>
-  mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`,
-);
+const rollBtnLabel = computed((): string => {
+  if (mods.value === 0) return t('ui.roll');
+  return mods.value < 0
+    ? t('ui.rollWithBanes', { count: Math.abs(mods.value) })
+    : t('ui.rollWithBoons', { count: Math.abs(mods.value) });
+});
 
 const rollIt = () => {
   rolled.value = false;

@@ -1,7 +1,7 @@
 <template>
   <div class="row no-wrap q-pl-sm justify-between items-center">
-    <div class="col-4 text-h6 text-bold">Primary Skills</div>
-    <q-input class="col-5" input-class="rounded-borders" label="Filter List" v-model="filter" clearable dense>
+    <div class="col-4 text-h6 text-bold">{{ t('ui.primarySkills') }}</div>
+    <q-input class="col-5" input-class="rounded-borders" :label="t('ui.filterList')" v-model="filter" clearable dense>
       <template v-slot:prepend>
         <q-icon name="search" />
       </template>
@@ -22,7 +22,7 @@
   <div class="row q-mt-md">
     <div class="col-12 text-h6 text-bold">
       <div class="col-shrink q-pl-sm">
-        Secondary Skills
+        {{ t('ui.secondarySkills') }}
         <q-btn icon="add_circle" flat dense rounded @click="showAddSkill = true" />
       </div>
     </div>
@@ -35,16 +35,16 @@
   <q-dialog v-model="showAddSkill">
     <q-card>
       <q-card-section class="column">
-        <q-input label="Skill Name" v-model="newSkillName" dense />
-        <q-select options-selected-class="text-purple-2" label="Attribute" :options="Object.values(Attrs)"
-          v-model="newSkillAttr" dense />
+        <q-input :label="t('ui.skillName')" v-model="newSkillName" dense />
+        <q-select options-selected-class="text-purple-2" :label="t('ui.attribute')" :options="Object.values(Attrs).map(a => ({ label: t('attributes.' + a), value: a }))"
+          v-model="newSkillAttr" dense emit-value map-options />
       </q-card-section>
       <q-card-actions class="row justify-evenly">
-        <q-btn class="col" color="red" label="Cancel" @click="
+        <q-btn class="col" color="red" :label="t('ui.cancel')" @click="
           newSkillName = '';
         showAddSkill = false;
         " flat />
-        <q-btn class="col" color="green" label="Add" @click="
+        <q-btn class="col" color="green" :label="t('ui.add')" @click="
           app.char.secSkills[newSkillName] = skill(newSkillAttr);
         newSkillName = '';
         showAddSkill = false;
@@ -56,6 +56,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Attrs, RollTypes } from './models';
 
@@ -67,6 +68,7 @@ import { skill } from 'src/lib/defaults';
 import CharSkill from './CharSkill.vue';
 
 const app = useCharacterStore();
+const { t } = useI18n();
 
 const $q = useQuasar();
 const showAddSkill = ref(false);
@@ -76,9 +78,8 @@ const newSkillAttr = ref(Attrs.STR);
 const removeSecSkill = (val: string) =>
   $q
     .dialog({
-      message: 'Delete this skill?',
+      message: t('ui.deleteConfirm', { name: t('skills.' + val, val) }),
       cancel: true,
-      maximized: true,
     })
     .onOk(() => delete app.char.secSkills[val]);
 

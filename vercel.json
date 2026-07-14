@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "outputDirectory": "dist/spa",
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}

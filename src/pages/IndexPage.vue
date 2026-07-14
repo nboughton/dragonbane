@@ -1,45 +1,47 @@
 <template>
   <q-page class="column" :padding="$q.screen.gt.sm">
     <q-expansion-item :default-opened="!app.char.kin"
-      :label="`${app.char.name} ${app.char.kin ? 'the' : ''} ${app.char.kin} ${app.char.profession}`"
+      :label="`${app.char.name}${app.char.kin ? ' ' + t('ui.the') + ' ' + t('kins.' + app.char.kin, app.char.kin) : ''}${app.char.profession ? ' ' + t('professions.' + app.char.profession, app.char.profession) : ''}`"
       header-class="text-h5">
       <div class="row justify-between q-gutter-sm q-px-sm">
         <div class="col">
-          <q-input class="row" label="Name" v-model="app.char.name" dense />
+          <q-input class="row" :label="t('ui.name')" v-model="app.char.name" dense />
 
           <div class="row">
-            <q-select class="col" options-selected-class="text-purple-2" label="Age" v-model="app.char.age"
-              :options="Object.values(Ages)" dense />
-            <q-input class="col" label="Movement" type="number" v-model.number="app.char.movement" dense />
+            <q-select class="col" options-selected-class="text-purple-2" :label="t('ui.age')" v-model="app.char.age"
+              :options="Object.values(Ages).map(age => ({ label: t('ages.' + age), value: age }))" dense emit-value map-options />
+            <q-input class="col" :label="t('ui.movement')" type="number" v-model.number="app.char.movement" dense />
           </div>
         </div>
 
         <div class="col">
           <div class="row">
-            <q-input class="col" label="Kin" v-model="app.char.kin" dense />
-            <q-input class="col" label="Profession" v-model="app.char.profession" dense />
+            <q-select class="col" options-selected-class="text-purple-2" :label="t('ui.kin')" v-model="app.char.kin"
+              :options="Kins.map(k => ({ label: t('kins.' + k, k), value: k }))" dense emit-value map-options />
+            <q-select class="col" options-selected-class="text-purple-2" :label="t('ui.profession')" v-model="app.char.profession"
+              :options="Professions.map(p => ({ label: t('professions.' + p, p), value: p }))" dense emit-value map-options />
           </div>
-          <q-input class="row" label="Weakness" v-model="app.char.weakness" dense />
+          <q-input class="row" :label="t('ui.weakness')" v-model="app.char.weakness" dense />
         </div>
       </div>
 
-      <q-input class="row q-px-sm" label="Appearance" v-model="app.char.appearance" dense autogrow borderless />
+      <q-input class="row q-px-sm" :label="t('ui.appearance')" v-model="app.char.appearance" dense autogrow borderless />
     </q-expansion-item>
 
     <q-separator />
     <div class="row justify-between q-px-sm q-mt-md q-mb-sm">
       <div class="col-xs-6 col-sm-6 col-md-4 q-pr-xs">
-        <points-block v-model="app.char.hp" label="HP" />
+        <points-block v-model="app.char.hp" :label="t('ui.hp')" />
       </div>
       <div class="col-xs-6 col-sm-6 col-md-4 q-pl-xs">
-        <points-block v-model="app.char.wp" label="WP" label-right />
+        <points-block v-model="app.char.wp" :label="t('ui.wp')" label-right />
       </div>
     </div>
 
 
     <div class="row justify-evenly q-mb-md">
-      <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" label="Roll stats">
-        <q-tooltip>Roll stats</q-tooltip>
+      <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" :label="t('ui.rollStats')">
+        <q-tooltip>{{ t('ui.rollStats') }}</q-tooltip>
       </q-btn>
       <div class="col-xs-4 col-sm-2 col-md-2">
         <char-attr :label="Attrs.STR" v-model="app.char.attributes.STR" />
@@ -68,11 +70,11 @@
 
     <q-separator />
     <q-tabs v-model="tab" align="justify" dense>
-      <q-tab name="skills" label="Skills" />
-      <q-tab name="combat" label="Combat" />
-      <q-tab name="abilities" label="Abilities" />
-      <q-tab name="gear" label="Gear" />
-      <q-tab name="log" label="Log" />
+      <q-tab name="skills" :label="t('ui.skills')" />
+      <q-tab name="combat" :label="t('ui.combat')" />
+      <q-tab name="abilities" :label="t('ui.abilitiesSpells')" />
+      <q-tab name="gear" :label="t('ui.gear')" />
+      <q-tab name="log" :label="t('ui.log')" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" class="rounded-borders" swipeable>
@@ -105,7 +107,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Attr } from 'src/components/models';
 import { Ages, Attrs } from 'src/components/models';
@@ -122,14 +125,28 @@ import GearTab from 'src/components/GearTab.vue';
 import LogTab from 'src/components/LogTab.vue';
 
 const app = useCharacterStore();
+const { t } = useI18n();
 const tab = ref('skills');
+
+const Kins = ['Human', 'Halfling', 'Dwarf', 'Elf', 'Mallard', 'Wolfkin'];
+const Professions = [
+  'Artisan',
+  'Bard',
+  'Fighter',
+  'Hunter',
+  'Knight',
+  'Mage',
+  'Merchant',
+  'Scholar',
+  'Thief',
+  'Mariner',
+];
 
 const $q = useQuasar();
 const rollStats = () =>
   $q
     .dialog({
-      message: 'Roll and apply Character Stats?',
-      maximized: true,
+      message: t('ui.rollStatsConfirm'),
       cancel: true,
     })
     .onOk(() => {
@@ -160,4 +177,27 @@ const statsRolled = computed((): boolean => {
   Object.keys(Attrs).forEach((attr) => (total += app.char.attributes[attr as Attr].score));
   return total == 0;
 });
+
+watch(
+  () => app.char?.attributes,
+  (attrs) => {
+    if (app.char && attrs) {
+      const conScore = Number(attrs[Attrs.CON]?.score) || 0;
+      const wilScore = Number(attrs[Attrs.WIL]?.score) || 0;
+
+      if (app.char.hp.max !== conScore) {
+        const diff = conScore - app.char.hp.max;
+        app.char.hp.max = conScore;
+        app.char.hp.current = Math.max(0, app.char.hp.current + diff);
+      }
+
+      if (app.char.wp.max !== wilScore) {
+        const diff = wilScore - app.char.wp.max;
+        app.char.wp.max = wilScore;
+        app.char.wp.current = Math.max(0, app.char.wp.current + diff);
+      }
+    }
+  },
+  { deep: true, immediate: true }
+);
 </script>

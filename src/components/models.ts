@@ -10,6 +10,7 @@ export interface AppConfig {
   showTrainedSkills?: boolean;
   showSpells?: boolean;
   darkMode?: boolean;
+  locale?: string;
 }
 
 export interface Character {

@@ -1,34 +1,31 @@
 // app global css in SCSS form
 :root {
   backdrop-filter: blur(5px);
-  background-color: rgba(255, 255, 255, 0.05);
 }
 
 body {
-  background-color: transparent;
-}
-
-a {
-  color: white;
+  background-color: var(--q-info) !important;
 }
 
 #q-app,
 .q-layout,
 .q-page-container,
 .q-page,
-.q-card,
-.body--dark,
 .q-tab-panels {
-  background-color: transparent !important;
+  background-color: var(--q-info) !important;
+}
+
+.q-card {
+  background-color: var(--q-dark) !important;
 }
 
 .q-dialog,
 .q-menu,
 .q-drawer {
   backdrop-filter: blur(5px);
-  background-color: rgba(56, 60, 72, 0.8) !important;
+  background-color: var(--q-dark) !important;
   box-shadow: none;
-  border: 1px solid grey;
+  border: 1px solid rgba(128, 128, 128, 0.4);
   border-radius: 10px !important;
   margin: 5px;
 }
@@ -39,7 +36,7 @@ a {
 }
 
 .outlined {
-  border: 1px solid grey;
+  border: 1px solid rgba(128, 128, 128, 0.4);
 }
 
 .scroll-container {

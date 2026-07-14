@@ -10,7 +10,7 @@
       size="xs"
       dense
     >
-      <q-tooltip>Train Skill</q-tooltip>
+      <q-tooltip>{{ t('ui.trained') }}</q-tooltip>
     </q-checkbox>
 
     <q-input
@@ -33,17 +33,17 @@
       size="xs"
       dense
     >
-      <q-tooltip>Advance Skill</q-tooltip>
+      <q-tooltip>{{ t('ui.advance') }}</q-tooltip>
     </q-checkbox>
 
     <div v-if="!editSkills" class="text-bold">{{ val }}</div>
 
-    <div class="col-grow q-pl-sm">{{ label }}</div>
+    <div class="col-grow q-pl-sm">{{ t('skills.' + label, label) }}</div>
 
     <div class="col-shrink" v-if="baned">
       <q-icon v-for="(b, i) in banes" :key="i" name="mdi-skull" size="sm" />
     </div>
-    <div class="col-1 text-center">{{ skill.attr }}</div>
+    <div class="col-1 text-center">{{ t('attributes.' + skill.attr) }}</div>
 
     <div class="col-shrink">
       <q-btn icon="mdi-dice-d20" @click="showRoller = true" flat round dense />
@@ -53,7 +53,7 @@
   </div>
   <q-dialog v-model="showRoller" maximized>
     <dice-roller
-      :name="label"
+      :name="t('skills.' + label, label)"
       :target="val"
       :banes="banes.length"
       :roll-type="skillType"
@@ -61,7 +61,7 @@
       @result="
         (r: string) =>
           notifySend(
-            `${app.char.name} rolled ${label}: ${r}`,
+            t('ui.notifyRoll', { name: app.char.name, label: t('skills.' + label, label), result: r }),
             r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
       "
@@ -71,6 +71,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Skill } from './models';
 import { D20Results, RollTypes, WepSkills } from './models';
@@ -92,6 +93,7 @@ const props = defineProps<{
 defineEmits(['delete']);
 
 const app = useCharacterStore();
+const { t } = useI18n();
 const base = computed((): number => {
   const b = BaseChance(app.char.attributes[skill.value.attr].score);
   return skill.value.trained ? b * 2 : props.skillType == RollTypes.Secondary ? 0 : b;

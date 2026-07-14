@@ -4,30 +4,30 @@
       <q-toolbar :style="`color: ${colours.text.primary};`">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>Dragonbane</q-toolbar-title>
+        <q-toolbar-title>{{ t('ui.appTitle') }}</q-toolbar-title>
         <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance" flat>
-          <q-tooltip>Roll Advancements</q-tooltip>
+          <q-tooltip>{{ t('ui.rollAdvancements') }}</q-tooltip>
         </q-btn>
-        <q-btn-dropdown icon="mdi-campfire" flat>
+        <q-btn-dropdown icon="mdi-bed" flat>
           <q-list>
             <q-item clickable v-ripple @click="rest.round()">
               <q-item-section>
-                <q-item-label>ROUND</q-item-label>
-                <q-item-label caption>D6 WP</q-item-label>
+                <q-item-label>{{ t('ui.round') }}</q-item-label>
+                <q-item-label caption>{{ t('ui.roundCaption') }}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple @click="rest.stretch()">
               <q-item-section>
-                <q-item-label>STRETCH</q-item-label>
-                <q-item-label caption>D6 HP, D6 WP. Clear one condition</q-item-label>
+                <q-item-label>{{ t('ui.stretch') }}</q-item-label>
+                <q-item-label caption>{{ t('ui.stretchCaption') }}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple @click="rest.shift()">
               <q-item-section>
-                <q-item-label>SHIFT</q-item-label>
-                <q-item-label caption>All HP, WP. Clear all conditions</q-item-label>
+                <q-item-label>{{ t('ui.shift') }}</q-item-label>
+                <q-item-label caption>{{ t('ui.shiftCaption') }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -37,6 +37,9 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
+        <q-btn class="full-width" :label="t('ui.newCharacter')" flat @click="app.chars.push(NewCharacter())" icon-right="add" />
+        <q-separator />
+
         <q-item
           class="items-center"
           v-for="(c, i) in app.chars"
@@ -51,7 +54,7 @@
             <q-btn icon="delete" flat dense rounded @click="removeChar(i)" />
           </q-item-section>
         </q-item>
-        <q-btn class="full-width" label="New Character" flat @click="app.chars.push(NewCharacter())" icon-right="add" />
+
         <q-separator />
 
         <q-item clickable v-ripple @click="app.exportData">
@@ -59,8 +62,8 @@
             <q-icon name="download" />
           </q-item-section>
           <q-item-section>
-            Export Character Data
-            <q-tooltip>Download your character data as a .json file</q-tooltip>
+            {{ t('ui.exportData') }}
+            <q-tooltip>{{ t('ui.exportTooltip') }}</q-tooltip>
           </q-item-section>
         </q-item>
 
@@ -69,8 +72,8 @@
             <q-icon name="upload" />
           </q-item-section>
           <q-item-section>
-            Load Character Data
-            <q-tooltip>Load previously exported character data</q-tooltip>
+            {{ t('ui.loadData') }}
+            <q-tooltip>{{ t('ui.loadTooltip') }}</q-tooltip>
           </q-item-section>
         </q-item>
 
@@ -78,15 +81,30 @@
 
         <q-item>
           <q-item-section>
-            <q-toggle label="Show Spells" v-model="app.conf.showSpells" />
+            <q-toggle :label="t('ui.showSpells')" v-model="app.conf.showSpells" />
           </q-item-section>
         </q-item>
 
-        <!--q-item>
-          <q-item-section>
-            <q-toggle label="Show 'Trained'" v-model="app.conf.showTrainedSkills" />
+        <q-separator />
+
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="language" />
           </q-item-section>
-        </q-item-->
+          <q-item-section>
+            <q-select
+              v-model="locale"
+              :options="[
+                { label: 'English', value: 'en' },
+                { label: 'Svenska', value: 'sv' }
+              ]"
+              :label="t('ui.language')"
+              dense
+              emit-value
+              map-options
+            />
+          </q-item-section>
+        </q-item>
 
         <q-separator />
 
@@ -95,7 +113,7 @@
             <q-icon name="info" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>About</q-item-label>
+            <q-item-label>{{ t('ui.about') }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -108,26 +126,27 @@
 
   <q-dialog v-model="showDataLoad" maximized>
     <q-card>
-      <q-card-section class="text-center text-bold bg-secondary">Load Character Data</q-card-section>
+      <q-card-section class="text-center text-bold bg-secondary">{{ t('ui.loadData') }}</q-card-section>
 
       <q-card-section class="text-subtitle">
-        Please bear in mind that this data will overwrite any existing versions of the same character.
+        {{ t('ui.overwriteWarning') }}
       </q-card-section>
 
       <q-card-section>
-        <q-file v-model="fileToLoad" standout label="Select File" accept=".json" />
+        <q-file v-model="fileToLoad" standout :label="t('ui.selectFile')" accept=".json" />
       </q-card-section>
 
       <q-card-actions align="center">
-        <q-btn label="load" color="primary" @click="loadData" flat />
-        <q-btn label="close" color="warning" @click="showDataLoad = false" flat />
+        <q-btn :label="t('ui.load')" color="primary" @click="loadData" flat />
+        <q-btn :label="t('ui.close')" color="warning" @click="showDataLoad = false" flat />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Attr, DBStore } from 'src/components/models';
 
@@ -143,6 +162,31 @@ const leftDrawerOpen = ref(false);
 
 const app = useCharacterStore();
 const $q = useQuasar();
+const { t, locale } = useI18n();
+
+const renameDefaultCharacter = (newLocale: string) => {
+  app.chars.forEach((c) => {
+    if (c.name === 'New character' && newLocale === 'sv') {
+      c.name = 'Ny rollperson';
+    } else if (c.name === 'Ny rollperson' && newLocale === 'en') {
+      c.name = 'New character';
+    }
+  });
+};
+
+// Sync i18n locale with config store
+if (app.conf.locale) {
+  locale.value = app.conf.locale;
+} else {
+  app.conf.locale = locale.value;
+}
+renameDefaultCharacter(locale.value);
+
+watch(locale, (newLocale) => {
+  app.conf.locale = newLocale;
+  localStorage.setItem('dragonbane_locale', newLocale);
+  renameDefaultCharacter(newLocale);
+});
 
 const showDataLoad = ref(false);
 const fileToLoad = ref(null);
@@ -152,6 +196,9 @@ const loadData = () => {
   reader.onload = (ev) => {
     const data = JSON.parse(ev.target?.result as string) as DBStore;
     app.loadData(data);
+    if (data.conf?.locale) {
+      locale.value = data.conf.locale;
+    }
     showDataLoad.value = false;
   };
   reader.readAsText(f);
@@ -160,9 +207,8 @@ const loadData = () => {
 const removeChar = (index: number) =>
   $q
     .dialog({
-      message: `Delete ${app.chars[index]!.name}?`,
+      message: t('ui.deleteConfirm', { name: app.chars[index]!.name }),
       cancel: true,
-      maximized: true,
     })
     .onOk(() => {
       app.conf.char = 0;
@@ -188,22 +234,20 @@ const rest = {
 
 const advance = () => {
   const advanced = app.rollAdvancements();
+  const translatedSkills = advanced.map((skill) => t(`skills.${skill}`));
   void notifySend(
     advanced.length > 0
-      ? `${app.char.name} advanced: ${advanced.join(', ')}`
-      : `${app.char.name} didn't advance any skills.`,
+      ? t('ui.notifyAdvanced', { name: app.char.name, skills: translatedSkills.join(', ') })
+      : t('ui.notifyNoAdvanced', { name: app.char.name }),
     'INFO',
   );
 };
 
 const about = () =>
   $q.dialog({
-    title: '<div class="text-h5">About</div>',
+    title: `<div class="text-h5">${t('ui.about')}</div>`,
     html: true,
-    message: `<p>This app is not affiliated with, sponsored, or endorsed by Fria Ligan AB.</p>
-      <p>This work is open source. If you would like to contribute please check out my <a href="https://github.com/nboughton/dragonbane" target="_blank">Github repository</a> and submit a pull request.</p>
-      <p>If you like my work and would like to toss a coin to your app developer you can support me on <a href="https://ko-fi.com/tiberianpun" target="_blank">ko-fi</a>.</p>`,
-    maximized: true,
+    message: t('ui.aboutContent'),
   });
 
 const toggleLeftDrawer = () => {

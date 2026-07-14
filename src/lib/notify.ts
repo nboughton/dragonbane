@@ -11,7 +11,7 @@ export const notifySend = async (msg: string, variant: 'DEFAULT' | 'ERROR' | 'IN
 };
 
 export const setupChannels = () => {
-  OBR.broadcast.onMessage(`${ID}/notify`, (e) => {
+  OBR.broadcast.onMessage(`${ID}/notify`, (e: { data: unknown; connectionId: string }) => {
     const { msg, variant } = e.data as { msg: string; variant: 'DEFAULT' | 'ERROR' | 'INFO' | 'SUCCESS' | 'WARNING' };
     void OBR.notification.show(msg, variant);
   });
