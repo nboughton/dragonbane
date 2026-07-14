@@ -5,7 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>{{ t('ui.appTitle') }}</q-toolbar-title>
-        <q-btn icon="mdi-arrow-up-bold-hexagon-outline" @click="advance" flat>
+        <q-btn icon="mdi-arrow-up-bold-hexagon-outline" :label="$q.screen.gt.xs ? t('ui.rollAdvancements') : ''" @click="advance" flat>
           <q-tooltip>{{ t('ui.rollAdvancements') }}</q-tooltip>
         </q-btn>
         <q-btn-dropdown icon="mdi-bed" flat>
@@ -233,14 +233,28 @@ const rest = {
 };
 
 const advance = () => {
-  const advanced = app.rollAdvancements();
-  const translatedSkills = advanced.map((skill) => t(`skills.${skill}`));
-  void notifySend(
-    advanced.length > 0
-      ? t('ui.notifyAdvanced', { name: app.char.name, skills: translatedSkills.join(', ') })
-      : t('ui.notifyNoAdvanced', { name: app.char.name }),
-    'INFO',
-  );
+  $q.dialog({
+    message: t('ui.rollAdvancementConfirm'),
+    cancel: true,
+  }).onOk(() => {
+    const advanced = app.rollAdvancements();
+    const translatedSkills = advanced.map((skill) => t(`skills.${skill}`, skill));
+    
+    const msg = advanced.length > 0
+      ? t('ui.skillsAdvanced', { skills: translatedSkills.join(', ') })
+      : t('ui.noSkillsAdvanced');
+    
+    $q.dialog({
+      message: msg,
+    });
+    
+    void notifySend(
+      advanced.length > 0
+        ? t('ui.notifyAdvanced', { name: app.char.name, skills: translatedSkills.join(', ') })
+        : t('ui.notifyNoAdvanced', { name: app.char.name }),
+      'INFO',
+    );
+  });
 };
 
 const about = () =>
