@@ -11,6 +11,7 @@ export interface AppConfig {
   showSpells?: boolean;
   darkMode?: boolean;
   locale?: string;
+  sheetWidth?: number;
 }
 
 export interface Character {

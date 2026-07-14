@@ -106,6 +106,22 @@
           </q-item-section>
         </q-item>
 
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="aspect_ratio" />
+          </q-item-section>
+          <q-item-section>
+            <q-select
+              v-model="app.conf.sheetWidth"
+              :options="widthOptions"
+              :label="t('ui.sheetWidth')"
+              dense
+              emit-value
+              map-options
+            />
+          </q-item-section>
+        </q-item>
+
         <q-separator />
 
         <q-item clickable v-ripple @click="about">
@@ -145,8 +161,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import OBR from '@owlbear-rodeo/sdk';
 
 import type { Attr, DBStore } from 'src/components/models';
 
@@ -263,6 +280,31 @@ const about = () =>
     html: true,
     message: t('ui.aboutContent'),
   });
+
+const widthOptions = computed(() => [
+  { label: t('ui.widthNarrow'), value: 480 },
+  { label: t('ui.widthStandard'), value: 800 },
+  { label: t('ui.widthWide'), value: 1100 },
+  { label: t('ui.widthExtraWide'), value: 1400 },
+]);
+
+if (!app.conf.sheetWidth) {
+  app.conf.sheetWidth = 800;
+}
+
+watch(
+  () => app.conf.sheetWidth,
+  (w) => {
+    if (w) {
+      try {
+        void OBR.action.setWidth(w);
+      } catch {
+        // Safe fallback outside of Owlbear Rodeo
+      }
+    }
+  },
+  { immediate: true }
+);
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
