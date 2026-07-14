@@ -15,7 +15,7 @@
 
     <q-input
       v-if="editSkills"
-      class="col-1"
+      class="col-2"
       input-class="text-center text-bold"
       type="number"
       v-model.number="val"
@@ -104,7 +104,11 @@ const val = computed({
     return skill.value.advances + base.value;
   },
   set(v: number) {
-    if (v <= 18) return (skill.value.advances = v - base.value);
+    if (v === null || isNaN(v)) {
+      skill.value.advances = 0;
+      return;
+    }
+    if (v <= 18) skill.value.advances = v - base.value;
   },
 });
 
