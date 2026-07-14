@@ -18,7 +18,8 @@
       class="col-2"
       input-class="text-center text-bold"
       type="number"
-      v-model.number="val"
+      v-model.number="localVal"
+      @update:model-value="onInputVal"
       dense
       borderless
     />
@@ -70,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import type { Skill } from './models';
@@ -111,6 +112,21 @@ const val = computed({
     if (v <= 18) skill.value.advances = v - base.value;
   },
 });
+
+const localVal = ref(val.value);
+watch(() => val.value, (newVal) => {
+  localVal.value = newVal;
+});
+const onInputVal = (newVal: number | string | null) => {
+  const v = Number(newVal);
+  if (isNaN(v) || newVal === null || newVal === '') {
+    skill.value.advances = 0;
+    return;
+  }
+  if (v <= 18) {
+    skill.value.advances = v - base.value;
+  }
+};
 
 const baned = computed((): boolean => {
   let b = false;

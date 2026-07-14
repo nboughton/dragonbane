@@ -1,18 +1,18 @@
 <template>
   <div class="row">
 
-    <q-btn v-if="!labelRight" class="col-shrink" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
+    <q-btn v-if="!labelRight" class="col-shrink text-h6 text-bold" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
 
     <div class="col-grow flex flex-center">
-      <q-linear-progress @click="showEditDialog = !showEditDialog" :value="points.current / points.max" color="positive"
-        track-color="grey-1" size="2em" rounded>
-        <div class="absolute-full flex flex-center text-grey-9 text-subtitle2">
+      <q-linear-progress @click="showEditDialog = !showEditDialog" :value="points.current / points.max" color="primary"
+        track-color="grey-1" size="2.5em" rounded>
+        <div class="absolute-full flex flex-center text-grey-9 text-h6 text-bold">
           {{ points.current }}/{{ points.max }}
         </div>
       </q-linear-progress>
     </div>
 
-    <q-btn v-if="labelRight" class="col-shrink" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
+    <q-btn v-if="labelRight" class="col-shrink text-h6 text-bold" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
   </div>
 
   <q-dialog v-model="showEditDialog" maximized>
