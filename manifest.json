@@ -1,7 +1,9 @@
 {
   "name": "Dragonbane Sheet",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "manifest_version": 1,
+  "description": "A fully functional character sheet for Dragonbane",
+  "homepage_url": "https://github.com/nboughton/dragonbane/blob/obr-integration/public/store.md",
   "action": {
     "title": "Dragonbane Sheet",
     "icon": "/apps/obr-dragonbane-sheet/icon.svg",

@@ -10,48 +10,49 @@
       @delete="removeAbl(i)" :edit-abilities="editAbilities" />
 
     <!---SPELLS-->
-    <div class="row q-ml-xs q-mt-md q-mb-sm text-h6 text-bold items-center justify-between">
-      <div class="col-shrink">
-        Spells
-        <q-btn v-if="editAbilities" icon="add_circle" flat dense rounded @click="addSpell" />
+    <div v-if="app.conf.showSpells">
+      <div class="row q-ml-xs q-mt-md q-mb-sm text-h6 text-bold items-center justify-between">
+        <div class="col-shrink">
+          Spells
+          <q-btn v-if="editAbilities" icon="add_circle" flat dense rounded @click="addSpell" />
+        </div>
+
+        <q-input class="col-grow q-px-sm" label="Search" v-model="filter" clearable dense>
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+
+        <q-checkbox class="col-shrink" v-model="showPreparedSpells" checked-icon="mdi-eye" unchecked-icon="mdi-eye-off"
+          color="white">
+          <q-tooltip>Toggle prepared spells</q-tooltip>
+        </q-checkbox>
+
+        <q-btn class="col-shrink" icon="sort" flat dense rounded @click="sortSpells">
+          <q-tooltip>Sort spells by rank</q-tooltip>
+        </q-btn>
       </div>
 
-      <q-input class="col-grow q-px-sm" label="Search" v-model="filter" clearable dense>
-        <template v-slot:prepend>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+      <div class="row q-ml-xs items-center">
+        <div class="col-shrink text-bold">Known (by rank):</div>
+        <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
+          <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
+            {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }} </span>
+        </div>
+      </div>
 
-      <q-checkbox class="col-shrink" v-model="showPreparedSpells" checked-icon="mdi-eye" unchecked-icon="mdi-eye-off"
-        color="white">
-        <q-tooltip>Toggle prepared spells</q-tooltip>
-      </q-checkbox>
+      <div class="row items-center q-ml-xs q-mt-xs">
+        <div class="col-shrink text-bold">Prepared:</div>
+        <div class="col-shrink q-ml-sm q-px-xs">
+          {{ spellsPrepared }}/{{ BaseChance(app.char.attributes.INT.score) }}
+        </div>
+      </div>
 
-      <q-btn class="col-shrink" icon="sort" flat dense rounded @click="sortSpells">
-        <q-tooltip>Sort spells by rank</q-tooltip>
-      </q-btn>
-    </div>
-
-    <div class="row q-ml-xs items-center">
-      <div class="col-shrink text-bold">Known (by rank):</div>
-      <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
-        <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
-          {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }} </span>
+      <div v-for="(sp, i) in app.char.spells" :key="`spell-${i}`">
+        <spell-block v-if="show(sp)" v-model="app.char.spells[i]!" @delete="removeSpell(i)"
+          :edit-spells="editAbilities" />
       </div>
     </div>
-
-    <div class="row items-center q-ml-xs q-mt-xs">
-      <div class="col-shrink text-bold">Prepared:</div>
-      <div class="col-shrink q-ml-sm q-px-xs">
-        {{ spellsPrepared }}/{{ BaseChance(app.char.attributes.INT.score) }}
-      </div>
-    </div>
-
-    <div v-for="(sp, i) in app.char.spells" :key="`spell-${i}`">
-      <spell-block v-if="show(sp)" v-model="app.char.spells[i]!" @delete="removeSpell(i)"
-        :edit-spells="editAbilities" />
-    </div>
-
   </div>
 </template>
 
