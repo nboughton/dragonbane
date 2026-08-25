@@ -1,38 +1,16 @@
 <template>
   <div :class="`row items-center justify-between q-ma-none q-px-xs ${baned ? 'bg-negative' : ''}`">
-    <q-checkbox
-      v-if="editSkills"
-      class="q-ml-xs q-mb-xs"
-      v-model="skill.trained"
-      checked-icon="mdi-chevron-up-circle"
-      unchecked-icon="mdi-chevron-up-circle-outline"
-      :color="app.conf.darkMode === true ? 'white' : 'black'"
-      size="xs"
-      dense
-    >
+    <q-checkbox v-if="editSkills" class="q-ml-xs q-mb-xs" v-model="skill.trained" checked-icon="mdi-chevron-up-circle"
+      unchecked-icon="mdi-chevron-up-circle-outline" :color="app.conf.darkMode === true ? 'white' : 'black'" size="xs"
+      dense>
       <q-tooltip>Train Skill</q-tooltip>
     </q-checkbox>
 
-    <q-input
-      v-if="editSkills"
-      class="col-1"
-      input-class="text-center text-bold"
-      type="number"
-      v-model.number="val"
-      dense
-      borderless
-    />
+    <q-input v-if="editSkills" class="col-1" input-class="text-center text-bold" type="number" v-model.number="val"
+      dense borderless />
 
-    <q-checkbox
-      v-if="!editSkills"
-      class="q-ml-xs q-mb-xs"
-      v-model="skill.checked"
-      checked-icon="mdi-rhombus"
-      unchecked-icon="mdi-rhombus-outline"
-      :color="app.conf.darkMode == true ? 'white' : 'black'"
-      size="xs"
-      dense
-    >
+    <q-checkbox v-if="!editSkills" class="q-ml-xs q-mb-xs" v-model="skill.checked" checked-icon="mdi-rhombus"
+      unchecked-icon="mdi-rhombus-outline" :color="app.conf.darkMode == true ? 'white' : 'black'" size="xs" dense>
       <q-tooltip>Advance Skill</q-tooltip>
     </q-checkbox>
 
@@ -52,35 +30,29 @@
     <q-btn class="col-shrink" icon="delete" v-if="showDelete" @click="$emit('delete', label)" flat dense rounded />
   </div>
   <q-dialog v-model="showRoller" maximized>
-    <dice-roller
-      :name="label"
-      :target="val"
-      :banes="banes.length"
-      :roll-type="skillType"
-      @close="showRoller = false"
+    <dice-roller :name="label" :target="val" :banes="banes.length" :roll-type="skillType" @close="showRoller = false"
       @result="
         (r: string) =>
           notifySend(
             `${app.char.name} rolled ${label}: ${r}`,
             r.includes(D20Results.Dragon) || r.includes(D20Results.Success) ? 'SUCCESS' : 'ERROR',
           )
-      "
-    />
+      " />
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from "vue";
 
-import type { Skill } from './models';
-import { D20Results, RollTypes, WepSkills } from './models';
+import type { Skill } from "./models";
+import { D20Results, RollTypes, WepSkills } from "./models";
 
-import { useCharacterStore } from 'src/stores/character';
+import { useCharacterStore } from "../stores/character";
 
-import { BaseChance } from 'src/lib/defaults';
-import { notifySend } from 'src/lib/notify';
+import { BaseChance } from "../lib/defaults";
+import { notifySend } from "../lib/notify";
 
-import DiceRoller from './DiceRoller.vue';
+import DiceRoller from "./DiceRoller.vue";
 
 const skill = defineModel<Skill>({ required: true });
 const props = defineProps<{
@@ -89,7 +61,7 @@ const props = defineProps<{
   skillType: string;
   editSkills: boolean;
 }>();
-defineEmits(['delete']);
+defineEmits(["delete"]);
 
 const app = useCharacterStore();
 const base = computed((): number => {
@@ -119,10 +91,11 @@ const baned = computed((): boolean => {
     if (
       (checked && k == props.label) ||
       (checked &&
-        k == 'Ranged Attacks' &&
+        k == "Ranged Attacks" &&
         (props.label == WepSkills.Bows || props.label == WepSkills.Crossbows || props.label == WepSkills.Slings))
-    )
+    ) {
       b = true;
+    }
   });
 
   return b;
@@ -141,10 +114,11 @@ const banes = computed((): number[] => {
     if (
       (checked && k == props.label) ||
       (checked &&
-        k == 'Ranged Attacks' &&
+        k == "Ranged Attacks" &&
         (props.label == WepSkills.Bows || props.label == WepSkills.Crossbows || props.label == WepSkills.Slings))
-    )
+    ) {
       b.push(0);
+    }
   });
 
   return b;

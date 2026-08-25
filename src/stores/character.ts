@@ -1,29 +1,28 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 import {
+  type AppConfig,
   type Attr,
   type Character,
-  type AppConfig,
   type DBStore,
-  type SkillType,
   type PriSkill,
-  type WepSkill,
-  type Skill,
   PriSkills,
+  type Skill,
+  type SkillType,
+  type WepSkill,
   WepSkills,
-} from 'src/components/models';
+} from "../components/models.ts";
 
-import { exportFile } from 'quasar';
+import { exportFile } from "quasar";
 
-import { DmgBonus, NewCharacter } from 'src/lib/defaults';
+import { DmgBonus, NewCharacter } from "../lib/defaults.ts";
 
-import { BaseChance } from 'src/lib/defaults';
-import { roll } from 'src/lib/util';
+import { BaseChance } from "../lib/defaults.ts";
+import { roll } from "../lib/util.ts";
 
-export const useCharacterStore = defineStore('character', {
+export const useCharacterStore = defineStore("character", {
   state: () => ({
     chars: [NewCharacter()],
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     conf: {
       char: 0,
       showTrainedSkills: true,
@@ -38,11 +37,11 @@ export const useCharacterStore = defineStore('character', {
     skill(): (skillType: SkillType, skillName: string) => Skill | undefined {
       return (skillType: SkillType, skillName: string): Skill | undefined => {
         switch (skillType) {
-          case 'priSkills':
+          case "priSkills":
             return this.char[skillType][skillName as PriSkill];
-          case 'secSkills':
+          case "secSkills":
             return this.char[skillType][skillName];
-          case 'wepSkills':
+          case "wepSkills":
             return this.char[skillType][skillName as WepSkill];
           default:
             console.error(`app.skill; Skill issue: ${skillName}`);
@@ -89,7 +88,7 @@ export const useCharacterStore = defineStore('character', {
         if (this.char.priSkills[s].checked) {
           const sk = this.char.priSkills[s];
           const n = roll(20);
-          if (n > this.skillValue('priSkills', s)) {
+          if (n > this.skillValue("priSkills", s)) {
             advanced.push(s);
             if (sk.locked && sk.value) this.char.priSkills[s].value = sk.value + 1;
             else this.char.priSkills[s].advances++;
@@ -102,7 +101,7 @@ export const useCharacterStore = defineStore('character', {
         if (this.char.wepSkills[s].checked) {
           const sk = this.char.wepSkills[s];
           const n = roll(20);
-          if (n > this.skillValue('wepSkills', s)) {
+          if (n > this.skillValue("wepSkills", s)) {
             advanced.push(s);
             if (sk.locked && sk.value) this.char.wepSkills[s].value = sk.value + 1;
             else this.char.wepSkills[s].advances++;
@@ -116,7 +115,7 @@ export const useCharacterStore = defineStore('character', {
         if (this.char.secSkills[s].checked) {
           const sk = this.char.secSkills[s];
           const n = roll(20);
-          if (n > this.skillValue('secSkills', s)) {
+          if (n > this.skillValue("secSkills", s)) {
             advanced.push(s);
             if (sk.locked && sk.value) this.char.secSkills[s].value = sk.value + 1;
             else this.char.secSkills[s].advances++;

@@ -1,6 +1,5 @@
 <template>
   <div class="row">
-
     <q-btn v-if="!labelRight" class="col-shrink" @click="showEditDialog = !showEditDialog" flat :label="`${label}`" />
 
     <div class="col-grow flex flex-center">
@@ -34,15 +33,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import type { StatPoints } from './models';
+import type { StatPoints } from "./models";
 
 const points = defineModel<StatPoints>({ required: true });
 defineProps<{
   label: string;
   showMax?: boolean;
-  labelRight?: boolean
+  labelRight?: boolean;
 }>();
 
 const showEditDialog = ref(false);

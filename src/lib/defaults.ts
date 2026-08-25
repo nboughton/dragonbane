@@ -1,15 +1,15 @@
-import { uid } from 'quasar';
-import type { Attr, Condition, Character, Skill, Attribute, Weapon, Ability, Spell } from 'src/components/models';
-import { Attrs, Conditions, Durations, Ages, Grips, WepSkills } from 'src/components/models';
+import { uid } from "quasar";
+import type { Ability, Attr, Attribute, Character, Condition, Skill, Spell, Weapon } from "../components/models.ts";
+import { Ages, Attrs, Conditions, Durations, Grips, WepSkills } from "../components/models.ts";
 
 export const NewCharacter = (): Character => ({
   id: uid(),
-  name: 'New character',
-  kin: '',
+  name: "New character",
+  kin: "",
   age: Ages.Adult,
-  profession: '',
-  weakness: '',
-  appearance: '',
+  profession: "",
+  weakness: "",
+  appearance: "",
   movement: 10,
   hp: {
     max: 0,
@@ -23,8 +23,8 @@ export const NewCharacter = (): Character => ({
   spells: [],
   inventory: [],
   backpack: false,
-  memento: '',
-  tinyItems: '',
+  memento: "",
+  tinyItems: "",
   money: {
     gold: 0,
     silver: 0,
@@ -42,22 +42,22 @@ export const NewCharacter = (): Character => ({
     Acrobatics: skill(Attrs.AGL),
     Awareness: skill(Attrs.INT),
     Bartering: skill(Attrs.CHA),
-    'Beast Lore': skill(Attrs.INT),
+    "Beast Lore": skill(Attrs.INT),
     Bluffing: skill(Attrs.CHA),
     Bushcraft: skill(Attrs.INT),
     Crafting: skill(Attrs.STR),
     Evade: skill(Attrs.AGL),
     Healing: skill(Attrs.INT),
-    'Hunting & Fishing': skill(Attrs.AGL),
+    "Hunting & Fishing": skill(Attrs.AGL),
     Languages: skill(Attrs.INT),
-    'Myths & Legends': skill(Attrs.INT),
+    "Myths & Legends": skill(Attrs.INT),
     Performance: skill(Attrs.CHA),
     Persuasion: skill(Attrs.CHA),
     Riding: skill(Attrs.AGL),
     Seamanship: skill(Attrs.INT),
-    'Sleight of Hand': skill(Attrs.AGL),
+    "Sleight of Hand": skill(Attrs.AGL),
     Sneaking: skill(Attrs.AGL),
-    'Spot Hidden': skill(Attrs.INT),
+    "Spot Hidden": skill(Attrs.INT),
     Swimming: skill(Attrs.AGL),
   },
   wepSkills: {
@@ -74,7 +74,7 @@ export const NewCharacter = (): Character => ({
   },
   secSkills: {},
   armour: {
-    name: '',
+    name: "",
     rating: 0,
     bane: {
       Sneaking: false,
@@ -83,11 +83,11 @@ export const NewCharacter = (): Character => ({
     },
   },
   helmet: {
-    name: '',
+    name: "",
     rating: 0,
     bane: {
       Awareness: false,
-      'Ranged Attacks': false,
+      "Ranged Attacks": false,
     },
   },
   weapons: [],
@@ -109,29 +109,29 @@ export const stat = (cond: Condition): Attribute => ({
 });
 
 export const NewWeapon = (): Weapon => ({
-  name: '',
+  name: "",
   skill: WepSkills.Axes,
   grip: Grips.None,
-  range: '',
-  damage: '',
+  range: "",
+  damage: "",
   durability: 0,
-  features: '',
+  features: "",
 });
 
 export const NewAbility = (): Ability => ({
-  name: '',
+  name: "",
   wp: 0,
-  text: '',
+  text: "",
 });
 
 export const NewSpell = (): Spell => ({
-  name: '',
+  name: "",
   rank: 0,
   req: [],
-  time: '',
-  range: '',
+  time: "",
+  range: "",
   duration: Durations.Instant,
-  text: '',
+  text: "",
   prepared: false,
 });
 
@@ -145,8 +145,8 @@ export const BaseChance = (n: number): number => {
 };
 
 export const DmgBonus = (n: number): string => {
-  if (n <= 12) return '-';
-  if (n <= 16) return '+D4';
-  if (n >= 17) return '+D6';
-  else return '-';
+  if (n <= 12) return "-";
+  if (n <= 16) return "+D4";
+  if (n >= 17) return "+D6";
+  else return "-";
 };

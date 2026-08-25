@@ -55,37 +55,37 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import { Attrs, RollTypes } from './models';
+import { Attrs, RollTypes } from "./models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { skill } from 'src/lib/defaults';
+import { skill } from "../lib/defaults";
 
-import CharSkill from './CharSkill.vue';
+import CharSkill from "./CharSkill.vue";
 
 const app = useCharacterStore();
 
 const $q = useQuasar();
 const showAddSkill = ref(false);
 const editSkills = ref(false);
-const newSkillName = ref('');
+const newSkillName = ref("");
 const newSkillAttr = ref(Attrs.STR);
 const removeSecSkill = (val: string) =>
   $q
     .dialog({
-      message: 'Delete this skill?',
+      message: "Delete this skill?",
       cancel: true,
       maximized: true,
     })
     .onOk(() => delete app.char.secSkills[val]);
 
-const filter = ref('');
+const filter = ref("");
 const show = (name: string): boolean => {
-  if (filter.value == '' || filter.value == null) return true;
-  if (RegExp(filter.value, 'i').test(name)) return true;
+  if (filter.value == "" || filter.value == null) return true;
+  if (RegExp(filter.value, "i").test(name)) return true;
   return false;
 };
 </script>

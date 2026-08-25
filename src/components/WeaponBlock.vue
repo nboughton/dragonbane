@@ -165,7 +165,7 @@
               {{ dmgRes.total }}
             </div>
           </div>
-          <div class="text-caption">{{ parseResult().join(', ') }}</div>
+          <div class="text-caption">{{ parseResult().join(", ") }}</div>
         </q-card-section>
       </template>
     </dice-roller>
@@ -173,22 +173,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch } from "vue";
 
-import type { Weapon, DiceRoll } from './models';
-import { Grips, RollTypes, D20Results } from './models';
+import type { DiceRoll, Weapon } from "./models";
+import { D20Results, Grips, RollTypes } from "./models";
 
-import { useCharacterStore } from 'src/stores/character';
+import { useCharacterStore } from "../stores/character";
 
-import { parseDiceString, rollDice } from 'src/lib/util';
-import { MeleeDemon, RangedDemon, rollTable } from 'src/lib/tables';
-import { notifySend } from 'src/lib/notify';
+import { parseDiceString, rollDice } from "../lib/util";
+import { MeleeDemon, RangedDemon, rollTable } from "../lib/tables";
+import { notifySend } from "../lib/notify";
 
-import DiceRoller from './DiceRoller.vue';
-import DiceSelect from './DiceSelect.vue';
+import DiceRoller from "./DiceRoller.vue";
+import DiceSelect from "./DiceSelect.vue";
 
 const weapon = defineModel<Weapon>({ required: true });
-defineEmits(['delete']);
+defineEmits(["delete"]);
 defineProps<{ editWeapons: boolean }>();
 
 const app = useCharacterStore();
@@ -203,18 +203,18 @@ const display = ref({
 
 const dmgDice = ref(parseDiceString(weapon.value.damage));
 
-const dmgBonus = computed(() => (weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill].attr) : '-'));
-if (dmgBonus.value != '-') dmgDice.value.push(...parseDiceString(dmgBonus.value));
+const dmgBonus = computed(() => (weapon.value.skill ? app.dmgBonus(app.char.wepSkills[weapon.value.skill].attr) : "-"));
+if (dmgBonus.value != "-") dmgDice.value.push(...parseDiceString(dmgBonus.value));
 watch(
   () => weapon.value.damage,
   () => {
     dmgDice.value = parseDiceString(weapon.value.damage);
-    if (dmgBonus.value != '-') dmgDice.value.push(...parseDiceString(dmgBonus.value));
+    if (dmgBonus.value != "-") dmgDice.value.push(...parseDiceString(dmgBonus.value));
   },
 );
 
 const dmgRes = ref(<DiceRoll>{ total: 0, results: [] });
-const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
+const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(", ")}`);
 
 const setResultDisplay = (r: string) => {
   display.value = {
@@ -235,18 +235,18 @@ const setResultDisplay = (r: string) => {
 };
 
 const mishap = ref({
-  melee: '',
-  ranged: '',
+  melee: "",
+  ranged: "",
 });
 
 const showRoller = () => {
-  setResultDisplay('-');
+  setResultDisplay("-");
   dmgRes.value = { total: 0, results: [] };
 };
 
 const rollDmg = () => {
   dmgRes.value = rollDice(dmgDice.value);
-  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, "SUCCESS");
 };
 </script>
 

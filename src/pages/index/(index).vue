@@ -36,7 +36,6 @@
       </div>
     </div>
 
-
     <div class="row justify-evenly q-mb-md">
       <q-btn v-if="statsRolled" class="col-12 q-mb-sm" icon="mdi-dice-d20" flat @click="rollStats" label="Roll stats">
         <q-tooltip>Roll stats</q-tooltip>
@@ -105,30 +104,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from "vue";
 
-import type { Attr } from 'src/components/models';
-import { Ages, Attrs } from 'src/components/models';
+import type { Attr } from "../../components/models.ts";
+import { Ages, Attrs } from "../../components/models.ts";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../../stores/character.ts";
 
-import CharAttr from 'src/components/CharAttr.vue';
-import PointsBlock from 'src/components/PointsBlock.vue';
-import SkillsTab from 'src/components/SkillsTab.vue';
-import CombatTab from 'src/components/CombatTab.vue';
-import AbilitiesTab from 'src/components/AbilitiesTab.vue';
-import GearTab from 'src/components/GearTab.vue';
-import LogTab from 'src/components/LogTab.vue';
+import CharAttr from "../../components/CharAttr.vue";
+import PointsBlock from "../../components/PointsBlock.vue";
+import SkillsTab from "../../components/SkillsTab.vue";
+import CombatTab from "../../components/CombatTab.vue";
+import AbilitiesTab from "../../components/AbilitiesTab.vue";
+import GearTab from "../../components/GearTab.vue";
+import LogTab from "../../components/LogTab.vue";
 
 const app = useCharacterStore();
-const tab = ref('skills');
+const tab = ref("skills");
 
 const $q = useQuasar();
 const rollStats = () =>
   $q
     .dialog({
-      message: 'Roll and apply Character Stats?',
+      message: "Roll and apply Character Stats?",
       maximized: true,
       cancel: true,
     })

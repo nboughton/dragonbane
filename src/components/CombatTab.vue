@@ -28,7 +28,6 @@
   <weapon-block v-for="(w, i) in app.char.weapons" :key="`wpn-${i}`" v-model="app.char.weapons[i]!"
     :edit-weapons="editWeapons" @delete="removeWeapon(i)" />
 
-
   <div class="row q-ml-sm items-center">
     <div class="col text-h6 text-bold">Combat Skills</div>
     <div class="q-px-none">
@@ -57,18 +56,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 
-import { RollTypes } from './models';
+import { RollTypes } from "./models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { NewWeapon, DmgBonus } from 'src/lib/defaults';
+import { DmgBonus, NewWeapon } from "../lib/defaults";
 
-import CharSkill from 'src/components/CharSkill.vue';
-import WeaponBlock from 'src/components/WeaponBlock.vue';
-import ArmourBlock from 'src/components/ArmourBlock.vue';
+import CharSkill from "../components/CharSkill.vue";
+import WeaponBlock from "../components/WeaponBlock.vue";
+import ArmourBlock from "../components/ArmourBlock.vue";
 
 const app = useCharacterStore();
 
@@ -79,7 +78,7 @@ const addWeapon = () => app.char.weapons.push(NewWeapon());
 const removeWeapon = (index: number) =>
   $q
     .dialog({
-      message: 'Remove this weapon?',
+      message: "Remove this weapon?",
       cancel: true,
       maximized: true,
     })
@@ -87,10 +86,10 @@ const removeWeapon = (index: number) =>
 
 const armourRating = computed((): number => app.char.armour.rating + app.char.helmet.rating);
 
-const filter = ref('');
+const filter = ref("");
 const show = (name: string): boolean => {
-  if (filter.value == '' || filter.value == null) return true;
-  if (RegExp(filter.value, 'i').test(name)) return true;
+  if (filter.value == "" || filter.value == null) return true;
+  if (RegExp(filter.value, "i").test(name)) return true;
   return false;
 };
 </script>

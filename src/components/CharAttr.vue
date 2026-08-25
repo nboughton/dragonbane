@@ -23,17 +23,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import type { Attribute } from './models';
-import { D20Results, RollTypes } from './models';
+import type { Attribute } from "./models";
+import { D20Results, RollTypes } from "./models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { notifySend } from 'src/lib/notify';
+import { notifySend } from "../lib/notify";
 
-import DiceRoller from './DiceRoller.vue';
+import DiceRoller from "./DiceRoller.vue";
 
 const attr = defineModel<Attribute>({ required: true });
 const props = defineProps<{ label: string }>();
@@ -45,12 +45,12 @@ const editAttr = () =>
       title: `Edit ${props.label}`,
       cancel: true,
       prompt: {
-        type: 'number',
+        type: "number",
         model: `${attr.value.score}`,
         min: 3,
         max: 18,
-        inputClass: 'text-center text-h4',
-        class: 'q-pa-lg',
+        inputClass: "text-center text-h4",
+        class: "q-pa-lg",
         rounded: true,
         outlined: true,
       },

@@ -1,41 +1,39 @@
-# Character sheet for Dragonbane RPG (dragonbane)
+# Owlbear Character sheet for Dragonbane RPG
 
-Character sheet for Dragonbane RPG
+This is a comprehensive character sheet extension built for Owlbear Rodeo. For full instructions on use and features please see the [store.md](public/store.md)
 
-## Install the dependencies
+## Building and development
+
+### Caveats
+
+  * I do not merge vibe-code PRs. If you didn't write your own code all you're doing is creating technical debt.
+  * This application is configured to be built with [Deno](https://deno.land) rather than npm/yarn/bun etc
+
+### Building
+
+1. Install quasar globally with Deno using
 ```bash
-yarn
-# or
-npm install
+deno install -g @quasar/cli
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+2. Modify the quasar startup script at ~/.deno/bin/quasar and either add the -A flag to grant all permissions or create a fine-tuned permission set in ~/.deno/bin/.quasar/deno.json and enable those permissions instead.
+
+3. Clone this repository and run
+
 ```bash
-quasar dev
+deno install
 ```
 
+Attempt a test build with either
 
-### Lint the files
 ```bash
-yarn lint
-# or
-npm run lint
+deno task build
 ```
 
+or
 
-### Format the files
 ```bash
-yarn format
-# or
-npm run format
+quasar b
 ```
 
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+If you encounter any initial build issues you may need to run ```deno task postinstall``` to ensure all build dependencies and env requirements are properly satisfied.

@@ -24,14 +24,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { Ability } from './models';
+import type { Ability } from "./models";
 
-import { useCharacterStore } from 'src/stores/character';
-import { useQuasar } from 'quasar';
+import { useCharacterStore } from "../stores/character";
+import { useQuasar } from "quasar";
 
 const abl = defineModel<Ability>({ required: true });
-defineEmits(['delete']);
-defineProps<{ editAbilities: boolean }>()
+defineEmits(["delete"]);
+defineProps<{ editAbilities: boolean }>();
 
 const $q = useQuasar();
 const app = useCharacterStore();
@@ -41,9 +41,9 @@ const activate = () =>
       title: `Use ${abl.value.name}?`,
       message: abl.value.text,
       prompt: {
-        label: 'Spend WP',
+        label: "Spend WP",
         model: `${abl.value.wp}`,
-        type: 'number',
+        type: "number",
         hint: `current WP: ${app.char.wp.current}`,
         max: app.char.wp.current,
       },

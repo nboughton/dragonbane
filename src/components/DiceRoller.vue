@@ -39,17 +39,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch } from "vue";
 
-import type { PriSkill, WepSkill } from './models';
-import { RollTypes, D20Results } from './models';
+import type { PriSkill, WepSkill } from "./models";
+import { D20Results, RollTypes } from "./models";
 
-import { useCharacterStore } from 'src/stores/character';
+import { useCharacterStore } from "../stores/character";
 
-import { roll, sleep, deepCopy } from 'src/lib/util';
+import { deepCopy, roll, sleep } from "../lib/util";
 
-import IncDec from './IncDec.vue';
-import DiceTray from './DiceTray.vue';
+import IncDec from "./IncDec.vue";
+import DiceTray from "./DiceTray.vue";
 
 const props = defineProps({
   name: {
@@ -77,7 +77,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'result']);
+const emit = defineEmits(["close", "result"]);
 
 const app = useCharacterStore();
 const b = ref({ boons: props.boons, banes: props.banes });
@@ -94,7 +94,7 @@ watch(
 );
 
 const rollBtnLabel = computed((): string =>
-  mods.value == 0 ? 'Roll' : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? 'Bane(s)' : 'Boon(s)'}`,
+  mods.value == 0 ? "Roll" : `Roll with ${Math.abs(mods.value)} ${mods.value < 0 ? "Bane(s)" : "Boon(s)"}`
 );
 
 const rollIt = () => {
@@ -131,7 +131,7 @@ const rollIt = () => {
           break;
       }
     }
-    emit('result', `${resultText.value}: (${selectResult()} vs ${props.target})`);
+    emit("result", `${resultText.value}: (${selectResult()} vs ${props.target})`);
   })();
 };
 
@@ -158,6 +158,6 @@ const resultText = computed((): string => {
   if (r <= props.target) return D20Results.Success;
   if (r > props.target) return D20Results.Fail;
 
-  return 'Something has gone wrong :(';
+  return "Something has gone wrong :(";
 });
 </script>

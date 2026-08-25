@@ -5,14 +5,8 @@
         <div class="row items-center">
           <q-btn class="col-1" icon="mdi-minus-circle" @click="if (newDie.n - 1 > 0) newDie.n--;" flat />
           <div class="col-shrink text-h6">{{ newDie.n }}d</div>
-          <q-select
-            class="col-shrink text-h6 text-left q-ml-none"
-            options-selected-class="text-purple-2"
-            :options="[2, 4, 6, 8, 10, 12, 20, 100]"
-            v-model.number="newDie.size"
-            borderless
-            dense
-          />
+          <q-select class="col-shrink text-h6 text-left q-ml-none" options-selected-class="text-purple-2"
+            :options="[2, 4, 6, 8, 10, 12, 20, 100]" v-model.number="newDie.size" borderless dense />
           <q-btn class="col-1" icon="mdi-plus-circle" @click="newDie.n++" flat />
         </div>
       </div>
@@ -24,11 +18,8 @@
       <div class="column items-center">
         <div class="row text-caption text-center">Dice to roll</div>
         <div class="row items-center justify-center">
-          <div
-            class="col-shrink rounded-borders bg-white text-black q-ma-xs"
-            v-for="(die, i) in dice"
-            :key="`dselect-${i}`"
-          >
+          <div class="col-shrink rounded-borders bg-white text-black q-ma-xs" v-for="(die, i) in dice"
+            :key="`dselect-${i}`">
             <div class="row justify-between items-center q-px-sm">
               <div class="col q-pr-sm">{{ die.n }}d{{ die.size }}</div>
               <q-btn class="col-shrink" icon="mdi-close-circle" @click="rmDie(i)" flat dense round />
@@ -41,11 +32,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import type { Die } from './models';
+import type { Die } from "./models";
 
-import { deepCopy } from 'src/lib/util';
+import { deepCopy } from "../lib/util";
 
 const dice = defineModel<Die[]>({ required: true });
 

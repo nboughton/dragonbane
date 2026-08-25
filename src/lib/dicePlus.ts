@@ -1,8 +1,8 @@
 // Experimental Dice+ integration
-import { ID } from '../components/models';
+import { ID } from "../components/models.ts";
 
-import OBR from '@owlbear-rodeo/sdk';
-import { uid } from 'quasar';
+import OBR from "@owlbear-rodeo/sdk";
+import { uid } from "quasar";
 
 export interface DPlusReady {
   requestId: string;
@@ -10,15 +10,15 @@ export interface DPlusReady {
   ready?: boolean;
 }
 
-export const checkDicePlusReady = async (): Promise<boolean> => {
+export const checkDicePlusReady = (): Promise<boolean> => {
   const requestId = uid();
 
   return new Promise((resolve) => {
-    const unsubscribe = OBR.broadcast.onMessage('dice-plus/isReady', (event) => {
+    const unsubscribe = OBR.broadcast.onMessage("dice-plus/isReady", (event) => {
       const data = event.data as DPlusReady;
 
       // Check if this is a response (not a request)
-      if ('ready' in data && data.requestId === requestId) {
+      if ("ready" in data && data.requestId === requestId) {
         unsubscribe();
         resolve(true);
       }
@@ -26,12 +26,12 @@ export const checkDicePlusReady = async (): Promise<boolean> => {
 
     // Send ready check request
     void OBR.broadcast.sendMessage(
-      'dice-plus/isReady',
+      "dice-plus/isReady",
       {
         requestId,
         timestamp: Date.now(),
       },
-      { destination: 'ALL' },
+      { destination: "ALL" },
     );
 
     // Timeout after 1 second if no response
@@ -46,7 +46,7 @@ export interface DPlusRollRequest {
   rollId: string; // Unique roll identifier (save this to match results)
   playerId: string; // OBR player ID
   playerName: string; // Player display name
-  rollTarget: 'everyone' | 'self' | 'dm' | 'gm_only'; // Who sees the roll
+  rollTarget: "everyone" | "self" | "dm" | "gm_only"; // Who sees the roll
   diceNotation: string; // Standard dice notation (e.g., "2d20kh1+5")
   showResults: boolean; // Show default popup (false = handle in your UI)
   timestamp: number; // Request timestamp
@@ -57,7 +57,7 @@ export interface DPlusRollResult {
   rollId: string; // Matches the request rollId
   playerId: string; // Who rolled
   playerName: string; // Display name
-  rollTarget: 'everyone' | 'self' | 'dm' | 'gm_only'; // Roll target
+  rollTarget: "everyone" | "self" | "dm" | "gm_only"; // Roll target
   timestamp: number; // Original timestamp
   result: {
     rollId: string; // Roll identifier
@@ -96,18 +96,18 @@ export const dPlusRoll = async (
 ): Promise<void> => {
   const rollId = `roll-${uid()}`;
   await OBR.broadcast.sendMessage(
-    'dice-plus/roll-request',
+    "dice-plus/roll-request",
     {
       rollId,
       playerId: OBR.player.id,
       playerName: await OBR.player.getName(),
-      rollTarget: 'everyone',
+      rollTarget: "everyone",
       diceNotation: dice,
       timestamp: Date.now(),
       showResults: false,
       source: ID,
     },
-    { destination: 'ALL' },
+    { destination: "ALL" },
   );
 
   OBR.broadcast.onMessage(`${ID}/roll-result`, (event) => {

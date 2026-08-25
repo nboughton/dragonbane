@@ -37,7 +37,7 @@
         <div class="col-shrink text-bold">Known (by rank):</div>
         <div class="col-shrink" v-for="(r, i) in spellsByRank" :key="`ranked-spells-${i}`">
           <span class="q-ml-sm q-pa-xs rounded-borders" v-if="r > 0">
-            {{ i < 1 ? 'Magic Tricks' : 'Rank ' + i }}: {{ r }} </span>
+            {{ i < 1 ? "Magic Tricks" : "Rank " + i }}: {{ r }} </span>
         </div>
       </div>
 
@@ -57,20 +57,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 
-import type { Spell } from './models';
+import type { Spell } from "./models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { NewAbility, NewSpell, BaseChance } from 'src/lib/defaults';
+import { BaseChance, NewAbility, NewSpell } from "../lib/defaults";
 
-import AbilityBlock from './AbilityBlock.vue';
-import SpellBlock from './SpellBlock.vue';
+import AbilityBlock from "./AbilityBlock.vue";
+import SpellBlock from "./SpellBlock.vue";
 
 const app = useCharacterStore();
-const editAbilities = ref(false)
+const editAbilities = ref(false);
 
 const $q = useQuasar();
 
@@ -78,7 +78,7 @@ const addAbl = () => app.char.abilities.push(NewAbility());
 const removeAbl = (index: number) =>
   $q
     .dialog({
-      message: 'Delete this ability?',
+      message: "Delete this ability?",
       cancel: true,
       maximized: true,
     })
@@ -88,7 +88,7 @@ const addSpell = () => app.char.spells.push(NewSpell());
 const removeSpell = (index: number) =>
   $q
     .dialog({
-      message: 'Delete this spell?',
+      message: "Delete this spell?",
       cancel: true,
       maximized: true,
     })
@@ -114,14 +114,12 @@ const spellsPrepared = computed((): number => {
   return t;
 });
 
-
-
-const filter = ref('');
+const filter = ref("");
 const show = (s: Spell): boolean => {
   if (!s.prepared && showPreparedSpells.value) return false;
-  if (filter.value == null || filter.value == '') return true;
+  if (filter.value == null || filter.value == "") return true;
 
-  if (RegExp(filter.value, 'i').test(s.name) || RegExp(filter.value).test(s.text)) return true;
+  if (RegExp(filter.value, "i").test(s.name) || RegExp(filter.value).test(s.text)) return true;
 
   return false;
 };

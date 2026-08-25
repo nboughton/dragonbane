@@ -17,36 +17,31 @@
     <q-checkbox class="col-shrink self-end" v-model="app.char.backpack" label="Backpack" />
   </div>
 
-  <item-row
-    v-for="(it, i) in app.char.inventory"
-    :key="`inv-${i}`"
-    v-model="app.char.inventory[i]!"
-    @delete="removeInvItem(i)"
-    class="q-mx-sm"
-  />
+  <item-row v-for="(it, i) in app.char.inventory" :key="`inv-${i}`" v-model="app.char.inventory[i]!"
+    @delete="removeInvItem(i)" class="q-mx-sm" />
 
   <q-input class="row q-mt-sm q-mx-sm" label="Tiny Items" v-model="app.char.tinyItems" dense autogrow />
   <q-input class="row q-ma-sm" label="Memento" v-model="app.char.memento" dense autogrow />
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
-import { useCharacterStore } from 'src/stores/character';
-import { useQuasar } from 'quasar';
+import { useCharacterStore } from "../stores/character";
+import { useQuasar } from "quasar";
 
-import MoneyField from './MoneyField.vue';
-import ItemRow from './ItemRow.vue';
+import MoneyField from "./MoneyField.vue";
+import ItemRow from "./ItemRow.vue";
 
 const app = useCharacterStore();
 
 const $q = useQuasar();
 
-const addInvItem = () => app.char.inventory.push({ text: '', wt: 1 });
+const addInvItem = () => app.char.inventory.push({ text: "", wt: 1 });
 const removeInvItem = (index: number) =>
   $q
     .dialog({
-      message: 'Delete this item?',
+      message: "Delete this item?",
       cancel: true,
       maximized: true,
     })

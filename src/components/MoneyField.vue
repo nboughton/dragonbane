@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const dollaBills = defineModel<number>({ required: true });
 const props = defineProps<{ label: string }>();
@@ -15,14 +15,14 @@ const props = defineProps<{ label: string }>();
 // Property for determining the icon color based on the label
 const iconColor = computed(() => {
   switch (props.label.toLowerCase()) {
-    case 'gold':
-      return 'amber-5';
-    case 'silver':
-      return 'blue-grey-5';
-    case 'copper':
-      return 'brown-5';
+    case "gold":
+      return "amber-5";
+    case "silver":
+      return "blue-grey-5";
+    case "copper":
+      return "brown-5";
     default:
-      return 'black';
+      return "black";
   }
 });
 </script>

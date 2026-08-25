@@ -1,4 +1,4 @@
-export const ID = 'uk.nboughton.obr-dragonbane-sheet';
+export const ID = "uk.nboughton.obr-dragonbane-sheet";
 
 export interface DBStore {
   chars: Character[];
@@ -106,7 +106,7 @@ export interface Spell {
   prepared: boolean;
 }
 
-export type DieType = 'd4' | 'd6' | 'd8' | 'd10' | 'd12' | 'd20';
+export type DieType = "d4" | "d6" | "d8" | "d10" | "d12" | "d20";
 
 export interface Die {
   n: number; // n is the number of dice, i.e 2 in 2d4
@@ -133,121 +133,121 @@ export interface Table {
 }
 
 export const PriSkills = {
-  Acrobatics: 'Acrobatics',
-  Awareness: 'Awareness',
-  Bartering: 'Bartering',
-  BeastLore: 'Beast Lore',
-  Bluffing: 'Bluffing',
-  Bushcraft: 'Bushcraft',
-  Crafting: 'Crafting',
-  Evade: 'Evade',
-  Healing: 'Healing',
-  HuntingFishing: 'Hunting & Fishing',
-  Languages: 'Languages',
-  MythsLegends: 'Myths & Legends',
-  Performance: 'Performance',
-  Persuasion: 'Persuasion',
-  Riding: 'Riding',
-  Seamanship: 'Seamanship',
-  SleightOfHand: 'Sleight of Hand',
-  Sneaking: 'Sneaking',
-  SpotHidden: 'Spot Hidden',
-  Swimming: 'Swimming',
+  Acrobatics: "Acrobatics",
+  Awareness: "Awareness",
+  Bartering: "Bartering",
+  BeastLore: "Beast Lore",
+  Bluffing: "Bluffing",
+  Bushcraft: "Bushcraft",
+  Crafting: "Crafting",
+  Evade: "Evade",
+  Healing: "Healing",
+  HuntingFishing: "Hunting & Fishing",
+  Languages: "Languages",
+  MythsLegends: "Myths & Legends",
+  Performance: "Performance",
+  Persuasion: "Persuasion",
+  Riding: "Riding",
+  Seamanship: "Seamanship",
+  SleightOfHand: "Sleight of Hand",
+  Sneaking: "Sneaking",
+  SpotHidden: "Spot Hidden",
+  Swimming: "Swimming",
 } as const;
 
 export type PriSkill = (typeof PriSkills)[keyof typeof PriSkills];
 
 export const WepSkills = {
-  Axes: 'Axes',
-  Bows: 'Bows',
-  Brawling: 'Brawling',
-  Crossbows: 'Crossbows',
-  Hammers: 'Hammers',
-  Knives: 'Knives',
-  Slings: 'Slings',
-  Spears: 'Spears',
-  Staves: 'Staves',
-  Swords: 'Swords',
+  Axes: "Axes",
+  Bows: "Bows",
+  Brawling: "Brawling",
+  Crossbows: "Crossbows",
+  Hammers: "Hammers",
+  Knives: "Knives",
+  Slings: "Slings",
+  Spears: "Spears",
+  Staves: "Staves",
+  Swords: "Swords",
 } as const;
 
 export type WepSkill = (typeof WepSkills)[keyof typeof WepSkills];
 
 export const Attrs = {
-  STR: 'STR',
-  CON: 'CON',
-  AGL: 'AGL',
-  INT: 'INT',
-  WIL: 'WIL',
-  CHA: 'CHA',
+  STR: "STR",
+  CON: "CON",
+  AGL: "AGL",
+  INT: "INT",
+  WIL: "WIL",
+  CHA: "CHA",
 } as const;
 
 export type Attr = (typeof Attrs)[keyof typeof Attrs];
 
 export const Conditions = {
-  Exhausted: 'Exhausted',
-  Sickly: 'Sickly',
-  Dazed: 'Dazed',
-  Angry: 'Angry',
-  Scared: 'Scared',
-  Disheartened: 'Disheartened',
+  Exhausted: "Exhausted",
+  Sickly: "Sickly",
+  Dazed: "Dazed",
+  Angry: "Angry",
+  Scared: "Scared",
+  Disheartened: "Disheartened",
 } as const;
 
 export type Condition = (typeof Conditions)[keyof typeof Conditions];
 
 export const Durations = {
-  Instant: 'Instant',
-  Round: 'Round',
-  Stretch: 'Stretch',
-  Shift: 'Shift',
-  Concentration: 'Concentration',
-  Permanent: 'Permanent',
+  Instant: "Instant",
+  Round: "Round",
+  Stretch: "Stretch",
+  Shift: "Shift",
+  Concentration: "Concentration",
+  Permanent: "Permanent",
 } as const;
 
 export type Duration = (typeof Durations)[keyof typeof Durations];
 
 export const SpellReqs = {
-  Word: 'Word',
-  Gesture: 'Gesture',
-  Focus: 'Focus',
-  Ingredient: 'Ingredient',
+  Word: "Word",
+  Gesture: "Gesture",
+  Focus: "Focus",
+  Ingredient: "Ingredient",
 } as const;
 
 export type SpellReq = (typeof SpellReqs)[keyof typeof SpellReqs];
 
 export const Ages = {
-  Young: 'Young',
-  Adult: 'Adult',
-  Old: 'Old',
+  Young: "Young",
+  Adult: "Adult",
+  Old: "Old",
 } as const;
 
 export type Age = (typeof Ages)[keyof typeof Ages];
 
 export const Grips = {
-  None: '-',
-  One: '1H',
-  Two: '2H',
+  None: "-",
+  One: "1H",
+  Two: "2H",
 } as const;
 
 export type Grip = (typeof Grips)[keyof typeof Grips];
 
 export const RollTypes = {
-  Attr: 'attribute',
-  Primary: 'primary',
-  Secondary: 'secondary',
-  Weapon: 'weapon',
-  Attack: 'attack',
-  Spell: 'spell',
+  Attr: "attribute",
+  Primary: "primary",
+  Secondary: "secondary",
+  Weapon: "weapon",
+  Attack: "attack",
+  Spell: "spell",
 } as const;
 
 export type RollType = (typeof RollTypes)[keyof typeof RollTypes];
 
 export const D20Results = {
-  Dragon: 'Dragon!',
-  Demon: 'Demon!',
-  Success: 'Success!',
-  Fail: 'Failure',
+  Dragon: "Dragon!",
+  Demon: "Demon!",
+  Success: "Success!",
+  Fail: "Failure",
 } as const;
 
 export type D20Result = (typeof D20Results)[keyof typeof D20Results];
 
-export type SkillType = 'priSkills' | 'secSkills' | 'wepSkills';
+export type SkillType = "priSkills" | "secSkills" | "wepSkills";

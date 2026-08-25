@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useCharacterStore } from 'src/stores/character';
+import { useCharacterStore } from "../stores/character";
 
 const app = useCharacterStore();
 </script>

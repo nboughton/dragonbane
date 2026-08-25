@@ -37,15 +37,8 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item
-          class="items-center"
-          v-for="(c, i) in app.chars"
-          :key="`char-${i}`"
-          :active="app.conf.char == i"
-          active-class="text-accent"
-          clickable
-          v-ripple
-        >
+        <q-item class="items-center" v-for="(c, i) in app.chars" :key="`char-${i}`" :active="app.conf.char == i"
+          active-class="text-accent" clickable v-ripple>
           <q-item-section @click="app.conf.char = i">{{ c.name }}</q-item-section>
           <q-item-section v-if="app.chars.length > 1" side>
             <q-btn icon="delete" flat dense rounded @click="removeChar(i)" />
@@ -127,17 +120,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import type { Attr, DBStore } from 'src/components/models';
+import type { Attr, DBStore } from "../components/models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { NewCharacter } from 'src/lib/defaults';
-import { roll } from 'src/lib/util';
-import { colours } from 'src/lib/theme';
-import { notifySend } from 'src/lib/notify';
+import { NewCharacter } from "../lib/defaults";
+import { roll } from "../lib/util";
+import { colours } from "../lib/theme";
+import { notifySend } from "../lib/notify";
 
 const leftDrawerOpen = ref(false);
 
@@ -190,9 +183,9 @@ const advance = () => {
   const advanced = app.rollAdvancements();
   void notifySend(
     advanced.length > 0
-      ? `${app.char.name} advanced: ${advanced.join(', ')}`
+      ? `${app.char.name} advanced: ${advanced.join(", ")}`
       : `${app.char.name} didn't advance any skills.`,
-    'INFO',
+    "INFO",
   );
 };
 

@@ -58,7 +58,7 @@
           <div class="row">
             <div class="col-4 text-bold">Requirements</div>
             <div class="col">
-              {{spell.req.map(s => s == "Ingredient" ? `Ingredient (${spell.ingredient})` : s).join(', ')}}
+              {{spell.req.map((s) => s == "Ingredient" ? `Ingredient (${spell.ingredient})` : s).join(", ")}}
             </div>
           </div>
           <div class="row">
@@ -66,7 +66,6 @@
             <div class="col">{{ spell.range }}</div>
           </div>
         </q-expansion-item>
-
       </div>
     </div>
   </div>
@@ -139,7 +138,7 @@
           <div v-if="dmgRes.total != 0" class="text-h4 rounded-borders q-pa-sm">
             {{ dmgRes.total }}
           </div>
-          <div class="text-caption">{{ parseResult().join(', ') }}</div>
+          <div class="text-caption">{{ parseResult().join(", ") }}</div>
         </q-card-section>
       </template>
     </dice-roller>
@@ -147,24 +146,24 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 
-import type { DiceRoll, Spell } from './models';
-import { D20Results, Durations, RollTypes, SpellReqs } from './models';
+import type { DiceRoll, Spell } from "./models";
+import { D20Results, Durations, RollTypes, SpellReqs } from "./models";
 
-import { useQuasar } from 'quasar';
-import { useCharacterStore } from 'src/stores/character';
+import { useQuasar } from "quasar";
+import { useCharacterStore } from "../stores/character";
 
-import { rollDice, parseDiceString } from 'src/lib/util';
-import { MagicalMishap, rollTable } from 'src/lib/tables';
-import { notifySend } from 'src/lib/notify';
+import { parseDiceString, rollDice } from "../lib/util";
+import { MagicalMishap, rollTable } from "../lib/tables";
+import { notifySend } from "../lib/notify";
 
-import DiceRoller from './DiceRoller.vue';
-import DiceSelect from './DiceSelect.vue';
+import DiceRoller from "./DiceRoller.vue";
+import DiceSelect from "./DiceSelect.vue";
 
 const spell = defineModel<Spell>({ required: true });
-defineEmits(['delete']);
-defineProps<{ editSpells: boolean }>()
+defineEmits(["delete"]);
+defineProps<{ editSpells: boolean }>();
 
 const app = useCharacterStore();
 const skills = computed((): string[] => Object.keys(app.char.secSkills));
@@ -172,7 +171,7 @@ const dmgDice = ref(parseDiceString(spell.value.text));
 // For spells we only include the first dice set mentioned
 dmgDice.value.splice(1);
 const dmgRes = ref(<DiceRoll>{ total: 0, results: [] });
-const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(', ')}`);
+const parseResult = () => dmgRes.value.results.map((d) => `${d.d.n}d${d.d.size}: ${d.v.join(", ")}`);
 const display = ref({
   roller: false,
   select: false,
@@ -201,12 +200,12 @@ const setResultDisplay = (r: string) => {
 
 const showRoller = () => {
   if (checkWP(2)) {
-    setResultDisplay('-');
+    setResultDisplay("-");
     dmgRes.value = { total: 0, results: [] };
   }
 };
 
-const mishap = ref('');
+const mishap = ref("");
 
 const $q = useQuasar();
 const useMagicTrick = (name: string) =>
@@ -225,7 +224,7 @@ const checkWP = (wpReq: number): boolean => {
   let out = false;
   if (app.char.wp.current < wpReq) {
     $q.dialog({
-      title: 'Out of Juice!',
+      title: "Out of Juice!",
       message: `You have ${app.char.wp.current}WP`,
       ok: true,
       maximized: true,
@@ -248,7 +247,7 @@ const powerLevels = computed((): number[] => {
 
 const rollDmg = () => {
   dmgRes.value = rollDice(dmgDice.value);
-  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, 'SUCCESS');
+  void notifySend(`${app.char.name} hit for ${dmgRes.value.total} damage!`, "SUCCESS");
 };
 </script>
 

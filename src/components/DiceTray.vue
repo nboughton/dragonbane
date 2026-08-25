@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { DieType } from './models';
+import type { DieType } from "./models";
 
-import DiceIcon from './DiceIcon.vue';
+import DiceIcon from "./DiceIcon.vue";
 
 defineProps<{
   dice: {

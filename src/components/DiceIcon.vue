@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { DieType } from './models';
+import { computed } from "vue";
+import type { DieType } from "./models";
 
 const props = defineProps<{
   name: DieType;

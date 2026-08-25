@@ -1,0 +1,13 @@
+{
+  "minimumDependencyAge": "P3D",
+  "exclude": ["dist/", "public/", ".quasar/"],
+  "unstable": ["fmt-component"],
+  "fmt": {
+    "lineWidth": 120,
+    "indentWidth": 2,
+    "include": ["src/"]
+  },
+  "lint": {
+    "include": ["src/"]
+  }
+}

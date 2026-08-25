@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { InvItem } from './models';
+import type { InvItem } from "./models";
 
 const item = defineModel<InvItem>({ required: true });
-defineEmits(['delete']);
+defineEmits(["delete"]);
 </script>
